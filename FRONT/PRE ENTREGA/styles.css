@@ -1,0 +1,306 @@
+/* =========================================
+   1. VARIABLES Y CONFIGURACIÓN (Root)
+   ========================================= */
+:root {
+    --color-primario: #1a1a2e;    /* Azul Oscuro Fondo */
+    --color-secundario: #16213e;  /* Azul Nav/Cards */
+    --color-acento: #00d4ff;      /* Cian Vibrante */
+    --color-fondo: #f4f7f6;       /* Gris muy claro */
+    --color-texto: #333333;
+    --color-blanco: #ffffff;
+    --sombra-suave: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --transicion: all 0.3s ease;
+}
+
+/* =========================================
+   2. RESET Y ESTILOS GLOBALES
+   ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.6;
+    color: var(--color-texto);
+    background-color: var(--color-fondo);
+    scroll-behavior: smooth;
+}
+
+/* Estilo de Secciones (Centrado Inteligente) */
+section {
+    padding: 80px 20px;
+    text-align: center; 
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra los bloques hijos horizontalmente */
+}
+
+section p {
+    max-width: 700px;    /* Evita que el texto sea demasiado ancho */
+    margin: 0 auto 20px; /* Centra el bloque del párrafo y da espacio abajo */
+    font-size: 1.1rem;
+}
+
+h2 {
+    font-size: 2.2rem;
+    color: var(--color-primario);
+    margin-bottom: 30px;
+    position: relative;
+    display: inline-block;
+}
+
+/* Línea decorativa bajo los títulos */
+section h2::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--color-acento);
+    margin: 10px auto 0;
+    border-radius: 2px;
+}
+
+/* =========================================
+   3. HEADER Y NAVEGACIÓN (Sticky)
+   ========================================= */
+.main-header {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.logo {
+    height: 90px;
+    transition: var(--transicion);
+}
+
+.logo:hover {
+    transform: scale(1.05);
+}
+
+nav {
+    background-color: var(--color-secundario);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.nav-list {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 15px 0;
+}
+
+.nav-list a {
+    color: var(--color-blanco);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transicion);
+}
+
+.nav-list a:hover {
+    color: var(--color-acento);
+}
+
+/* =========================================
+   4. SECCIÓN PRODUCTOS (Flexbox)
+   ========================================= */
+.productos-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.producto-card {
+    background: var(--color-blanco);
+    width: 300px;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: var(--sombra-suave);
+    text-align: center;
+    transition: var(--transicion);
+    display: flex;
+    flex-direction: column;
+}
+
+.producto-card:hover {
+    transform: translateY(-10px);
+}
+
+.producto-card img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.precio {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--color-secundario);
+    margin: 10px 0;
+}
+
+.btn-carrito {
+    background-color: var(--color-acento);
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: var(--transicion);
+}
+
+.btn-carrito:hover {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+}
+
+/* =========================================
+   5. SECCIÓN RESEÑAS (CSS Grid)
+   ========================================= */
+.grid-reseñas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    max-width: 1100px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.card {
+    background: var(--color-blanco);
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid #eee;
+    text-align: center;
+    transition: var(--transicion);
+}
+
+.card:hover {
+    border-color: var(--color-acento);
+    box-shadow: 0 8px 20px rgba(0, 212, 255, 0.2);
+    transform: translateY(-5px);
+}
+
+.card i {
+    font-size: 2.5rem;
+    color: var(--color-secundario);
+    margin-bottom: 15px;
+}
+
+/* =========================================
+   6. SECCIÓN VIDEO (Tamaño Ajustado)
+   ========================================= */
+#video-ecommerce {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+}
+
+.video-container {
+    max-width: 550px;
+    width: 100%;
+    margin: 0 auto;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 4px solid var(--color-acento);
+    box-shadow: 0 0 25px rgba(0, 212, 255, 0.3);
+}
+
+video {
+    width: 100%;
+    display: block;
+}
+
+/* =========================================
+   7. FORMULARIO Y TABLAS
+   ========================================= */
+.form-contacto {
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+    background: var(--color-blanco);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: var(--sombra-suave);
+    text-align: left;
+}
+
+.form-grupo { margin-bottom: 20px; }
+.form-grupo input, .form-grupo textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: inherit;
+}
+
+.btn-enviar {
+    background-color: var(--color-secundario);
+    color: var(--color-blanco);
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.tabla-contenedor { width: 100%; overflow-x: auto; margin-top: 20px; }
+table { width: 100%; border-collapse: collapse; background: var(--color-blanco); }
+th, td { padding: 12px; border: 1px solid #eee; text-align: left; }
+th { background-color: var(--color-secundario); color: var(--color-blanco); }
+
+/* =========================================
+   8. FOOTER Y REDES
+   ========================================= */
+footer {
+    background-color: var(--color-primario);
+    color: #888;
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.redes-sociales a {
+    color: var(--color-acento);
+    font-size: 2rem;
+    margin: 0 15px;
+    transition: var(--transicion);
+    display: inline-block;
+}
+
+.redes-sociales a:hover {
+    color: var(--color-blanco);
+    transform: translateY(-5px);
+}
+
+/* =========================================
+   9. MEDIA QUERIES (Responsive)
+   ========================================= */
+@media (max-width: 768px) {
+    .nav-list {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    h2 { font-size: 1.8rem; }
+
+    .video-container { width: 95%; }
+
+    .grid-reseñas { grid-template-columns: 1fr; }
+    
+    .form-contacto { padding: 20px; }
+}

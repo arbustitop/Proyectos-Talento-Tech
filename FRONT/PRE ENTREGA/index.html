@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BuBus Store - Desarrollo Web</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <a href="#inicio" class="logo-link">
+            <img src="logo.png" alt="Logo BuBus Store" class="logo">
+        </a>
+        <h1>BuBus Store</h1>
+    </header>
+
+    <nav>
+        <ul class="nav-list">
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#nosotros">Acerca de</a></li>
+            <li><a href="#productos">Productos</a></li>
+            <li><a href="#servicios">Servicios</a></li>
+            <li><a href="#video-ecommerce">Demo</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="inicio">
+            <h2>Bienvenido a la Tienda de BuBus</h2>
+            <p>Estamos en proceso de formación como desarrolladores <strong>Full Stack</strong>.</p>
+            <p>Este es mi proyecto práctico del curso de Front-End en 2026.</p>
+        </section>
+
+        <section id="nosotros">
+            <h2>Nosotros</h2>
+            <p>Mi nombre es <strong>Augusto</strong>.</p>
+            <p>Realicé el curso de Python en 2025 y ahora estoy creando herramientas de gestión integrales.</p>
+        </section>
+
+        <section id="video-ecommerce">
+            <h2>Demo Tienda Online</h2>
+            <div class="video-container">
+                <video controls>
+                    <source src="video.mp4" type="video/mp4">
+                    <track src="subtitulos.vtt" kind="subtitles" srclang="es" label="Español" default>
+                    Tu navegador no soporta el elemento de video.
+                </video>
+            </div>
+        </section>
+
+        <section id="productos" class="productos">
+            <h2>Nuestros Productos</h2>
+            <div class="productos-container">
+                <article class="producto-card">
+                    <img src="https://via.placeholder.com/200" alt="Remera DTF">
+                    <h3>Remera Personalizada DTF</h3>
+                    <p>Impresión de alta calidad con colores vibrantes y gran durabilidad.</p>
+                    <span class="precio">$25.000</span>
+                    <button class="btn-carrito"><i class="fas fa-shopping-cart"></i> Agregar</button>
+                </article>
+
+                <article class="producto-card">
+                    <img src="https://via.placeholder.com/200" alt="Diseños DTF UV">
+                    <h3>Diseños DTF UV</h3>
+                    <p>Diseños únicos con relieve. Opciones con barniz o sin.</p>
+                    <span class="precio">$25.500</span>
+                    <button class="btn-carrito"><i class="fas fa-shopping-cart"></i> Agregar</button>
+                </article>
+
+                <article class="producto-card">
+                    <img src="https://via.placeholder.com/200" alt="Remeras sublimadas">
+                    <h3>Remeras Sublimadas</h3>
+                    <p>Ideales para eventos o merchandising personalizado.</p>
+                    <span class="precio">$10.200</span>
+                    <button class="btn-carrito"><i class="fas fa-shopping-cart"></i> Agregar</button>
+                </article>
+            </div>
+        </section>
+
+        <section class="reseñas">
+    <h2>Lo que dicen nuestros clientes</h2>
+    <div class="grid-reseñas">
+        <article class="card">
+            <i class="fas fa-user-circle"></i>
+            <h3>Carlos G.</h3>
+            <p>"Excelente calidad en las remeras DTF, los colores son súper vibrantes."</p>
+            <div class="estrellas">⭐⭐⭐⭐⭐</div>
+        </article>
+
+        <article class="card">
+            <i class="fas fa-user-circle"></i>
+            <h3>Marina P.</h3>
+            <p>"Los diseños DTF UV con relieve quedaron increíbles en mis termos. ¡Recomiendo!"</p>
+            <div class="estrellas">⭐⭐⭐⭐⭐</div>
+        </article>
+
+        <article class="card">
+            <i class="fas fa-user-circle"></i>
+            <h3>Juan R.</h3>
+            <p>"Muy buena atención y rapidez en la entrega para mi evento en CABA."</p>
+            <div class="estrellas">⭐⭐⭐⭐</div>
+        </article>
+    </div>
+</section>
+        <section id="contacto">
+            <h2>Contacto</h2>
+            <form action="https://formspree.io/f/mlgoodyq" method="POST" class="form-contacto">
+                <div class="form-grupo">
+                    <label for="nombre">Nombre completo:</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Ej: Augusto" required>
+                </div>
+                <div class="form-grupo">
+                    <label for="email">Correo electrónico:</label>
+                    <input type="email" id="email" name="email" placeholder="tu@email.com" required>
+                </div>
+                <div class="form-grupo">
+                    <label for="mensaje">Mensaje:</label>
+                    <textarea id="mensaje" name="mensaje" rows="5" placeholder="¿En qué puedo ayudarte?" required></textarea>
+                </div>
+                <button type="submit" class="btn-enviar">Enviar Mensaje</button>
+            </form>
+        </section>
+
+        <section id="registro-mensajes">
+            <h2>Registro de Actividad</h2>
+            <div class="tabla-contenedor">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Consulta</th>
+                            <th>Estado</th>
+                            <th>Prioridad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>04/04/2026</td>
+                            <td>Consulta Sistema de Gestión</td>
+                            <td class="status-pendiente">Pendiente</td>
+                            <td class="prioridad-alta">Alta</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 Augusto | BuBus Store - CABA, Argentina</p>
+        <div class="redes-sociales">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+        </div>
+        <p><small>Desarrollador Full Stack en formación</small></p>
+    </footer>
+
+</body>
+</html>
