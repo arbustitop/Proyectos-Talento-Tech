@@ -1,54 +1,127 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="BuBus Store - Remeras personalizadas DTF y más">
+    <meta name="description" content="Curso práctico: aprendiendo a crear tiendas online con HTML, CSS y JavaScript.">
     <meta name="author" content="Augusto">
-    <title>BuBus Store - Remeras Personalizadas DTF</title>
+    <title>Curso Práctico — Tiendas Online (Front‑End)</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
+    <!-- Metadata estructurada para buscadores. No es visible, pero ayuda a SEO y a que el curso se entienda mejor. -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Curso Talento Tech: Landing de tiendas online con Front‑End",
+        "description": "Curso práctico de HTML, CSS y JavaScript construyendo tiendas online y proyectos reales.",
+        "provider": {
+            "@type": "Organization",
+            "name": "BuBus / Augusto"
+        }
+    }
+    </script>
 </head>
 <body>
 
+    <!-- Link de salto para accesibilidad: atajo directo al contenido principal desde el teclado. -->
+    <a href="#main-content" class="skip-link">Saltar al contenido</a>
+
     <header class="main-header">
-    <div class="header-container">
-        <a href="#inicio" class="logo-link">
-            <img src="logo.png" alt="Logo BuBus Store" class="logo">
-        </a>
-        <h1>BuBus Store</h1>
-    </div>
-</header>
+        <div class="header-container">
+            <a href="#inicio" class="logo-link">
+                <img src="logo.png" alt="Logo del curso" class="logo">
+            </a>
+            <!-- Párrafo estilizado para SEO: el h1 único queda en el Hero -->
+            <p class="header-title">Curso: Crea Tiendas Online</p>
+        </div>
+    </header>
 
     <nav aria-label="Navegación principal">
-    <ul class="nav-list" role="list">
-        <li><a href="#inicio" class="nav-link">Inicio</a></li>
-        <li><a href="#nosotros" class="nav-link">Nosotros</a></li>
-        <li><a href="#video-ecommerce" class="nav-link">Demo</a></li>
-        <li><a href="#productos" class="nav-link">Productos</a></li>
-        <li><a href="#reseñas" class="nav-link">Reseñas</a></li>
-        <li><a href="#contacto" class="nav-link">Contacto</a></li>
-        <li><a href="#registro-mensajes" class="nav-link">Registro</a></li>
-    </ul>
-</nav>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav">
+            <span class="sr-only">Abrir menú</span>
+            <i class="fas fa-bars" aria-hidden="true"></i>
+        </button>
+        <ul id="primary-nav" class="nav-list">
+            <li><a href="#inicio" class="nav-link">Inicio</a></li>
+            <li><a href="#nosotros" class="nav-link">Nosotros</a></li>
+            <li><a href="#video-ecommerce" class="nav-link">Demo</a></li>
+            <li><a href="#productos" class="nav-link">Productos</a></li>
+            <li><a href="#reseñas" class="nav-link">Reseñas</a></li>
+            <li><a href="#contacto" class="nav-link">Contacto</a></li>
+            <li><a href="#registro-mensajes" class="nav-link">Registro</a></li>
+        </ul>
+    </nav>
 
-    <main>
-        <section id="inicio">
-            <h2>Bienvenido a la Tienda de BuBus</h2>
-            <p>Estamos en proceso de formación como desarrolladores <strong>Full Stack</strong>.</p>
-            <p>Este es mi proyecto práctico del curso de Front-End en 2026.</p>
+    <main id="main-content">
+        <!-- Hero principal: primer contacto visual y llamada a la acción clara. -->
+        <section id="inicio" class="hero" aria-label="Introducción">
+            <div class="hero-content">
+                <h1>Curso Talento Tech: Landing de tiendas online con Front‑End</h1>
+                <p>Aprendiendo HTML, CSS y JavaScript construyendo proyectos reales. Materiales prácticos, ejercicios y soporte.</p>
+
+                <div class="hero-cta">
+                    <a href="#registro-mensajes" class="btn-primary">Inscribirme</a>
+                    <a href="#nosotros" class="btn-secondary">Saber más</a>
+                </div>
+
+                <form id="email-capture" class="email-capture" action="https://formspree.io/f/mlgoodyq" method="POST" aria-label="Captura de email">
+                    <!-- Honeypot anti-bot. Si este campo se llena, el envío se descarta. -->
+                    <input type="text" name="hp" id="hero-hp" class="honeypot" autocomplete="off" tabindex="-1" aria-hidden="true">
+                    <label for="hero-email" class="sr-only">Correo electrónico</label>
+                    <input type="email" id="hero-email" name="email" placeholder="tu@email.com" required>
+                    <button type="submit" class="btn-enviar">Recibir temario</button>
+                    <div class="form-error" id="hero-error" aria-live="polite"></div>
+                    <div class="form-success" id="hero-success" aria-live="polite"></div>
+                </form>
+            </div>
         </section>
 
+        <!-- Sección Nosotros: quién sos y qué aprendiste para darle contexto a la landing. -->
         <section id="nosotros">
             <h2>Nosotros</h2>
             <p>Mi nombre es <strong>Augusto</strong>.</p>
             <p>Realicé el curso de Python en 2025 y ahora estoy creando herramientas de gestión integrales.</p>
         </section>
 
+        <!-- Cursos y módulos: muestra la estructura del programa con accordions claros. -->
+        <section id="curso">
+            <h2>Contenido del Curso</h2>
+            <p>Resumen de módulos y prácticas. Cada módulo incluye ejercicios y proyecto final.</p>
+            <div class="curriculum">
+                <div class="module">
+                    <button type="button" class="module-toggle" aria-expanded="false">Módulo 1 — HTML y accesibilidad</button>
+                    <div class="module-body">
+                        <p>Etiquetas semánticas, formularios accesibles y estructuras de página.</p>
+                    </div>
+                </div>
+                <div class="module">
+                    <button type="button" class="module-toggle" aria-expanded="false">Módulo 2 — CSS moderno</button>
+                    <div class="module-body">
+                        <p>Flexbox, Grid, variables CSS, responsive design y animaciones.</p>
+                    </div>
+                </div>
+                <div class="module">
+                    <button type="button" class="module-toggle" aria-expanded="false">Módulo 3 — JavaScript dinámico</button>
+                    <div class="module-body">
+                        <p>DOM, eventos, fetch, consumo de APIs y almacenamiento local.</p>
+                    </div>
+                </div>
+                <div class="module">
+                    <button type="button" class="module-toggle" aria-expanded="false">Módulo 4 — Proyecto final</button>
+                    <div class="module-body">
+                        <p>Construcción de una tienda funcional con carrito y formulario de contacto.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Video demo: ejemplo de cómo queda la tienda cuando está funcionando. -->
         <section id="video-ecommerce">
             <h2>Demo Tienda Online</h2>
+            <!-- El video usa un archivo local y subtítulos web para mejorar la accesibilidad. -->
             <div class="video-container">
                 <video controls>
                     <source src="video.mp4" type="video/mp4">
@@ -58,64 +131,108 @@
             </div>
         </section>
 
+        <!-- Productos: propuesta visual con opciones y botón de carrito. -->
         <section id="productos" class="productos">
             <h2>Nuestros Productos</h2>
             <div class="productos-container">
+                
+                <!-- Producto 1: Remera DTF -->
                 <article class="producto-card">
-                    <img src="https://via.placeholder.com/200" alt="Remera DTF">
+                    <img src="images/product-1.svg" alt="Remera personalizada estampada con DTF">
                     <h3>Remera Personalizada DTF</h3>
                     <p>Impresión de alta calidad con colores vibrantes y gran durabilidad.</p>
+                    
+                    <div class="producto-opciones">
+                        <label for="talle-dtf">Talle:</label>
+                        <select id="talle-dtf" name="talle">
+                            <option value="S">S</option>
+                            <option value="M" selected>M</option>
+                            <option value="L">L</option>
+                            <option value="XL">XL</option>
+                            <option value="XXL">XXL</option>
+                        </select>
+                    </div>
+
                     <span class="precio">$25.000</span>
-                    <button class="btn-carrito"><i class="fas fa-shopping-cart"></i> Agregar</button>
+                    <button type="button" class="btn-carrito"><i class="fas fa-shopping-cart"></i> Agregar</button>
+                    <small class="coordinar-diseno"><i class="fab fa-whatsapp"></i> El diseño se coordina por WhatsApp</small>
                 </article>
 
+                <!-- Producto 2: DTF UV -->
                 <article class="producto-card">
-                    <img src="https://via.placeholder.com/200" alt="Diseños DTF UV">
+                    <img src="images/product-2.svg" alt="Stickers industriales DTF UV con relieve">
                     <h3>Diseños DTF UV</h3>
                     <p>Diseños únicos con relieve. Opciones con barniz o sin.</p>
+                    
+                    <div class="producto-opciones">
+                        <label for="acabado-uv">Acabado:</label>
+                        <select id="acabado-uv" name="acabado">
+                            <option value="con-barniz">Con Barniz</option>
+                            <option value="sin-barniz">Sin Barniz</option>
+                        </select>
+                    </div>
+
                     <span class="precio">$25.500</span>
-                    <button class="btn-carrito"><i class="fas fa-shopping-cart"></i> Agregar</button>
+                    <button type="button" class="btn-carrito"><i class="fas fa-shopping-cart"></i> Agregar</button>
+                    <small class="coordinar-diseno"><i class="fas fa-upload"></i> Formatos: PNG / AI / PDF</small>
                 </article>
 
+                <!-- Producto 3: Remeras Sublimadas -->
                 <article class="producto-card">
-                    <img src="https://via.placeholder.com/200" alt="Remeras sublimadas">
+                    <img src="images/product-3.svg" alt="Remera blanca apta para sublimación">
                     <h3>Remeras Sublimadas</h3>
                     <p>Ideales para eventos o merchandising personalizado.</p>
+                    
+                    <div class="producto-opciones">
+                        <label for="talle-subli">Talle:</label>
+                        <select id="talle-subli" name="talle">
+                            <option value="S">S</option>
+                            <option value="M" selected>M</option>
+                            <option value="L">L</option>
+                            <option value="XL">XL</option>
+                        </select>
+                    </div>
+
                     <span class="precio">$10.200</span>
-                    <button class="btn-carrito"><i class="fas fa-shopping-cart"></i> Agregar</button>
+                    <button type="button" class="btn-carrito"><i class="fas fa-shopping-cart"></i> Agregar</button>
+                    <small class="coordinar-diseno"><i class="fas fa-info-circle"></i> Tela: Spun Premium</small>
                 </article>
             </div>
         </section>
 
-        <section class="reseñas">
-    <h2>Lo que dicen nuestros clientes</h2>
-    <div class="grid-reseñas">
-        <article class="card">
-            <i class="fas fa-user-circle"></i>
-            <h3>Carlos G.</h3>
-            <p>"Excelente calidad en las remeras DTF, los colores son súper vibrantes."</p>
-            <div class="estrellas">⭐⭐⭐⭐⭐</div>
-        </article>
+        <!-- Reseñas de clientes: prueba social para generar confianza. -->
+        <section class="reseñas" id="reseñas">
+            <h2>Lo que dicen nuestros clientes</h2>
+            <div class="grid-reseñas">
+                <article class="card">
+                    <i class="fas fa-user-circle"></i>
+                    <h3>Carlos G.</h3>
+                    <p>"Excelente calidad en las remeras DTF, los colores son súper vibrantes."</p>
+                    <div class="estrellas">⭐⭐⭐⭐⭐</div>
+                </article>
 
-        <article class="card">
-            <i class="fas fa-user-circle"></i>
-            <h3>Marina P.</h3>
-            <p>"Los diseños DTF UV con relieve quedaron increíbles en mis termos. ¡Recomiendo!"</p>
-            <div class="estrellas">⭐⭐⭐⭐⭐</div>
-        </article>
+                <article class="card">
+                    <i class="fas fa-user-circle"></i>
+                    <h3>Marina P.</h3>
+                    <p>"Los diseños DTF UV con relieve quedaron increíbles en mis termos. ¡Recomiendo!"</p>
+                    <div class="estrellas">⭐⭐⭐⭐⭐</div>
+                </article>
 
-        <article class="card">
-            <i class="fas fa-user-circle"></i>
-            <h3>Juan R.</h3>
-            <p>"Muy buena atención y rapidez en la entrega para mi evento en CABA."</p>
-            <div class="estrellas">⭐⭐⭐⭐</div>
-        </article>
-    </div>
-</section>
+                <article class="card">
+                    <i class="fas fa-user-circle"></i>
+                    <h3>Juan R.</h3>
+                    <p>"Muy buena atención y rapidez en la entrega para mi evento en CABA."</p>
+                    <div class="estrellas">⭐⭐⭐⭐</div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Formulario de contacto: envío directo con validación y feedback in-page. -->
         <section id="contacto">
             <h2>Contacto</h2>
-            <form action="https://formspree.io/f/mlgoodyq" method="POST" class="form-contacto">
+            <form id="contact-form" action="https://formspree.io/f/mlgoodyq" method="POST" class="form-contacto">
                 <div class="form-grupo">
+                    <input type="text" name="hp" id="contact-hp" class="honeypot" autocomplete="off" tabindex="-1" aria-hidden="true">
                     <label for="nombre">Nombre completo:</label>
                     <input type="text" id="nombre" name="nombre" placeholder="Ej: Augusto" required>
                 </div>
@@ -128,9 +245,12 @@
                     <textarea id="mensaje" name="mensaje" rows="5" placeholder="¿En qué puedo ayudarte?" required></textarea>
                 </div>
                 <button type="submit" class="btn-enviar">Enviar Mensaje</button>
+                <div class="form-error" id="contact-error" aria-live="polite"></div>
+                <div class="form-success" id="contact-success" aria-live="polite"></div>
             </form>
         </section>
 
+        <!-- Registro de actividad: ejemplo de tabla para mostrar datos de gestión. -->
         <section id="registro-mensajes">
             <h2>Registro de Actividad</h2>
             <div class="tabla-contenedor">
@@ -157,14 +277,109 @@
     </main>
 
     <footer>
-        <p>© 2026 Augusto | BuBus Store - CABA, Argentina</p>
+        <p>© 2026 Augusto — Curso Práctico de Front‑End</p>
         <div class="redes-sociales">
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-facebook"></i></a>
-            <a href="#"><i class="fab fa-whatsapp"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
         </div>
         <p><small>Desarrollador Full Stack en formación</small></p>
     </footer>
 
+    <script>
+    (function(){
+        // Regex de email básico buena práctica: no acepta dominios inválidos ni caracteres extraños.
+        var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+        function showError(form, msg){
+            var el = form.querySelector('.form-error'); if(el) el.textContent = msg;
+        }
+        
+        function showSuccess(form, msg){
+            var el = form.querySelector('.form-success'); if(el) el.textContent = msg;
+        }
+        
+        function clearMessages(form){
+            var e = form.querySelector('.form-error'); if(e) e.textContent = '';
+            var s = form.querySelector('.form-success'); if(s) s.textContent = '';
+        }
+
+        function ajaxSubmit(form){
+            // Envío asíncrono para no recargar la página y mostrar feedback in situ.
+            var action = form.action;
+            var method = (form.method || 'POST').toUpperCase();
+            return fetch(action, { method: method, body: new FormData(form), headers: { 'Accept': 'application/json' } });
+        }
+
+        function handleSubmit(e){
+            var form = e.target;
+            var hp = form.querySelector('.honeypot');
+            if(hp && hp.value && hp.value.trim() !== ''){ e.preventDefault(); return; }
+
+            var email = form.querySelector('input[type="email"]');
+            clearMessages(form);
+            if(email){
+                var val = email.value.trim();
+                if(!emailRegex.test(val)){
+                    e.preventDefault();
+                    showError(form, 'Por favor ingrese un correo válido.');
+                    email.focus();
+                    return;
+                }
+            }
+
+            e.preventDefault();
+            ajaxSubmit(form).then(function(resp){
+                if(resp.ok){
+                    // Validación de mensajes condicionales para evitar mezclar respuestas
+                    var successMessage = '¡Mensaje enviado con éxito! Nos comunicaremos a la brevedad.';
+                    if(form.id === 'email-capture'){
+                        successMessage = 'Gracias — te enviamos el temario por correo.';
+                    }
+                    showSuccess(form, successMessage);
+                    form.reset();
+                    setTimeout(function(){ clearMessages(form); }, 6000);
+                } else {
+                    return resp.json().then(function(data){ throw new Error(data.error || 'Error'); });
+                }
+            }).catch(function(){
+                showError(form, 'Error al enviar. Intenta nuevamente.');
+            });
+        }
+
+        var forms = [document.getElementById('email-capture'), document.getElementById('contact-form')];
+        forms.forEach(function(form){
+            if(!form) return;
+            form.addEventListener('submit', handleSubmit);
+            var email = form.querySelector('input[type="email"]');
+            if(email) email.addEventListener('input', function(){ clearMessages(form); });
+        });
+
+        // Mobile nav toggle
+        var toggle = document.querySelector('.nav-toggle');
+        var navList = document.getElementById('primary-nav');
+        if(toggle && navList){
+            toggle.addEventListener('click', function(){
+                var expanded = this.getAttribute('aria-expanded') === 'true';
+                this.setAttribute('aria-expanded', String(!expanded));
+                navList.classList.toggle('show');
+            });
+        }
+
+        // Curriculum accordion
+        // La visibilidad del cuerpo se maneja con aria-expanded + CSS, no con estilos inline.
+        var modules = document.querySelectorAll('.module');
+        modules.forEach(function(mod){
+            var btn = mod.querySelector('.module-toggle');
+            var body = mod.querySelector('.module-body');
+            if(!btn || !body) return;
+            btn.addEventListener('click', function(){
+                var open = btn.getAttribute('aria-expanded') === 'true';
+                btn.setAttribute('aria-expanded', String(!open));
+            });
+        });
+
+    })();
+    </script>
 </body>
 </html>

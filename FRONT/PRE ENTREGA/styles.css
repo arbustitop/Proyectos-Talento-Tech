@@ -6,7 +6,7 @@
     --color-secundario: #16213e;  /* Azul Nav/Cards */
     --color-acento: #00d4ff;      /* Cian Vibrante */
     --color-fondo: #f4f7f6;       /* Gris muy claro */
-    --color-texto: #333333;
+    --color-texto: #222222;
     --color-blanco: #ffffff;
     --sombra-suave: 0 4px 12px rgba(0, 0, 0, 0.1);
     --transicion: all 0.3s ease;
@@ -52,7 +52,7 @@ h2 {
     display: inline-block;
 }
 
-/* Línea decorativa bajo los títulos */
+/* Línea decorativa bajo los títulos (se adapta al text-align del contenedor de forma nativa) */
 section h2::after {
     content: '';
     display: block;
@@ -64,7 +64,41 @@ section h2::after {
 }
 
 /* =========================================
-   3. HEADER Y NAVEGACIÓN (Sticky)
+   3. HERO / CTA (Movido antes de las Media Queries)
+   ========================================= */
+.hero {
+    background: linear-gradient(135deg, rgba(10,24,47,0.95), rgba(22,33,62,0.95));
+    color: var(--color-blanco);
+    padding: 80px 20px;
+}
+.hero-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: left;
+}
+/* Forzamos que la línea del h2 en el hero se alinee a la izquierda con su texto */
+.hero-content h2::after {
+    margin: 10px 0 0 0;
+}
+.hero h1 {
+    font-size: 2.4rem;
+    margin-bottom: 12px;
+    color: var(--color-blanco);
+}
+.hero p { color: rgba(255,255,255,0.9); max-width: 720px; margin-bottom: 18px; }
+.hero-cta { display: flex; gap: 12px; margin-bottom: 18px; }
+
+.btn-primary, .btn-secondary { padding: 12px 18px; border-radius: 8px; text-decoration: none; font-weight: 700; display: inline-block; transition: var(--transicion); }
+.btn-primary { background: var(--color-acento); color: var(--color-primario); }
+.btn-secondary { background: transparent; color: var(--color-blanco); border: 2px solid rgba(255,255,255,0.18); }
+
+.email-capture { display: flex; gap: 10px; max-width: 480px; }
+.email-capture input[type="email"] { flex: 1; padding: 12px; border-radius: 8px; border: none; }
+.email-capture .btn-enviar { padding: 12px 16px; border-radius: 8px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+/* =========================================
+   4. HEADER Y NAVEGACIÓN (Sticky)
    ========================================= */
 .main-header {
     background-color: var(--color-primario);
@@ -110,8 +144,26 @@ nav {
     color: var(--color-acento);
 }
 
+/* Skip link for keyboard users */
+.skip-link { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+.skip-link:focus { position: static; left: auto; width: auto; height: auto; background: var(--color-acento); color: var(--color-primario); padding: 8px 12px; z-index: 1100; border-radius: 6px; }
+
+/* Mobile nav toggle */
+.nav-toggle { display: none; background: transparent; border: none; color: var(--color-blanco); font-size: 1.4rem; padding: 12px; cursor: pointer; }
+
+/* Curriculum / Accordion */
+/* El acordeón usa aria-expanded y CSS para manejar la apertura de cada módulo. */
+.curriculum { max-width: 900px; width: 100%; margin: 0 auto; text-align: left; }
+.module { background: var(--color-blanco); border-radius: 10px; margin-bottom: 12px; overflow: hidden; border: 1px solid #eee; }
+.module-toggle { width: 100%; text-align: left; padding: 16px; background: linear-gradient(90deg, rgba(0,0,0,0.02), rgba(0,0,0,0.01)); border: none; font-weight: 700; cursor: pointer; font-family: inherit; color: var(--color-primario); }
+.module-toggle:after { content: '\25be'; float: right; transition: transform 0.25s ease; }
+.module-toggle[aria-expanded="true"]:after { transform: rotate(180deg); }
+.module-body { display: none; padding: 0 16px 16px; }
+.module-toggle[aria-expanded="true"] + .module-body { display: block; }
+.module-body p { margin: 12px 0; }
+
 /* =========================================
-   4. SECCIÓN PRODUCTOS (Flexbox)
+   5. SECCIÓN PRODUCTOS (Alineación Flexbox Fix)
    ========================================= */
 .productos-container {
     display: flex;
@@ -119,6 +171,7 @@ nav {
     justify-content: center;
     gap: 30px;
     max-width: 1200px;
+    width: 100%;
     margin: 0 auto;
 }
 
@@ -129,9 +182,9 @@ nav {
     border-radius: 15px;
     box-shadow: var(--sombra-suave);
     text-align: center;
-    transition: var(--transicion);
     display: flex;
     flex-direction: column;
+    transition: var(--transicion);
 }
 
 .producto-card:hover {
@@ -140,7 +193,14 @@ nav {
 
 .producto-card img {
     width: 100%;
+    height: 200px;
+    object-fit: cover;
     border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.producto-card p {
+    font-size: 0.95rem;
     margin-bottom: 15px;
 }
 
@@ -148,7 +208,7 @@ nav {
     font-size: 1.5rem;
     font-weight: bold;
     color: var(--color-secundario);
-    margin: 10px 0;
+    margin: auto 0 10px 0; /* 'margin-top: auto' empuja el bloque del precio y botón al fondo equitativamente */
 }
 
 .btn-carrito {
@@ -167,7 +227,7 @@ nav {
 }
 
 /* =========================================
-   5. SECCIÓN RESEÑAS (CSS Grid)
+   6. SECCIÓN RESEÑAS (CSS Grid)
    ========================================= */
 .grid-reseñas {
     display: grid;
@@ -200,15 +260,16 @@ nav {
 }
 
 /* =========================================
-   6. SECCIÓN VIDEO 
+   7. SECCIÓN VIDEO 
    ========================================= */
 #video-ecommerce {
     background-color: var(--color-primario);
     color: var(--color-blanco);
+    width: 100%;
 }
 
 .video-container {
-    max-width: 350px;
+    max-width: 700px;
     width: 100%;
     margin: 0 auto;
     border-radius: 15px;
@@ -218,13 +279,14 @@ nav {
 }
 
 video {
-    width: 75%;
+    width: 100%;
+    height: auto;
     display: block;
     margin: 0 auto;
 }
 
 /* =========================================
-   7. FORMULARIO Y TABLAS
+   8. FORMULARIO Y TABLAS
    ========================================= */
 .form-contacto {
     max-width: 600px;
@@ -238,6 +300,7 @@ video {
 }
 
 .form-grupo { margin-bottom: 20px; }
+.form-grupo label { display: block; margin-bottom: 6px; font-weight: 700; font-size: 0.9rem; }
 .form-grupo input, .form-grupo textarea {
     width: 100%;
     padding: 12px;
@@ -255,15 +318,24 @@ video {
     border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
+    transition: var(--transicion);
 }
+.btn-enviar:hover { background-color: var(--color-primario); }
 
 .tabla-contenedor { width: 100%; overflow-x: auto; margin-top: 20px; }
 table { width: 100%; border-collapse: collapse; background: var(--color-blanco); }
 th, td { padding: 12px; border: 1px solid #eee; text-align: left; }
 th { background-color: var(--color-secundario); color: var(--color-blanco); }
 
+/* Honeypot field visually hidden from users and assistive tech */
+.honeypot { display: none !important; visibility: hidden !important; position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+/* Inline form error/success messages */
+.form-error { color: #ff6b6b; margin-top: 8px; font-size: 0.95rem; font-weight: bold; }
+.form-success { color: #2ecc71; margin-top: 8px; font-size: 0.95rem; font-weight: bold; }
+
 /* =========================================
-   8. FOOTER Y REDES
+   9. FOOTER Y REDES
    ========================================= */
 footer {
     background-color: var(--color-primario);
@@ -272,8 +344,10 @@ footer {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
 }
 
+.redes-sociales { margin-bottom: 15px; }
 .redes-sociales a {
     color: var(--color-acento);
     font-size: 2rem;
@@ -288,7 +362,20 @@ footer {
 }
 
 /* =========================================
-   9. MEDIA QUERIES (Responsive)
+   10. ACCESIBILIDAD (Focus states)
+   ========================================= */
+.nav-list a:focus, .btn-carrito:focus, .btn-enviar:focus, .btn-secondary:focus { 
+    outline: 3px solid var(--color-acento); 
+    outline-offset: 3px; 
+}
+/* Fix foco para el botón primario (usamos fondo oscuro para que contraste sobre el cian) */
+.btn-primary:focus { 
+    outline: 3px solid var(--color-primario); 
+    outline-offset: 3px; 
+}
+
+/* =========================================
+   11. MEDIA QUERIES (Responsive)
    ========================================= */
 @media (max-width: 768px) {
     section {
@@ -301,8 +388,17 @@ footer {
     h2 { font-size: 1.8rem; }
 
     .video-container { width: 95%; }
+    .hero { padding: 40px 15px; }
+    .hero h1 { font-size: 1.6rem; }
+    .hero-content h2::after { margin: 10px auto 0; } /* Lo vuelve a centrar en mobile si cambia el layout */
 
     .grid-reseñas { grid-template-columns: 1fr; }
     
     .form-contacto { padding: 20px; }
+
+    /* Show mobile nav toggle and stack nav */
+    .nav-toggle { display: inline-block; }
+    .nav-list { display: none; flex-direction: column; gap: 8px; padding: 12px; }
+    .nav-list.show { display: flex; }
+    .nav-list a { padding: 8px 12px; text-align: center; width: 100%; }
 }

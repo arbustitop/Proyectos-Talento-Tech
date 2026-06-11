@@ -1,0 +1,5 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <rect x="20" y="30" width="160" height="140" rx="20" ry="20" fill="#16213e" />
+  <text x="100" y="105" fill="#00d4ff" font-family="Montserrat, sans-serif" font-size="18" font-weight="700" text-anchor="middle">DTF</text>
+  <text x="100" y="130" fill="#ffffff" font-family="Montserrat, sans-serif" font-size="12" text-anchor="middle">Remera</text>
+</svg>
