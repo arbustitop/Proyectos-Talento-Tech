@@ -3,24 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Curso práctico: aprendiendo a crear tiendas online con HTML, CSS y JavaScript.">
+    <meta name="description" content="BuBus Store - remeras personalizadas DTF, DTF UV y sublimadas para proyectos de diseño y merchandising.">
     <meta name="author" content="Augusto">
-    <title>Curso Práctico — Tiendas Online (Front‑End)</title>
+    <title>BuBus Store - Remeras Personalizadas DTF</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
-    <!-- Metadata estructurada para buscadores. No es visible, pero ayuda a SEO y a que el curso se entienda mejor. -->
+    <!-- Metadata estructurada para buscadores. No es visible, pero ayuda a SEO y a que la landing se entienda mejor. -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "Course",
-        "name": "Curso Talento Tech: Landing de tiendas online con Front‑End",
-        "description": "Curso práctico de HTML, CSS y JavaScript construyendo tiendas online y proyectos reales.",
-        "provider": {
-            "@type": "Organization",
-            "name": "BuBus / Augusto"
-        }
+        "@type": "Organization",
+        "name": "BuBus Store",
+        "description": "BuBus Store - remeras personalizadas DTF, DTF UV y sublimadas para proyectos de diseño y merchandising.",
+        "url": "https://bubusstore.example.com"
     }
     </script>
 </head>
@@ -32,10 +29,10 @@
     <header class="main-header">
         <div class="header-container">
             <a href="#inicio" class="logo-link">
-                <img src="logo.png" alt="Logo del curso" class="logo">
+                <img src="logo.png" alt="Logo BuBus Store" class="logo">
             </a>
             <!-- Párrafo estilizado para SEO: el h1 único queda en el Hero -->
-            <p class="header-title">Curso: Crea Tiendas Online</p>
+            <p class="header-title">BuBus Store — Indumentaria</p>
         </div>
     </header>
 
@@ -51,7 +48,12 @@
             <li><a href="#productos" class="nav-link">Productos</a></li>
             <li><a href="#reseñas" class="nav-link">Reseñas</a></li>
             <li><a href="#contacto" class="nav-link">Contacto</a></li>
-            <li><a href="#registro-mensajes" class="nav-link">Registro</a></li>
+            <li>
+                <button type="button" class="btn-ver-carrito" aria-label="Ver carrito">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="contador-carrito" class="badge-carrito">0</span>
+                </button>
+            </li>
         </ul>
     </nav>
 
@@ -59,11 +61,11 @@
         <!-- Hero principal: primer contacto visual y llamada a la acción clara. -->
         <section id="inicio" class="hero" aria-label="Introducción">
             <div class="hero-content">
-                <h1>Curso Talento Tech: Landing de tiendas online con Front‑End</h1>
-                <p>Aprendiendo HTML, CSS y JavaScript construyendo proyectos reales. Materiales prácticos, ejercicios y soporte.</p>
+                <h1>BuBus Store</h1>
+                <p>Remeras personalizadas DTF, DTF UV y sublimadas para eventos, merchandising y marcas con onda.</p>
 
                 <div class="hero-cta">
-                    <a href="#registro-mensajes" class="btn-primary">Inscribirme</a>
+                    <a href="#contacto" class="btn-primary">Pedir presupuesto</a>
                     <a href="#nosotros" class="btn-secondary">Saber más</a>
                 </div>
 
@@ -72,50 +74,18 @@
                     <input type="text" name="hp" id="hero-hp" class="honeypot" autocomplete="off" tabindex="-1" aria-hidden="true">
                     <label for="hero-email" class="sr-only">Correo electrónico</label>
                     <input type="email" id="hero-email" name="email" placeholder="tu@email.com" required>
-                    <button type="submit" class="btn-enviar">Recibir temario</button>
+                    <button type="submit" class="btn-enviar">Enviar mensaje</button>
                     <div class="form-error" id="hero-error" aria-live="polite"></div>
                     <div class="form-success" id="hero-success" aria-live="polite"></div>
                 </form>
             </div>
         </section>
 
-        <!-- Sección Nosotros: quién sos y qué aprendiste para darle contexto a la landing. -->
+        <!-- Sección Nosotros: quién sos y qué vendés con BuBus Store. -->
         <section id="nosotros">
             <h2>Nosotros</h2>
-            <p>Mi nombre es <strong>Augusto</strong>.</p>
-            <p>Realicé el curso de Python en 2025 y ahora estoy creando herramientas de gestión integrales.</p>
-        </section>
-
-        <!-- Cursos y módulos: muestra la estructura del programa con accordions claros. -->
-        <section id="curso">
-            <h2>Contenido del Curso</h2>
-            <p>Resumen de módulos y prácticas. Cada módulo incluye ejercicios y proyecto final.</p>
-            <div class="curriculum">
-                <div class="module">
-                    <button type="button" class="module-toggle" aria-expanded="false">Módulo 1 — HTML y accesibilidad</button>
-                    <div class="module-body">
-                        <p>Etiquetas semánticas, formularios accesibles y estructuras de página.</p>
-                    </div>
-                </div>
-                <div class="module">
-                    <button type="button" class="module-toggle" aria-expanded="false">Módulo 2 — CSS moderno</button>
-                    <div class="module-body">
-                        <p>Flexbox, Grid, variables CSS, responsive design y animaciones.</p>
-                    </div>
-                </div>
-                <div class="module">
-                    <button type="button" class="module-toggle" aria-expanded="false">Módulo 3 — JavaScript dinámico</button>
-                    <div class="module-body">
-                        <p>DOM, eventos, fetch, consumo de APIs y almacenamiento local.</p>
-                    </div>
-                </div>
-                <div class="module">
-                    <button type="button" class="module-toggle" aria-expanded="false">Módulo 4 — Proyecto final</button>
-                    <div class="module-body">
-                        <p>Construcción de una tienda funcional con carrito y formulario de contacto.</p>
-                    </div>
-                </div>
-            </div>
+            <p>Mi nombre es <strong>Augusto</strong> y vendo remeras personalizadas para marcas, eventos y proyectos creativos.</p>
+            <p>BuBus Store se especializa en DTF, DTF UV y sublimado premium para producciones de calidad.</p>
         </section>
 
         <!-- Video demo: ejemplo de cómo queda la tienda cuando está funcionando. -->
@@ -131,73 +101,14 @@
             </div>
         </section>
 
-        <!-- Productos: propuesta visual con opciones y botón de carrito. -->
+        <!-- Productos: las cards se inyectan desde js/app.js -->
         <section id="productos" class="productos">
             <h2>Nuestros Productos</h2>
-            <div class="productos-container">
-                
-                <!-- Producto 1: Remera DTF -->
-                <article class="producto-card">
-                    <img src="images/product-1.svg" alt="Remera personalizada estampada con DTF">
-                    <h3>Remera Personalizada DTF</h3>
-                    <p>Impresión de alta calidad con colores vibrantes y gran durabilidad.</p>
-                    
-                    <div class="producto-opciones">
-                        <label for="talle-dtf">Talle:</label>
-                        <select id="talle-dtf" name="talle">
-                            <option value="S">S</option>
-                            <option value="M" selected>M</option>
-                            <option value="L">L</option>
-                            <option value="XL">XL</option>
-                            <option value="XXL">XXL</option>
-                        </select>
-                    </div>
-
-                    <span class="precio">$25.000</span>
-                    <button type="button" class="btn-carrito"><i class="fas fa-shopping-cart"></i> Agregar</button>
-                    <small class="coordinar-diseno"><i class="fab fa-whatsapp"></i> El diseño se coordina por WhatsApp</small>
-                </article>
-
-                <!-- Producto 2: DTF UV -->
-                <article class="producto-card">
-                    <img src="images/product-2.svg" alt="Stickers industriales DTF UV con relieve">
-                    <h3>Diseños DTF UV</h3>
-                    <p>Diseños únicos con relieve. Opciones con barniz o sin.</p>
-                    
-                    <div class="producto-opciones">
-                        <label for="acabado-uv">Acabado:</label>
-                        <select id="acabado-uv" name="acabado">
-                            <option value="con-barniz">Con Barniz</option>
-                            <option value="sin-barniz">Sin Barniz</option>
-                        </select>
-                    </div>
-
-                    <span class="precio">$25.500</span>
-                    <button type="button" class="btn-carrito"><i class="fas fa-shopping-cart"></i> Agregar</button>
-                    <small class="coordinar-diseno"><i class="fas fa-upload"></i> Formatos: PNG / AI / PDF</small>
-                </article>
-
-                <!-- Producto 3: Remeras Sublimadas -->
-                <article class="producto-card">
-                    <img src="images/product-3.svg" alt="Remera blanca apta para sublimación">
-                    <h3>Remeras Sublimadas</h3>
-                    <p>Ideales para eventos o merchandising personalizado.</p>
-                    
-                    <div class="producto-opciones">
-                        <label for="talle-subli">Talle:</label>
-                        <select id="talle-subli" name="talle">
-                            <option value="S">S</option>
-                            <option value="M" selected>M</option>
-                            <option value="L">L</option>
-                            <option value="XL">XL</option>
-                        </select>
-                    </div>
-
-                    <span class="precio">$10.200</span>
-                    <button type="button" class="btn-carrito"><i class="fas fa-shopping-cart"></i> Agregar</button>
-                    <small class="coordinar-diseno"><i class="fas fa-info-circle"></i> Tela: Spun Premium</small>
-                </article>
-            </div>
+            <button type="button" id="btn-vaciar" class="btn-vaciar">
+                <i class="fas fa-trash-alt"></i> Vaciar carrito
+            </button>
+            <div id="aviso-carrito" aria-live="polite"></div>
+            <div id="contenedor-catalogo" class="productos-container"></div>
         </section>
 
         <!-- Reseñas de clientes: prueba social para generar confianza. -->
@@ -250,42 +161,19 @@
             </form>
         </section>
 
-        <!-- Registro de actividad: ejemplo de tabla para mostrar datos de gestión. -->
-        <section id="registro-mensajes">
-            <h2>Registro de Actividad</h2>
-            <div class="tabla-contenedor">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Consulta</th>
-                            <th>Estado</th>
-                            <th>Prioridad</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>04/04/2026</td>
-                            <td>Consulta Sistema de Gestión</td>
-                            <td class="status-pendiente">Pendiente</td>
-                            <td class="prioridad-alta">Alta</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
     </main>
 
     <footer>
-        <p>© 2026 Augusto — Curso Práctico de Front‑End</p>
+        <p>© 2026 Augusto — BuBus Store</p>
         <div class="redes-sociales">
             <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
             <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
             <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
         </div>
-        <p><small>Desarrollador Full Stack en formación</small></p>
+        <p><small>Remeras personalizadas DTF, DTF UV y sublimado</small></p>
     </footer>
 
+    <script src="js/app.js"></script>
     <script>
     (function(){
         // Regex de email básico buena práctica: no acepta dominios inválidos ni caracteres extraños.
@@ -334,7 +222,7 @@
                     // Validación de mensajes condicionales para evitar mezclar respuestas
                     var successMessage = '¡Mensaje enviado con éxito! Nos comunicaremos a la brevedad.';
                     if(form.id === 'email-capture'){
-                        successMessage = 'Gracias — te enviamos el temario por correo.';
+                        successMessage = 'Gracias — pronto te contactamos.';
                     }
                     showSuccess(form, successMessage);
                     form.reset();

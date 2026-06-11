@@ -74,11 +74,15 @@ section h2::after {
 .hero-content {
     max-width: 1100px;
     margin: 0 auto;
-    text-align: left;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
 }
-/* Forzamos que la línea del h2 en el hero se alinee a la izquierda con su texto */
+/* El hero de BuBus Store se presenta centrado para una primera impresión equilibrada. */
 .hero-content h2::after {
-    margin: 10px 0 0 0;
+    margin: 10px auto 0;
 }
 .hero h1 {
     font-size: 2.4rem;
@@ -150,6 +154,59 @@ nav {
 
 /* Mobile nav toggle */
 .nav-toggle { display: none; background: transparent; border: none; color: var(--color-blanco); font-size: 1.4rem; padding: 12px; cursor: pointer; }
+
+/* Carrito: botón del nav + badge contador */
+.btn-ver-carrito {
+    background: transparent;
+    border: none;
+    color: var(--color-blanco);
+    font-size: 1.2rem;
+    cursor: pointer;
+    position: relative;
+    padding: 4px 10px;
+    transition: var(--transicion);
+}
+.btn-ver-carrito:hover { color: var(--color-acento); }
+
+.badge-carrito {
+    position: absolute;
+    top: -6px;
+    right: -2px;
+    background: var(--color-acento);
+    color: var(--color-primario);
+    font-size: 0.65rem;
+    font-weight: 700;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Aviso de confirmación al agregar al carrito */
+#aviso-carrito {
+    font-size: 0.9rem;
+    color: var(--color-acento);
+    min-height: 1.4em;
+    margin-bottom: 8px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+#aviso-carrito.visible { opacity: 1; }
+
+.btn-vaciar {
+    background: transparent;
+    border: 1px solid #e74c3c;
+    color: #e74c3c;
+    padding: 6px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    margin-bottom: 12px;
+    transition: var(--transicion);
+}
+.btn-vaciar:hover { background: #e74c3c; color: var(--color-blanco); }
 
 /* Curriculum / Accordion */
 /* El acordeón usa aria-expanded y CSS para manejar la apertura de cada módulo. */
