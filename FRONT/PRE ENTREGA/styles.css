@@ -200,7 +200,7 @@ nav {
 }
 
 /* =========================================
-   6. SECCIÓN VIDEO (Tamaño Ajustado)
+   6. SECCIÓN VIDEO 
    ========================================= */
 #video-ecommerce {
     background-color: var(--color-primario);
@@ -208,7 +208,7 @@ nav {
 }
 
 .video-container {
-    max-width: 550px;
+    max-width: 350px;
     width: 100%;
     margin: 0 auto;
     border-radius: 15px;
@@ -218,8 +218,9 @@ nav {
 }
 
 video {
-    width: 100%;
+    width: 75%;
     display: block;
+    margin: 0 auto;
 }
 
 /* =========================================
@@ -290,10 +291,11 @@ footer {
    9. MEDIA QUERIES (Responsive)
    ========================================= */
 @media (max-width: 768px) {
-    .nav-list {
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
+    section {
+        padding: 60px 15px;
+    }
+    .main-header {
+        padding: 25px 15px;
     }
 
     h2 { font-size: 1.8rem; }
