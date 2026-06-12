@@ -104,6 +104,16 @@
         <!-- Productos: las cards se inyectan desde js/app.js -->
         <section id="productos" class="productos">
             <h2>Nuestros Productos</h2>
+
+            <input type="search" id="buscador" class="buscador" placeholder="Buscar producto..." aria-label="Buscar producto">
+
+            <div class="filtros" role="group" aria-label="Filtrar por categoría">
+                <button type="button" class="btn-filtro activo" data-categoria="todos">Todos</button>
+                <button type="button" class="btn-filtro" data-categoria="dtf">DTF</button>
+                <button type="button" class="btn-filtro" data-categoria="uv">UV 3D</button>
+                <button type="button" class="btn-filtro" data-categoria="sublimado">Sublimado</button>
+            </div>
+
             <button type="button" id="btn-vaciar" class="btn-vaciar">
                 <i class="fas fa-trash-alt"></i> Vaciar carrito
             </button>

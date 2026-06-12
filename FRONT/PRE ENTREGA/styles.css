@@ -208,6 +208,42 @@ nav {
 }
 .btn-vaciar:hover { background: #e74c3c; color: var(--color-blanco); }
 
+/* Buscador */
+.buscador {
+    width: 100%;
+    max-width: 420px;
+    padding: 10px 16px;
+    border: 2px solid var(--color-acento);
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.95rem;
+    background: var(--color-blanco);
+    margin-bottom: 16px;
+    outline: none;
+}
+.buscador:focus { box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.25); }
+
+/* Botones de filtro por categoría */
+.filtros {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.btn-filtro {
+    background: transparent;
+    border: 1px solid var(--color-acento);
+    color: var(--color-acento);
+    padding: 6px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: var(--transicion);
+}
+.btn-filtro:hover,
+.btn-filtro.activo { background: var(--color-acento); color: var(--color-primario); font-weight: 700; }
+
 /* Curriculum / Accordion */
 /* El acordeón usa aria-expanded y CSS para manejar la apertura de cada módulo. */
 .curriculum { max-width: 900px; width: 100%; margin: 0 auto; text-align: left; }

@@ -8,20 +8,22 @@ const productos = [
     imagen: "images/product-1.svg",
     alt: "Remera personalizada estampada con DTF",
     precio: 25000,
+    categoria: "dtf",
     labelOpcion: "Talle",
     opciones: ["S", "M", "L", "XL", "XXL"],
     nota: '<i class="fab fa-whatsapp"></i> El diseño se coordina por WhatsApp'
   },
   {
     id: 2,
-    nombre: "Diseños DTF UV",
+    nombre: "Diseños 3D UV",
     descripcion: "Diseños únicos con relieve. Opciones con barniz o sin.",
     imagen: "images/product-2.svg",
     alt: "Stickers industriales DTF UV con relieve",
-    precio: 25500,
+    precio: 75000,
+    categoria: "uv",
     labelOpcion: "Acabado",
     opciones: ["Con Barniz", "Sin Barniz"],
-    nota: '<i class="fas fa-upload"></i> Formatos: PNG / AI / PDF'
+    nota: '<i class="fas fa-upload"></i> Formatos: PNG o SVG con fondo transparente'
   },
   {
     id: 3,
@@ -30,6 +32,7 @@ const productos = [
     imagen: "images/product-3.svg",
     alt: "Remera blanca apta para sublimación",
     precio: 10200,
+    categoria: "sublimado",
     labelOpcion: "Talle",
     opciones: ["S", "M", "L", "XL"],
     nota: '<i class="fas fa-info-circle"></i> Tela: Spun Premium'
@@ -126,3 +129,46 @@ actualizarContador();
 
 const btnVaciar = document.getElementById("btn-vaciar");
 if (btnVaciar) btnVaciar.addEventListener("click", vaciarCarrito);
+
+// ─── FILTROS Y BÚSQUEDA ──────────────────────────────────────────────────────
+
+function filtrarProductos(categoria, textoBusqueda) {
+  let resultado = productos;
+
+  if (categoria !== "todos") {
+    resultado = resultado.filter(p => p.categoria === categoria);
+  }
+
+  if (textoBusqueda.trim() !== "") {
+    const texto = textoBusqueda.toLowerCase();
+    resultado = resultado.filter(p =>
+      p.nombre.toLowerCase().includes(texto) ||
+      p.descripcion.toLowerCase().includes(texto)
+    );
+  }
+
+  renderizarTienda(resultado);
+}
+
+// Estado activo de filtros
+let categoriaActiva = "todos";
+let busquedaActiva = "";
+
+// Botones de categoría
+document.querySelectorAll(".btn-filtro").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".btn-filtro").forEach(b => b.classList.remove("activo"));
+    btn.classList.add("activo");
+    categoriaActiva = btn.dataset.categoria;
+    filtrarProductos(categoriaActiva, busquedaActiva);
+  });
+});
+
+// Barra de búsqueda
+const inputBusqueda = document.getElementById("buscador");
+if (inputBusqueda) {
+  inputBusqueda.addEventListener("input", () => {
+    busquedaActiva = inputBusqueda.value;
+    filtrarProductos(categoriaActiva, busquedaActiva);
+  });
+}
