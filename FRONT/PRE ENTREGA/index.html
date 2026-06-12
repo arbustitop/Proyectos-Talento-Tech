@@ -88,6 +88,28 @@
             <p>BuBus Store se especializa en DTF, DTF UV y sublimado premium para producciones de calidad.</p>
         </section>
 
+        <!-- Preferencias de usuario: nombre + color de fondo, guardados en LocalStorage. -->
+        <section id="preferencias">
+            <h2>Personalizá tu experiencia</h2>
+            <p id="saludo-usuario" aria-live="polite"></p>
+            <form id="form-preferencias" class="form-preferencias">
+                <div class="form-grupo">
+                    <label for="pref-nombre">Tu nombre:</label>
+                    <input type="text" id="pref-nombre" name="nombre" placeholder="Ej: Augusto" required>
+                </div>
+                <div class="form-grupo">
+                    <label for="pref-color">Color de fondo:</label>
+                    <select id="pref-color" name="color">
+                        <option value="#f4f7f6">Claro (predeterminado)</option>
+                        <option value="#1a1a2e">Azul noche</option>
+                        <option value="#0d1b2a">Azul marino</option>
+                        <option value="#1b2e1b">Verde oscuro</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-guardar-pref">Guardar preferencias</button>
+            </form>
+        </section>
+
         <!-- Video demo: ejemplo de cómo queda la tienda cuando está funcionando. -->
         <section id="video-ecommerce">
             <h2>Demo Tienda Online</h2>

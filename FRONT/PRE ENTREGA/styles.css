@@ -427,6 +427,46 @@ th { background-color: var(--color-secundario); color: var(--color-blanco); }
 .form-error { color: #ff6b6b; margin-top: 8px; font-size: 0.95rem; font-weight: bold; }
 .form-success { color: #2ecc71; margin-top: 8px; font-size: 0.95rem; font-weight: bold; }
 
+/* Preferencias de usuario */
+#saludo-usuario {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--color-primario);
+    min-height: 1.6em;
+    margin-bottom: 16px;
+}
+.form-preferencias {
+    max-width: 420px;
+    width: 100%;
+    background: var(--color-blanco);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: var(--sombra-suave);
+    text-align: left;
+}
+.form-preferencias select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+.btn-guardar-pref {
+    background: var(--color-acento);
+    color: var(--color-primario);
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 8px;
+    transition: var(--transicion);
+}
+.btn-guardar-pref:hover { background: var(--color-primario); color: var(--color-blanco); }
+
 /* =========================================
    9. FOOTER Y REDES
    ========================================= */

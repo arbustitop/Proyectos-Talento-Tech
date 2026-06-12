@@ -172,3 +172,38 @@ if (inputBusqueda) {
     filtrarProductos(categoriaActiva, busquedaActiva);
   });
 }
+
+// ─── PREFERENCIAS DE USUARIO ─────────────────────────────────────────────────
+
+function cargarPreferencias() {
+  const nombre = localStorage.getItem("pref-nombre-bubus");
+  const color  = localStorage.getItem("pref-color-bubus");
+
+  const saludo     = document.getElementById("saludo-usuario");
+  const inputNombre = document.getElementById("pref-nombre");
+  const selectColor = document.getElementById("pref-color");
+
+  if (nombre) {
+    if (saludo)      saludo.textContent = `¡Hola, ${nombre}! Bienvenido a BuBus Store.`;
+    if (inputNombre) inputNombre.value  = nombre;
+  }
+
+  if (color) {
+    document.body.style.backgroundColor = color;
+    if (selectColor) selectColor.value  = color;
+  }
+}
+
+cargarPreferencias();
+
+const formPreferencias = document.getElementById("form-preferencias");
+if (formPreferencias) {
+  formPreferencias.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const nombre = document.getElementById("pref-nombre").value.trim();
+    const color  = document.getElementById("pref-color").value;
+    localStorage.setItem("pref-nombre-bubus", nombre);
+    localStorage.setItem("pref-color-bubus", color);
+    cargarPreferencias();
+  });
+}
