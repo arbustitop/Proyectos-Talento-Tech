@@ -98,6 +98,7 @@ const BUBUS_CATALOG = [
 ];
 
 let loadedProducts = [];
+let activeFilter   = 'Todos';
 
 // ============================
 // UTILIDADES
@@ -263,6 +264,59 @@ function initCartModal() {
 }
 
 // ============================
+// FILTRO POR CATEGORÍA
+// ============================
+
+function getCategories() {
+    return ['Todos', ...new Set(BUBUS_CATALOG.map((p) => p.category))];
+}
+
+function renderFilterButtons() {
+    const container = document.getElementById('category-filters');
+    if (!container) return;
+    container.innerHTML = getCategories().map((cat) => `
+        <button
+            type="button"
+            class="filter-btn${cat === activeFilter ? ' active' : ''}"
+            data-category="${cat}"
+            aria-pressed="${cat === activeFilter}"
+        >${cat}</button>
+    `).join('');
+}
+
+function applyFilter(category) {
+    activeFilter = category;
+    renderFilterButtons();
+
+    const filtered = category === 'Todos'
+        ? loadedProducts
+        : loadedProducts.filter((p) => p.category === category);
+
+    const row = document.getElementById('products-row');
+    if (!row) return;
+
+    if (filtered.length === 0) {
+        row.innerHTML = `
+            <div class="col-12 text-center py-5">
+                <p style="color:#64748b;">No hay productos en esta categoría.</p>
+            </div>`;
+        return;
+    }
+
+    row.innerHTML = filtered.map(buildProductCard).join('');
+}
+
+function initFilterEvents() {
+    const container = document.getElementById('category-filters');
+    if (!container) return;
+    container.addEventListener('click', (event) => {
+        const btn = event.target.closest('.filter-btn');
+        if (!btn) return;
+        applyFilter(btn.dataset.category);
+    });
+}
+
+// ============================
 // FETCH + RENDER PRODUCTOS
 // ============================
 
@@ -329,9 +383,11 @@ async function fetchProducts() {
         await response.json();
         // Renderizamos el catálogo BuBus Originals
         renderProducts(BUBUS_CATALOG);
+        renderFilterButtons();
     } catch (error) {
         console.error('API no disponible, cargando catálogo local:', error);
         renderProducts(BUBUS_CATALOG);
+        renderFilterButtons();
     }
 }
 
@@ -582,6 +638,7 @@ function initUserDropdown() {
 document.addEventListener('DOMContentLoaded', () => {
     initNavToggle();
     initUserDropdown();
+    initFilterEvents();
     initPreferences();
     initContactForm();
     initCartEvents();
