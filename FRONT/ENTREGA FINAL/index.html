@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BuBus Originals: tienda online de prendas estampadas en DTF, insumos y servicios de estampado textil personalizado.">
+    <meta name="keywords" content="DTF, estampado textil, remeras personalizadas, insumos DTF, plancha estampadora, BuBus">
+    <meta name="author" content="Augusto Vila">
+    <title>BuBus Store | Tienda DTF y estampado textil</title>
+
+    <!-- Bootstrap 5.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Estilos propios (sobreescriben Bootstrap con la marca BuBus) -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Rapport: logo repetido como fondo en toda la página -->
+    <div class="bg-rapport" aria-hidden="true"></div>
+
+    <!-- Accesibilidad: enlace de salto rápido para teclado -->
+    <a href="#main-content" class="skip-link">Saltar al contenido</a>
+
+    <header class="main-header" role="banner">
+        <h1 class="sr-only">BuBus Originals — Tienda DTF y estampado textil</h1>
+        <div class="navbar-inner">
+
+            <!-- Logo + nombre de marca (izquierda) -->
+            <a href="#inicio" class="navbar-brand" aria-label="BuBus Originals — ir al inicio">
+                <img src="bubus_originals_logo.png" alt="" class="logo" aria-hidden="true">
+                <span class="brand-name">BuBus <span class="brand-accent">Originals</span></span>
+            </a>
+
+            <!-- Links de navegación (centro) -->
+            <nav aria-label="Navegación principal">
+                <ul id="primary-nav" class="nav-list">
+                    <li><a href="#inicio" class="nav-link">Inicio</a></li>
+                    <li><a href="#nosotros" class="nav-link">Nosotros</a></li>
+                    <li><a href="#servicios" class="nav-link">Servicios</a></li>
+                    <li><a href="#tienda" class="nav-link">Tienda</a></li>
+                    <li><a href="#contacto" class="nav-link">Contacto</a></li>
+                </ul>
+            </nav>
+
+            <!-- Carrito + menú usuario (derecha) -->
+            <div class="navbar-actions">
+                <button type="button" class="cart-btn" data-bs-toggle="modal" data-bs-target="#cartModal" aria-label="Ver carrito">
+                    <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                    <span id="cart-badge" class="cart-badge" aria-label="Productos en el carrito">0</span>
+                </button>
+
+                <div class="user-menu">
+                    <button type="button" class="user-menu-btn" id="user-menu-btn"
+                            aria-haspopup="true" aria-expanded="false" aria-label="Menú de usuario">
+                        <i class="fas fa-user-circle" aria-hidden="true"></i>
+                    </button>
+                    <div class="user-dropdown" id="user-dropdown" aria-hidden="true">
+                        <a href="#preferencias" class="dropdown-item">
+                            <i class="fas fa-sliders-h" aria-hidden="true"></i> Preferencias
+                        </a>
+                        <a href="#demo" class="dropdown-item">
+                            <i class="fas fa-play-circle" aria-hidden="true"></i> Demo
+                        </a>
+                        <a href="#nosotros" class="dropdown-item">
+                            <i class="fas fa-info-circle" aria-hidden="true"></i> Acerca de
+                        </a>
+                        <a href="#contacto" class="dropdown-item">
+                            <i class="fas fa-envelope" aria-hidden="true"></i> Contacto
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Hamburger (mobile) -->
+                <button type="button" class="nav-toggle" aria-expanded="false"
+                        aria-controls="primary-nav" aria-label="Abrir menú">
+                    <i class="fas fa-bars" aria-hidden="true"></i>
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+    <main id="main-content">
+
+        <!-- INICIO -->
+        <section id="inicio" aria-label="Introducción">
+            <h2>BuBus Originals: estampados DTF con presentación profesional</h2>
+            <p>Tienda online creada como proyecto final del módulo Front-End JS de Talento Tech. Combina HTML semántico, Bootstrap, CSS Flexbox y JavaScript con consumo de API REST y carrito de compras persistente.</p>
+            <a href="#tienda" class="btn-cta">Ver tienda</a>
+        </section>
+
+        <!-- NOSOTROS -->
+        <section id="nosotros">
+            <h2>De qué se trata</h2>
+            <p>BuBus Originals ofrece prendas estampadas en DTF, servicios de estampado textil y soluciones de software para operarios de impresión.</p>
+            <p>Este proyecto final integra todos los conceptos del curso: diseño responsivo con Bootstrap y Flexbox, consumo de APIs con <code>fetch()</code>, renderizado dinámico del DOM y carrito persistido con <code>localStorage</code>.</p>
+        </section>
+
+        <!-- CARACTERÍSTICAS -->
+        <section id="caracteristicas" class="productos">
+            <h2>Qué ofrecemos</h2>
+            <div class="productos-container">
+                <article class="producto-card">
+                    <i class="fas fa-tshirt" class="icon-card" aria-hidden="true"></i>
+                    <h3>Prendas DTF personalizadas</h3>
+                    <p>Venta de productos estampados en DTF con diseños exclusivos y alta calidad de impresión.</p>
+                </article>
+                <article class="producto-card">
+                    <i class="fas fa-industry" class="icon-card" aria-hidden="true"></i>
+                    <h3>Servicios de estampado</h3>
+                    <p>Estampado textil en tres modelos de planchas según cada necesidad de producción.</p>
+                </article>
+                <article class="producto-card">
+                    <i class="fas fa-chart-line" class="icon-card" aria-hidden="true"></i>
+                    <h3>Gestión ordenada</h3>
+                    <p>Control de inventario, stock crítico y actualizaciones de productos en tiempo real.</p>
+                </article>
+                <article class="producto-card">
+                    <i class="fas fa-desktop" class="icon-card" aria-hidden="true"></i>
+                    <h3>Software para operarios</h3>
+                    <p>Programa de gestión para impresores: reemplazá las planillas Excel para siempre.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- SERVICIOS -->
+        <section id="servicios" class="productos">
+            <h2><i class="fas fa-concierge-bell section-icon" aria-hidden="true"></i>Servicios</h2>
+            <div class="productos-container">
+                <article class="producto-card">
+                    <i class="fas fa-print" class="icon-card" aria-hidden="true"></i>
+                    <h3>Capacitación DTF</h3>
+                    <p>Cursos sobre la técnica de impresión DTF para prendas y materiales textiles.</p>
+                </article>
+                <article class="producto-card">
+                    <i class="fas fa-tools" class="icon-card" aria-hidden="true"></i>
+                    <h3>Preparación de trabajos</h3>
+                    <p>Formación para preparar archivos listos para impresión, optimizando tiempos y resultados.</p>
+                </article>
+                <article class="producto-card">
+                    <i class="fas fa-image" class="icon-card" aria-hidden="true"></i>
+                    <h3>Semitonos en Photoshop</h3>
+                    <p>Manejo de semitonos y ajuste de imágenes para lograr estampados de nivel profesional.</p>
+                </article>
+                <article class="producto-card">
+                    <i class="fas fa-receipt" class="icon-card" aria-hidden="true"></i>
+                    <h3>Registro de pedidos</h3>
+                    <p>Seguimiento de ventas y procesos para una gestión clara frente a tus clientes.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- TIENDA ONLINE (API + CARRITO) -->
+        <section id="tienda" class="tienda-section">
+            <h2>Tienda Online</h2>
+            <p>Catálogo cargado en tiempo real desde la API. Agregá productos al carrito: se guarda automáticamente en tu navegador.</p>
+
+            <div class="section-header-flex">
+                <div class="contador-carrito" aria-live="polite">
+                    <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                    <span>Carrito:</span>
+                    <strong id="cart-count">0</strong>
+                    <span>producto(s)</span>
+                </div>
+                <div class="cart-actions">
+                    <button type="button" class="btn-ver-carrito" data-bs-toggle="modal" data-bs-target="#cartModal" aria-label="Ver productos en el carrito">
+                        <i class="fas fa-shopping-bag" aria-hidden="true"></i> Ver carrito
+                    </button>
+                    <button type="button" id="btn-vaciar" class="btn-vaciar" aria-label="Vaciar el carrito de compras">
+                        <i class="fas fa-trash" aria-hidden="true"></i> Vaciar
+                    </button>
+                </div>
+            </div>
+
+            <div id="fetch-error" class="fetch-error" aria-live="polite" role="alert"></div>
+
+            <!-- Bootstrap grid: products rendered by JS -->
+            <div class="container-fluid px-0">
+                <div id="products-row" class="row g-4">
+                </div>
+            </div>
+        </section>
+
+        <!-- PREFERENCIAS DE USUARIO (localStorage) -->
+        <section id="preferencias" class="preferencias-usuario">
+            <div class="section-header-flex">
+                <div>
+                    <h2>Preferencias de Usuario</h2>
+                    <p>Guardá tu nombre y color favorito. La página los recordará en tu próxima visita usando <code>localStorage</code>.</p>
+                </div>
+            </div>
+            <form id="preferences-form" class="form-preferencias">
+                <div class="form-grupo">
+                    <label for="user-name">Tu nombre:</label>
+                    <input type="text" id="user-name" name="user-name" placeholder="Ej: Augusto" required>
+                </div>
+                <div class="form-grupo">
+                    <label for="background-color">Color de fondo preferido:</label>
+                    <select id="background-color" name="background-color" required>
+                        <option value="" disabled selected>Elegí un color</option>
+                        <option value="#eef4fb">Celeste muy claro</option>
+                        <option value="#f8efd4">Marfil suave</option>
+                        <option value="#d7f5e2">Verde menta</option>
+                        <option value="#f5d7f8">Lavanda</option>
+                        <option value="#fff2e5">Durazno</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-cta">Guardar preferencias</button>
+            </form>
+            <div id="greeting-message" class="greeting-message" aria-live="polite"></div>
+        </section>
+
+        <!-- DEMO EN VIDEO -->
+        <section id="demo">
+            <h2>Demo en video</h2>
+            <div class="video-container">
+                <video controls>
+                    <source src="bubus_originals_intro.mp4" type="video/mp4">
+                    <track src="bubus_originals_subs.vtt" kind="subtitles" srclang="es" label="Español" default>
+                    Tu navegador no soporta el elemento de video.
+                </video>
+            </div>
+        </section>
+
+        <!-- BENEFICIOS -->
+        <section class="reseñas" aria-label="Beneficios">
+            <h2>Por qué elegirnos</h2>
+            <div class="grid-reseñas">
+                <article class="card">
+                    <i class="fas fa-check-circle" aria-hidden="true"></i>
+                    <h3>Control completo</h3>
+                    <p>Conocé el estado del stock y evitá quedarte sin productos en momentos clave.</p>
+                </article>
+                <article class="card">
+                    <i class="fas fa-database" aria-hidden="true"></i>
+                    <h3>Datos locales</h3>
+                    <p>Tu carrito y preferencias se guardan en tu navegador: privacidad y velocidad garantizadas.</p>
+                </article>
+                <article class="card">
+                    <i class="fas fa-mobile-alt" aria-hidden="true"></i>
+                    <h3>Diseño responsivo</h3>
+                    <p>El sitio se adapta a cualquier dispositivo: celular, tablet o escritorio.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- CONTACTO -->
+        <section id="contacto">
+            <h2>Contacto</h2>
+            <form id="contact-form" action="https://formspree.io/f/mlgoodyq" method="POST" class="form-contacto">
+                <!-- Honeypot anti-spam -->
+                <input type="text" name="hp" id="contact-hp" class="honeypot" autocomplete="off" tabindex="-1" aria-label="No completar" title="No completar este campo">
+
+                <div class="form-grupo">
+                    <label for="nombre">Nombre completo:</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Ej: Augusto" required>
+                </div>
+                <div class="form-grupo">
+                    <label for="email">Correo electrónico:</label>
+                    <input type="email" id="email" name="email" placeholder="tu@mail.com" required>
+                </div>
+                <div class="form-grupo">
+                    <label for="mensaje">Mensaje:</label>
+                    <textarea id="mensaje" name="mensaje" rows="5" placeholder="Contanos en qué podemos ayudarte" required></textarea>
+                </div>
+                <button type="submit" class="btn-enviar">Enviar consulta</button>
+
+                <div class="form-error" id="contact-error" aria-live="polite"></div>
+                <div class="form-success" id="contact-success" aria-live="polite"></div>
+            </form>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>© 2026 Augusto Vila | Proyecto Final Front-End JS · Talento Tech</p>
+        <div class="redes-sociales">
+            <a href="#" aria-label="Visitar nuestro Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="Visitar nuestro Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="#" aria-label="Contactar por WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        </div>
+        <p><small>E-commerce construido con HTML semántico, Bootstrap 5, CSS Flexbox y JavaScript ES6+.</small></p>
+    </footer>
+
+    <!-- MODAL CARRITO -->
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-modal="true" role="dialog">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content cart-modal-content">
+                <div class="modal-header cart-modal-header">
+                    <h2 class="modal-title fs-5" id="cartModalLabel">
+                        <i class="fas fa-shopping-cart me-2" aria-hidden="true"></i>Tu carrito
+                    </h2>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar carrito"></button>
+                </div>
+                <div class="modal-body" id="cart-modal-body">
+                </div>
+                <div class="modal-footer cart-modal-footer">
+                    <div class="cart-total-wrapper">
+                        <span>Total:</span>
+                        <strong id="cart-total-price">$0</strong>
+                    </div>
+                    <div class="cart-modal-buttons">
+                        <button type="button" class="btn-vaciar" id="btn-vaciar-modal">
+                            <i class="fas fa-trash" aria-hidden="true"></i> Vaciar
+                        </button>
+                        <button type="button" class="btn-cta" data-bs-dismiss="modal">
+                            <i class="fas fa-credit-card" aria-hidden="true"></i> Finalizar compra
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- App JavaScript -->
+    <script src="js/app.js"></script>
+</body>
+</html>
