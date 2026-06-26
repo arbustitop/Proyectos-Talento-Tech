@@ -883,6 +883,40 @@ footer p {
     align-items: center;
 }
 
+/* Botón de cierre lateral del modal carrito */
+.cart-close-side {
+    display: none; /* JS lo muestra al abrir el modal */
+    position: fixed;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    z-index: 1070; /* por encima del backdrop (1040) y del modal (1055) */
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: #7C3AED;
+    color: #fff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(76, 29, 149, 0.4);
+    transition: background 0.2s, transform 0.2s;
+}
+
+.cart-close-side.visible {
+    display: flex;
+}
+
+.cart-close-side:hover,
+.cart-close-side:focus {
+    background: #4C1D95;
+    transform: translateY(-50%) scale(1.1);
+    outline: 2px solid #D946EF;
+    outline-offset: 2px;
+}
+
 /* Filas de items en el modal */
 .cart-item-row {
     display: flex;

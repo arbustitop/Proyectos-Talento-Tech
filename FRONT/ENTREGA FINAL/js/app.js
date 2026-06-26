@@ -110,7 +110,16 @@ function formatPrice(price) {
 
 function getCart() {
     const raw = localStorage.getItem(CART_KEY);
-    return raw ? JSON.parse(raw) : [];
+    if (!raw) return [];
+    // localStorage puede contener JSON inválido si el usuario lo editó manualmente
+    // o si una escritura anterior se interrumpió; descartamos la clave dañada
+    try {
+        return JSON.parse(raw);
+    } catch (err) {
+        console.warn('bubus: JSON de carrito inválido en localStorage, se limpia la clave', err);
+        localStorage.removeItem(CART_KEY);
+        return [];
+    }
 }
 
 function saveCart(cart) {
@@ -131,8 +140,11 @@ function getCartMoney(cart) {
 
 function updateCartUI() {
     const count = getCartTotal(getCart());
-    document.getElementById('cart-badge').textContent = count;
-    document.getElementById('cart-count').textContent  = count;
+    // Null-check: contacto.html no tiene estos elementos; la función debe ser segura en cualquier página
+    const badge   = document.getElementById('cart-badge');
+    const countEl = document.getElementById('cart-count');
+    if (badge)   badge.textContent   = count;
+    if (countEl) countEl.textContent = count;
 }
 
 // ============================
@@ -231,19 +243,53 @@ function removeCartItem(productId) {
 }
 
 function initCartModal() {
-    const modalEl = document.getElementById('cartModal');
+    const modalEl      = document.getElementById('cartModal');
+    const closeSideBtn = document.getElementById('cart-close-side');
     if (!modalEl) return;
 
-    // Renderizar cada vez que se abre el modal
-    modalEl.addEventListener('show.bs.modal', renderCartModal);
+    // Cierre forzado: Bootstrap puede dejar el backdrop activo si el modal queda en estado roto
+    // (p. ej. animación interrumpida). Esta función limpia el DOM directamente como fallback.
+    function forceCloseModal() {
+        const bsModal = typeof bootstrap !== 'undefined' && bootstrap.Modal.getInstance(modalEl);
+        if (bsModal) bsModal.hide();
+        // El timeout permite que Bootstrap intente su propio cierre antes de limpiar el DOM
+        setTimeout(() => {
+            document.querySelectorAll('.modal-backdrop').forEach((el) => el.remove());
+            document.body.classList.remove('modal-open');
+            document.body.style.paddingRight = '';
+            modalEl.classList.remove('show');
+            modalEl.style.display = 'none';
+            if (closeSideBtn) closeSideBtn.classList.remove('visible');
+        }, 150);
+    }
+
+    // Mostrar botón lateral cuando el modal empieza a abrirse
+    modalEl.addEventListener('show.bs.modal', () => {
+        try { renderCartModal(); } catch (err) { console.error('Error rendering cart modal:', err); }
+        if (closeSideBtn) closeSideBtn.classList.add('visible');
+    });
+
+    // Ocultar botón lateral y limpiar residuos cuando el modal se cierra
+    modalEl.addEventListener('hidden.bs.modal', () => {
+        document.querySelectorAll('.modal-backdrop').forEach((el) => el.remove());
+        document.body.classList.remove('modal-open');
+        if (closeSideBtn) closeSideBtn.classList.remove('visible');
+    });
+
+    // Click en el botón lateral: cierre forzado aunque el modal esté en estado roto
+    if (closeSideBtn) {
+        closeSideBtn.addEventListener('click', forceCloseModal);
+    }
 
     // Delegación de eventos: qty y remove
     const body = document.getElementById('cart-modal-body');
     if (body) {
         body.addEventListener('click', (event) => {
-            const minus  = event.target.closest('.minus-btn');
-            const plus   = event.target.closest('.plus-btn');
-            const remove = event.target.closest('.remove-btn');
+            // closest() requiere un Element; en SVG anidados event.target puede ser SVGElement sin ese método
+            const target = event.target instanceof Element ? event.target : event.target.parentElement;
+            const minus  = target.closest('.minus-btn');
+            const plus   = target.closest('.plus-btn');
+            const remove = target.closest('.remove-btn');
 
             if (minus)  updateCartItemQty(Number(minus.dataset.id), -1);
             if (plus)   updateCartItemQty(Number(plus.dataset.id),  +1);
