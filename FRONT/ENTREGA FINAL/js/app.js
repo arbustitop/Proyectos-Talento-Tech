@@ -392,6 +392,35 @@ async function fetchProducts() {
 }
 
 // ============================
+// TOAST NOTIFICATIONS
+// ============================
+
+function showToast(message) {
+    let container = document.getElementById('toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'toast-container';
+        document.body.appendChild(container);
+    }
+
+    const toast = document.createElement('div');
+    toast.className = 'toast-notif';
+    toast.setAttribute('role', 'status');
+    toast.setAttribute('aria-live', 'polite');
+    toast.innerHTML = `<i class="fas fa-check-circle" aria-hidden="true"></i>${message}`;
+    container.appendChild(toast);
+
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => toast.classList.add('show'));
+    });
+
+    setTimeout(() => {
+        toast.classList.remove('show');
+        toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+    }, 3000);
+}
+
+// ============================
 // CARRITO — AGREGAR / VACIAR
 // ============================
 
@@ -416,9 +445,7 @@ function addToCart(productId) {
 
     saveCart(cart);
     updateCartUI();
-
-    // Feedback visual rápido
-    alert(`¡Agregado!\n${product.title} — ${formatPrice(product.price)}`);
+    showToast(`${product.title} — agregado al carrito`);
 }
 
 function initCartEvents() {

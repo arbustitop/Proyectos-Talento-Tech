@@ -1048,7 +1048,57 @@ footer p {
 }
 
 /* =========================================
-   16. RESPONSIVE (Media Queries)
+   16. TOAST NOTIFICATIONS
+   ========================================= */
+#toast-container {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+}
+
+.toast-notif {
+    background: linear-gradient(135deg, #4C1D95 0%, #7C3AED 100%);
+    color: var(--color-blanco);
+    padding: 14px 20px;
+    border-radius: 14px;
+    box-shadow: 0 8px 28px rgba(76, 29, 149, 0.35);
+    font-size: 0.92rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 320px;
+    border-left: 4px solid var(--color-verde);
+    transform: translateX(calc(100% + 28px));
+    opacity: 0;
+    transition: transform 0.35s ease, opacity 0.35s ease;
+    pointer-events: auto;
+}
+
+.toast-notif.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.toast-notif i {
+    color: var(--color-verde);
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+/* Indicador de página activa en el navbar */
+.nav-link.active-page {
+    color: var(--color-blanco);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* =========================================
+   17. RESPONSIVE (Media Queries)
    ========================================= */
 @media (max-width: 900px) {
     .nav-link {
