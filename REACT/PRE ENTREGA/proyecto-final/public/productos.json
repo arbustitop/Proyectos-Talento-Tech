@@ -1,0 +1,14 @@
+[
+  { "id": "1", "nombre": "Remera Básica Estampada DTF", "categoria": "Remeras DTF", "precio": 25000, "stock": 15, "imagen": "https://i.ibb.co/VcN9zyr0/remera-basica.jpg" },
+  { "id": "2", "nombre": "Remera Oversize Full Print", "categoria": "Remeras DTF", "precio": 30000, "stock": 8, "imagen": "https://i.ibb.co/C5PR4bv5/remera-over.jpg" },
+  { "id": "3", "nombre": "Remera Dama Estampada", "categoria": "Remeras DTF", "precio": 20000, "stock": 10, "imagen": "https://i.ibb.co/s90ZYSXF/remera-dama.jpg" },
+  { "id": "4", "nombre": "Buzo Canguro Estampado", "categoria": "Buzos DTF", "precio": 40000, "stock": 6, "imagen": "https://i.ibb.co/5hXDJt79/buzo-canguro.jpg" },
+  { "id": "5", "nombre": "Buzo Completo (Mangas, Frente y Espalda)", "categoria": "Buzos DTF", "precio": 50000, "stock": 4, "imagen": "https://i.ibb.co/chQP1CJv/buzo-completo.jpg" },
+  { "id": "6", "nombre": "Campera Rompevientos Estampada", "categoria": "Camperas DTF", "precio": 50000, "stock": 3, "imagen": "https://i.ibb.co/ZDy141Q/campera-rompevientos.jpg" },
+  { "id": "7", "nombre": "Campera Polar con Estampado", "categoria": "Camperas DTF", "precio": 50000, "stock": 2, "imagen": "https://i.ibb.co/5gP09hvb/campera-polar.jpg" },
+  { "id": "8", "nombre": "Mochila Estampada DTF", "categoria": "Mochilas DTF", "precio": 40000, "stock": 9, "imagen": "https://i.ibb.co/2H7Skv8/mochila.jpg" },
+  { "id": "9", "nombre": "Tote Bag DTF Personalizada", "categoria": "Carteras DTF", "precio": 5000, "stock": 12, "imagen": "https://i.ibb.co/mrDQMDMr/tote-bag.jpg" },
+  { "id": "10", "nombre": "Pack DTF Varios (58x100cm)", "categoria": "Diseños DTF", "precio": 12500, "stock": 20, "imagen": "https://i.ibb.co/DgjSbKQH/pack-dtf-varios.jpg" },
+  { "id": "11", "nombre": "Pack DTF Fútbol (58x100cm)", "categoria": "Diseños DTF", "precio": 15000, "stock": 14, "imagen": "https://i.ibb.co/5X4YcmBs/pack-dtf-futbol.jpg" },
+  { "id": "12", "nombre": "Pack DTF Anime (58x100cm)", "categoria": "Diseños DTF", "precio": 15000, "stock": 7, "imagen": "https://i.ibb.co/NdrxcxxZ/pack-dtf-anime.jpg" }
+]

@@ -1,0 +1,14 @@
+[
+  { "id": "1", "nombre": "Remera Básica Estampada DTF", "categoria": "Remeras DTF", "precio": 4500, "stock": 15, "imagen": "https://placehold.co/400x280/EDE9FE/4C1D95?text=Remera+B%C3%A1sica+DTF&font=montserrat" },
+  { "id": "2", "nombre": "Remera Oversize Full Print", "categoria": "Remeras DTF", "precio": 6500, "stock": 8, "imagen": "https://placehold.co/400x280/F5D0FE/4C1D95?text=Remera+Oversize+DTF&font=montserrat" },
+  { "id": "3", "nombre": "Remera Dama Estampada", "categoria": "Remeras DTF", "precio": 5000, "stock": 10, "imagen": "https://placehold.co/400x280/D946EF/ffffff?text=Remera+Dama+DTF&font=montserrat" },
+  { "id": "4", "nombre": "Buzo Canguro Estampado", "categoria": "Buzos DTF", "precio": 8500, "stock": 6, "imagen": "https://placehold.co/400x280/7C3AED/ffffff?text=Buzo+Canguro+DTF&font=montserrat" },
+  { "id": "5", "nombre": "Buzo con Capucha Full Print", "categoria": "Buzos DTF", "precio": 12000, "stock": 4, "imagen": "https://placehold.co/400x280/4C1D95/ffffff?text=Buzo+Full+Print+DTF&font=montserrat" },
+  { "id": "6", "nombre": "Campera Rompevientos Estampada", "categoria": "Camperas DTF", "precio": 15000, "stock": 3, "imagen": "https://placehold.co/400x280/3B0764/D946EF?text=Campera+Rompevientos+DTF&font=montserrat" },
+  { "id": "7", "nombre": "Campera Polar con Estampado", "categoria": "Camperas DTF", "precio": 18000, "stock": 2, "imagen": "https://placehold.co/400x280/4C1D95/22C55E?text=Campera+Polar+DTF&font=montserrat" },
+  { "id": "8", "nombre": "Cartera de Tela Estampada", "categoria": "Carteras DTF", "precio": 5500, "stock": 9, "imagen": "https://placehold.co/400x280/EDE9FE/7C3AED?text=Cartera+DTF&font=montserrat" },
+  { "id": "9", "nombre": "Tote Bag DTF Personalizada", "categoria": "Carteras DTF", "precio": 3500, "stock": 12, "imagen": "https://placehold.co/400x280/22C55E/ffffff?text=Tote+Bag+DTF&font=montserrat" },
+  { "id": "10", "nombre": "Diseño DTF Tamaño A4", "categoria": "Diseños DTF", "precio": 800, "stock": 20, "imagen": "https://placehold.co/400x280/F5D0FE/4C1D95?text=Dise%C3%B1o+DTF+A4&font=montserrat" },
+  { "id": "11", "nombre": "Diseño DTF Tamaño A3", "categoria": "Diseños DTF", "precio": 1400, "stock": 14, "imagen": "https://placehold.co/400x280/D946EF/ffffff?text=Dise%C3%B1o+DTF+A3&font=montserrat" },
+  { "id": "12", "nombre": "Pack 5 Diseños DTF a elección", "categoria": "Diseños DTF", "precio": 3500, "stock": 7, "imagen": "https://placehold.co/400x280/7C3AED/ffffff?text=Pack+5+DTF&font=montserrat" }
+]
