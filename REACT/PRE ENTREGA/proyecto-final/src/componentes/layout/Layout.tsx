@@ -1,17 +1,13 @@
-import type { ReactNode } from 'react'
+import { Outlet } from 'react-router-dom'
 import Header from '../Header/Header'
 import Footer from '../Footer/Footer'
 
-interface LayoutProps {
-  children: ReactNode
-}
-
-function Layout({ children }: LayoutProps) {
+function Layout() {
   return (
     <div className="layout-container">
       <Header />
       <main className="main-content">
-        {children}
+        <Outlet />
       </main>
       <Footer />
     </div>
