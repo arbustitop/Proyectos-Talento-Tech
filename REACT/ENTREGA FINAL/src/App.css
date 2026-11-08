@@ -1177,3 +1177,24 @@ header {
   text-align: center;
   color: var(--text-muted);
 }
+
+/* Design review: quien pide "reducir movimiento" en su sistema no ve las
+   cards subir ni la foto hacer zoom (AvisoCarrito y CartWidget ya lo
+   respetaban; el resto de la tienda no). */
+@media (prefers-reduced-motion: reduce) {
+  .product-card,
+  .product-card::before,
+  .product-image,
+  .btn-hero-cta,
+  .btn-add-cart,
+  .fav-btn-floating {
+    transition: none;
+  }
+
+  .product-card:hover,
+  .product-card:hover .product-image,
+  .btn-hero-cta:hover,
+  .fav-btn-floating:hover {
+    transform: none;
+  }
+}
