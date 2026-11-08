@@ -186,6 +186,18 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Design review: el anillo de foco por defecto del navegador salía casi
+   negro sobre el fondo oscuro (links del menú, botones de las cards).
+   Un solo anillo lila para todo lo que se navega con Tab. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #a78bfa;
+  outline-offset: 2px;
+}
+
 /* 1. Header con Glassmorphism Minimalista */
 header {
   background: rgba(10, 10, 12, 0.7) !important;
