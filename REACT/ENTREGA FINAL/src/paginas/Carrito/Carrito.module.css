@@ -1,0 +1,130 @@
+/* Página /carrito (Entrega Final, Requerimiento 1.1). */
+
+.pagina {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+/* Carrito vacío: mensaje centrado con salida al catálogo. */
+.vacio {
+  text-align: center;
+  padding: 4rem 1rem;
+}
+
+.vacio p {
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.lista {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Una línea del carrito: foto | datos | subtotal + eliminar. */
+.linea {
+  display: grid;
+  grid-template-columns: 72px 1fr auto;
+  align-items: center;
+  gap: 16px;
+  padding: 12px;
+  /* El sitio centra el texto por defecto; en una lista se lee mejor
+     alineado a la izquierda. */
+  text-align: left;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+}
+
+.foto {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+}
+
+.nombre {
+  color: var(--text-main);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.nombre:hover {
+  color: var(--accent-purple);
+}
+
+.detalle {
+  margin: 4px 0 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* Los controles +/- usan la clase global .quantity-controls de las
+   tarjetas; acá solo se ajusta el margen y se alinean a la izquierda. */
+.cantidad {
+  margin: 8px 0 0;
+  align-self: flex-start;
+}
+
+.acciones {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.subtotal {
+  font-weight: 700;
+  color: var(--accent-gold);
+}
+
+/* Total y botones del pie. */
+.resumen {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+  border-top: 1px solid var(--border-color);
+}
+
+.total {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.total span {
+  color: var(--accent-gold);
+}
+
+.botones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* Celular: la foto se achica y el subtotal pasa abajo de los datos. */
+@media (max-width: 480px) {
+  .linea {
+    grid-template-columns: 56px 1fr;
+  }
+
+  .foto {
+    width: 56px;
+    height: 56px;
+  }
+
+  .acciones {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}

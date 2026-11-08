@@ -1,0 +1,71 @@
+/* Estilos de <Boton>. Los colores salen de las variables de :root en
+   App.css (tema "Noche Profunda"): si BuBus cambia un color de marca, se
+   toca ahí y cambia también acá. */
+
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  font: inherit;
+  font-weight: 600;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  /* Para cuando se dibuja como Link (<a>): sin el subrayado de los links. */
+  text-decoration: none;
+  transition:
+    filter 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.1s ease;
+}
+
+/* Feedback al tocar: el botón "se hunde" un poco. */
+.boton:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.boton:focus-visible {
+  outline: 2px solid var(--accent-purple);
+  outline-offset: 2px;
+}
+
+.boton:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Variante por defecto. #7c3aed es más oscuro que --accent-purple: con
+   texto blanco encima, el violeta claro no llega al contraste mínimo
+   (4.5:1) y este sí. */
+.relleno {
+  color: #fff;
+  background: #7c3aed;
+  border-color: #7c3aed;
+}
+
+.relleno:hover:not(:disabled) {
+  filter: brightness(1.15);
+}
+
+.contorno {
+  color: var(--text-main);
+  background: transparent;
+  border-color: var(--border-color);
+}
+
+.contorno:hover:not(:disabled) {
+  border-color: var(--accent-purple);
+}
+
+/* Para acciones que borran (eliminar del carrito, vaciarlo). */
+.peligro {
+  color: var(--color-error);
+  background: transparent;
+  border-color: var(--border-color);
+}
+
+.peligro:hover:not(:disabled) {
+  border-color: var(--color-error);
+}

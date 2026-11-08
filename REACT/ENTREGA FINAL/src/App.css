@@ -1,0 +1,980 @@
+.app {
+  padding: 32px;
+  text-align: center;
+}
+
+/* --- Header & Navegación --- */
+.main-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  padding: 1rem 1.5rem;
+  background-color: var(--color-primario);
+  color: var(--color-blanco, #ffffff);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.header-logo {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+  border-radius: var(--radius-sm, 6px);
+}
+
+.brand-name {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.header-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 0.5rem 1.25rem;
+}
+
+@media (max-width: 480px) {
+  .main-header {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .header-nav ul {
+    justify-content: center;
+    gap: 0.5rem 1rem;
+  }
+}
+
+.header-nav a {
+  /* Clase 13: inline-flex alinea el ícono con el texto. */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--color-blanco, #ffffff);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.header-nav a:hover {
+  color: var(--color-secundario);
+}
+
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+}
+
+/* --- Sección del Catálogo --- */
+.catalogo-seccion {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.catalogo-seccion h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--color-texto, #333333);
+}
+
+.catalogo {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+/* --- Tema oscuro "Noche Profunda Sofisticada" (Inicio + catálogo) --- */
+:root {
+  --bg-primary: #0a0a0c;
+  --bg-card: #141417;
+  --accent-purple: #8b5cf6;
+  --accent-gold: #f59e0b;
+  --color-error: #f87171;
+  --text-main: #f8f9fa;
+  --text-muted: #a1a1aa;
+  --border-color: #27272a;
+
+  --font-heading: 'Poppins', 'Inter', system-ui, sans-serif;
+  --radius-lg: 16px;
+  --radius-md: 10px;
+  --radius-sm: 6px;
+
+  --shadow-premium: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+  --transition-fast: all 0.15s ease-out;
+  --transition-slow: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  font-family: 'Inter', system-ui, sans-serif;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 1. Header con Glassmorphism Minimalista */
+header {
+  background: rgba(10, 10, 12, 0.7) !important;
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-color);
+  padding: 1.25rem 3rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* 2. Banner Principal — violeta de marca (BuBus Originals), mismo
+   estilo premium (radius/padding/sombra) que el resto del tema oscuro */
+.hero, .hero-section {
+  background: linear-gradient(135deg, #4c1d95 0%, #7c3aed 100%);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  margin: 3rem auto;
+  padding: 5rem 2rem;
+  text-align: center;
+  max-width: 1200px;
+  box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.25);
+}
+
+.hero h1 {
+  font-family: var(--font-heading);
+  font-size: 3.5rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  color: var(--text-muted);
+  font-size: 1.25rem;
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+.btn-hero-cta {
+  display: inline-block;
+  margin-top: 2rem;
+  background: var(--accent-purple);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 0.9rem 2rem;
+  border-radius: var(--radius-sm);
+  transition: var(--transition-fast);
+}
+
+.btn-hero-cta:hover {
+  background: #7c3aed;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
+}
+
+/* Títulos de Sección — clase explícita, no el tag <h2> pelado (así no
+   se le pega el tamaño/margen de "título de sección completa" a
+   cualquier <h2> que aparezca en una página, como el nombre de
+   producto en DetalleProducto o "Tu Carrito"). */
+.section-title {
+  font-family: var(--font-heading);
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  margin: 4rem 0 2.5rem;
+  letter-spacing: -0.01em;
+}
+
+/* 3. Rejilla de productos. Clase 13: la arma la grilla de Bootstrap
+   (.container + .row + .col-*, ver ItemListContainer e ItemList); ya no
+   hace falta el grid propio. Acá solo va la separación de la barra de
+   búsqueda. */
+/* Entrega Final, paginador: al cambiar de página se sube hasta el
+   principio del catálogo (scrollIntoView). El header es sticky y taparía
+   el título; scroll-margin-top deja ese espacio libre arriba. */
+.catalogo-productos {
+  scroll-margin-top: 110px;
+}
+
+.catalogo-productos .barra-busqueda {
+  margin-bottom: 2rem;
+}
+
+/* Tarjeta de Producto (Premium y Minimalista) */
+.product-card {
+  /* height: 100% → todas las cards de una fila miden lo mismo aunque un
+     nombre ocupe dos líneas (la columna de Bootstrap ya estira). */
+  height: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition-slow);
+  position: relative;
+  overflow: hidden;
+}
+
+.product-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 2px;
+  background: var(--accent-purple);
+  transform: scaleX(0);
+  transition: var(--transition-slow);
+  transform-origin: left;
+  z-index: 3;
+}
+
+.product-card:hover {
+  transform: translateY(-8px) scale(1.01);
+  border-color: #3f3f46;
+  box-shadow: var(--shadow-premium);
+}
+
+.product-card:hover::before {
+  transform: scaleX(1);
+}
+
+/* Imagen + botón de favorito flotante (patrón Mercado Libre: el
+   favorito va sobre la imagen, no al lado del precio, para que el
+   precio quede limpio y sin distracciones) */
+.product-image-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-color: var(--bg-primary);
+}
+
+.product-image {
+  display: block;
+  width: 100%;
+  /* Clase 13: la proporción va en la imagen misma. Con height: 100% una
+     foto vertical estiraba el contenedor y esa card quedaba más alta. */
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  transition: var(--transition-slow);
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.05);
+}
+
+.insumo-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-main);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--radius-sm);
+  z-index: 2;
+}
+
+.fav-btn-floating {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  z-index: 2;
+}
+
+.fav-btn-floating:hover {
+  background: rgba(0, 0, 0, 0.7);
+  color: var(--accent-purple);
+  transform: scale(1.1);
+}
+
+.fav-btn-floating.is-active {
+  color: var(--accent-gold);
+}
+
+/* Información del producto (todo lo que estaba en padding del card
+   pasa a vivir acá, la imagen queda edge-to-edge arriba) */
+.product-info {
+  padding: 1.25rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Nombre del Producto */
+.product-title {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 0.75rem;
+}
+
+/* Precio, formateado sin el favorito al lado (deja al precio
+   destacarse sin distracciones) */
+.price-container {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 2px;
+  margin-top: auto;
+}
+
+.currency {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--accent-gold);
+}
+
+.price-amount {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+}
+
+.stock-tag {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0.25rem 0 0;
+}
+
+/* 4. Controles y Botones Refinados */
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  align-self: center;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin: 1rem 0;
+  width: fit-content;
+}
+
+.quantity-controls button {
+  display: grid;
+  place-items: center;
+  background: transparent;
+  color: var(--text-muted);
+  border: none;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.quantity-controls button:hover:not(:disabled) {
+  background: #27272a;
+  color: #fff;
+}
+
+/* En el tope (1 o el stock) el botón se apaga: así se ve que no hace nada,
+   en vez de parecer roto. */
+.quantity-controls button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* Botón Añadir al Carrito (Impacto Inverso) */
+.btn-add-cart {
+  /* inline-flex: centra el ícono del carrito junto al texto. */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  background: transparent;
+  color: var(--accent-purple);
+  border: 2px solid var(--accent-purple);
+  padding: 0.85rem;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: var(--transition-slow);
+}
+
+.btn-add-cart:hover {
+  background: var(--accent-purple);
+  color: #fff;
+  box-shadow: 0 8px 15px rgba(139, 92, 246, 0.3);
+}
+
+/* --- Footer --- */
+.site-footer {
+  background: var(--bg-card, #141417);
+  border-top: 1px solid var(--border-color, #27272a);
+  padding: 3rem 2rem 1.5rem;
+  margin-top: 4rem;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+  gap: 2.5rem;
+  max-width: 1300px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer-logo {
+  height: 40px;
+  width: auto;
+  /* .footer-brand es una columna flex: por defecto estira a sus hijos a
+     todo el ancho (align-items: stretch), y el logo quedaba de 40px de alto
+     y ancho de columna, deformado. flex-start lo deja con su ancho natural. */
+  align-self: flex-start;
+  border-radius: var(--radius-sm, 6px);
+}
+
+.footer-brand p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.footer-col h4 {
+  font-family: var(--font-heading);
+  color: #fff;
+  font-size: 1rem;
+  margin: 0 0 1rem;
+  text-align: left;
+}
+
+.footer-col ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.footer-col a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: var(--transition-fast);
+}
+
+.footer-col a:hover {
+  color: var(--accent-purple);
+}
+
+.footer-newsletter p {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin: 0 0 0.75rem;
+}
+
+.footer-newsletter form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.footer-newsletter input {
+  flex: 1;
+  min-width: 0;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 0.75rem;
+  color: var(--text-main);
+  font-size: 0.85rem;
+}
+
+.footer-newsletter input::placeholder {
+  color: var(--text-muted);
+}
+
+.footer-newsletter button {
+  /* #7c3aed y no --accent-purple: con texto blanco, el violeta claro no
+     llega al contraste mínimo (4.5:1). */
+  background: #7c3aed;
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  /* Padding vertical propio: en celular el form pasa a columna y el botón
+     ya no se estira al alto del input; con 0 arriba y abajo quedaba
+     aplastado. */
+  padding: 0.6rem 1rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  white-space: nowrap;
+}
+
+.footer-newsletter button:hover {
+  filter: brightness(1.15);
+}
+
+.footer-team {
+  max-width: 1300px;
+  margin: 3rem auto 0;
+  text-align: center;
+}
+
+.footer-team h4 {
+  font-family: var(--font-heading);
+  color: #fff;
+  font-size: 1.1rem;
+  margin: 0 0 1.5rem;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+}
+
+.team-card {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.5rem 1rem;
+}
+
+.team-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  margin-bottom: 0.75rem;
+}
+
+.team-nombre {
+  color: #fff;
+  font-weight: 600;
+  margin: 0 0 0.25rem;
+}
+
+.team-rol {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+/* Clase 09: mensajes mientras el equipo carga desde Firestore. */
+.team-estado {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin: 0 0 1rem;
+}
+
+/* Clase 09: link a LinkedIn de cada integrante. inline-block + padding
+   agrandan el área clickeable sin cambiar cómo se ve. */
+.team-linkedin {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
+  padding: 0.35rem 0.85rem;
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  color: var(--accent-purple);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.team-linkedin:hover,
+.team-linkedin:focus-visible {
+  border-color: var(--accent-purple);
+  background-color: rgba(139, 92, 246, 0.12);
+}
+
+.footer-bottom {
+  max-width: 1300px;
+  margin: 3rem auto 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+  text-align: center;
+}
+
+.footer-bottom p {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-newsletter form {
+    flex-direction: column;
+  }
+}
+
+/* --- Sesión y panel de administración (Clases 10 a 12) --- */
+
+/* Botón base del panel y del login. Fondo #7c3aed y no --accent-purple
+   (#8b5cf6): con texto blanco, el violeta claro da 4.23:1 y no llega al
+   mínimo de lectura (4.5:1); #7c3aed da 5.7:1. */
+.btn-admin {
+  display: inline-block;
+  padding: 0.65rem 1.1rem;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  background: #7c3aed;
+  border: 1px solid #7c3aed;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.btn-admin:hover {
+  background: #6d28d9;
+  border-color: #6d28d9;
+}
+
+.btn-admin:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.btn-admin--secundario {
+  color: var(--text-main);
+  background: transparent;
+  border-color: var(--border-color);
+}
+
+.btn-admin--secundario:hover {
+  background: transparent;
+  border-color: var(--accent-purple);
+}
+
+.btn-admin--peligro {
+  color: var(--color-error);
+  background: transparent;
+  border-color: var(--color-error);
+}
+
+.btn-admin--peligro:hover {
+  color: #fff;
+  background: #be123c;
+  border-color: #be123c;
+}
+
+/* Tarjeta y campos compartidos por login, perfil y panel. */
+.admin-card,
+.auth-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+}
+
+.admin-form label,
+.auth-card label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  text-align: left;
+}
+
+/* Solo en las filas los campos se reparten el ancho. En un contenedor en
+   columna, este flex-basis se aplicaría al alto y dejaría huecos. */
+.admin-form--fila label,
+.admin-form-fila label {
+  flex: 1 1 140px;
+}
+
+.admin-form input,
+.auth-card input {
+  padding: 0.65rem 0.75rem;
+  font: inherit;
+  color: var(--text-main);
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+}
+
+.admin-form input:focus,
+.auth-card input:focus {
+  outline: 2px solid var(--accent-purple);
+  outline-offset: 1px;
+}
+
+/* Login y perfil: tarjeta angosta centrada. */
+.auth {
+  display: flex;
+  justify-content: center;
+  padding: 3rem 1rem;
+}
+
+.auth-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 420px;
+  padding: 2rem 1.5rem;
+}
+
+.auth-card .section-title {
+  margin: 0;
+}
+
+.auth-error {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-error);
+}
+
+/* Entrega Final: "¿No tenés cuenta? Registrate" / "¿Ya tenés cuenta?"
+   abajo del formulario de login y de registro. */
+.auth-alternativa {
+  margin: 0;
+  font-size: 0.9rem;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.auth-estado {
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+/* overflow-wrap: un correo largo se corta en vez de salirse en mobile. */
+.perfil-saludo {
+  margin: 0;
+  font-size: 1.15rem;
+  color: var(--text-main);
+  overflow-wrap: anywhere;
+}
+
+.perfil-dato {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.perfil-accesos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.perfil-accesos .btn-admin {
+  flex: 1 1 160px;
+}
+
+/* Panel de administración. */
+.admin {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2rem 1rem 3rem;
+}
+
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 1.25rem;
+  margin-bottom: 1.75rem;
+}
+
+.admin-form h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  text-align: left;
+}
+
+/* Cupones: el form entra en una sola fila; en un celular se apila. */
+.admin-form--fila {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+/* Modo edición: borde dorado, para que se note que no estamos creando. */
+.admin-form--edicion {
+  border-color: var(--accent-gold);
+}
+
+.admin-form-fila,
+.admin-form-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+}
+
+.admin-estado {
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.admin-error {
+  color: var(--color-error);
+}
+
+.admin-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.admin-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.65rem 0.9rem;
+  text-align: left;
+}
+
+.admin-item--activo {
+  border-color: var(--accent-gold);
+}
+
+.admin-miniatura {
+  display: block;
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  background: var(--bg-primary);
+}
+
+/* min-width: 0 deja que un nombre largo se corte en vez de empujar los
+   botones fuera de la tarjeta. */
+.admin-datos {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1 1 200px;
+  min-width: 0;
+  color: var(--text-main);
+}
+
+.admin-datos span {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.admin-botones {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Cupones: el código en monoespaciada, se lee como algo para copiar. */
+.cupon-codigo {
+  flex: 1;
+  font-family: ui-monospace, Consolas, monospace;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--text-main);
+}
+
+.cupon-porcentaje {
+  font-weight: 700;
+  color: var(--accent-gold);
+}
+
+/* --- Clase 13: Bootstrap con la paleta BuBus --- */
+/* En vez de pisar cada clase de Bootstrap (.form-control, .btn...), se
+   cambian sus variables (--bs-*), que todos sus componentes leen. Este
+   archivo carga después de bootstrap.min.css (ver main.jsx), por eso gana.
+   [data-bs-theme='dark'] es el atributo que está en <html> (index.html). */
+[data-bs-theme='dark'] {
+  --bs-body-bg: var(--bg-primary);
+  --bs-body-color: var(--text-main);
+  --bs-body-font-family: 'Inter', system-ui, sans-serif;
+  --bs-secondary-color: var(--text-muted);
+  --bs-border-color: var(--border-color);
+  --bs-tertiary-bg: var(--bg-card);
+  /* Links sueltos (ej. "← Volver" del detalle): violeta claro de la marca
+     en vez del azul de Bootstrap. Bootstrap pide el color también en
+     formato "r, g, b" (-rgb) para poder aplicarle transparencia. */
+  --bs-link-color: #a78bfa;
+  --bs-link-color-rgb: 167, 139, 250;
+  --bs-link-hover-color: #c4b5fd;
+  --bs-link-hover-color-rgb: 196, 181, 253;
+}
+
+/* Barra de búsqueda: fondo de card y foco violeta (el de Bootstrap es
+   azul). */
+.barra-busqueda .form-control,
+.barra-busqueda .input-group-text {
+  background: var(--bg-card);
+}
+
+.barra-busqueda .form-control:focus {
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 0 0.25rem rgba(139, 92, 246, 0.25);
+}
+
+/* Chrome y Safari dibujan su propia "x" en los input type="search"; ya
+   está el botón de borrar con ícono, así que se oculta la del navegador
+   para que no haya dos. */
+.barra-busqueda input[type='search']::-webkit-search-cancel-button {
+  display: none;
+}
+
+/* Mientras baja una página con carga diferida (lazy, ver Layout). */
+.cargando-pagina {
+  padding: 4rem 1rem;
+  text-align: center;
+  color: var(--text-muted);
+}

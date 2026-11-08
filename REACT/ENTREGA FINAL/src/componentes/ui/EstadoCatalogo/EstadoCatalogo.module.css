@@ -1,0 +1,23 @@
+.estado {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 16px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.estado p {
+  margin: 0;
+}
+
+/* Ícono grande y apagado arriba del texto (búsqueda sin resultados). */
+.estado > svg {
+  font-size: 2.5rem;
+  color: var(--border-color);
+}
+
+.error {
+  color: var(--color-error);
+}

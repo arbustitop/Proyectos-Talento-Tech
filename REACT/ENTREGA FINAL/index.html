@@ -1,0 +1,28 @@
+<!doctype html>
+<!-- lang="es": los lectores de pantalla pronuncian en castellano y Google
+     sabe en qué idioma está el sitio. data-bs-theme="dark": Bootstrap 5.3
+     dibuja sus inputs y bordes en modo oscuro, acorde a la paleta BuBus. -->
+<html lang="es" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
+    <!-- preconnect: abre la conexión con el servidor de las fotos (Imgbb)
+         mientras todavía baja el JS, así las imágenes llegan antes. -->
+    <link rel="preconnect" href="https://i.ibb.co" />
+    <!-- Color de la barra del navegador en el celular. -->
+    <meta name="theme-color" content="#0a0a0c" />
+    <!-- Título de arranque, el que se ve mientras carga el JS. Después cada
+         página pone el suyo con React Helmet (componente Seo). La
+         descripción NO va acá: la pone Seo, y si estuviera en los dos
+         lugares quedarían dos <meta name="description">. -->
+    <title>BuBus Originals | Estampados DTF</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
