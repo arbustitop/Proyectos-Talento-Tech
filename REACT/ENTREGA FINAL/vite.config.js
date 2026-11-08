@@ -37,4 +37,9 @@ export default defineConfig({
       },
     },
   },
+  // Tests (npm test): Vitest usa esta misma config. jsdom simula el
+  // navegador (document, localStorage) para poder renderizar componentes.
+  test: {
+    environment: 'jsdom',
+  },
 })
