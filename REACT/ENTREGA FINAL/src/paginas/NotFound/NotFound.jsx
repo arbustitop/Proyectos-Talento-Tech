@@ -17,7 +17,7 @@ function NotFound() {
         La página que buscás no existe o se movió.
       </p>
       <Link to="/" className="btn-hero-cta">
-        Volver al Inicio
+        Volver al inicio
       </Link>
     </div>
   )

@@ -123,7 +123,7 @@ function Footer() {
       </div>
 
       <div className="footer-team">
-        <h2>Nuestro Equipo</h2>
+        <h2>Nuestro equipo</h2>
         {/* El resto del footer se muestra siempre; solo esta sección
              depende de la carga del equipo. */}
         {cargando && <p className="team-estado">Cargando equipo...</p>}

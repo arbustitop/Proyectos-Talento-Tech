@@ -71,7 +71,7 @@ export function Item({ id, nombre, precio, stock, imagen, categoria }) {
   // Texto del botón según el caso. "¡Agregado!" va antes que "todo el
   // stock" para que, si se agregaron las últimas unidades, igual se vea la
   // confirmación.
-  let textoBoton = 'Agregar al Carrito'
+  let textoBoton = 'Agregar al carrito'
   if (stock === 0) textoBoton = 'Sin stock'
   else if (agregado) textoBoton = '¡Agregado!'
   else if (disponible <= 0) textoBoton = 'Ya tenés todo el stock'

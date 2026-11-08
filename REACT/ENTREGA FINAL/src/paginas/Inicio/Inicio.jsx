@@ -19,14 +19,14 @@ function Inicio() {
           personalizados a tu gusto.
         </p>
         <Link to="/productos" className="btn-hero-cta">
-          Ver Catálogo
+          Ver catálogo
         </Link>
       </section>
 
       {/* Entrega Final: el Inicio muestra solo 6 destacados (dos filas); el
            catálogo completo, con buscador y paginador, está en /productos. */}
       <div id="catalogo">
-        <ItemListContainer Mensaje="Productos Destacados" limite={6} />
+        <ItemListContainer Mensaje="Productos destacados" limite={6} />
       </div>
     </div>
   )
