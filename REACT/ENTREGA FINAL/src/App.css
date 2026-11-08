@@ -399,6 +399,15 @@ header {
   transform: scale(1.05);
 }
 
+/* Producto sin foto (o con una URL que no carga): recuadro con ícono. */
+.product-image--sin-foto {
+  display: grid;
+  place-items: center;
+  font-size: 4rem;
+  color: var(--border-color);
+  background: #1a1a1f;
+}
+
 .insumo-badge {
   position: absolute;
   top: 10px;

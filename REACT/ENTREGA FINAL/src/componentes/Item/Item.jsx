@@ -9,7 +9,7 @@
 
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { FaStar, FaRegStar, FaMinus, FaPlus, FaShoppingCart, FaCheck } from 'react-icons/fa'
+import { FaStar, FaRegStar, FaMinus, FaPlus, FaShoppingCart, FaCheck, FaTshirt } from 'react-icons/fa'
 import { useCarrito } from '../../context/useCarrito'
 import { avisoPocoStock } from '../../utils/stock'
 
@@ -30,6 +30,11 @@ export function Item({ id, nombre, precio, stock, imagen, categoria }) {
   // true durante un momento después de agregar: el botón muestra
   // "¡Agregado!" como confirmación (además del número del nav que sube).
   const [agregado, setAgregado] = useState(false)
+
+  // Design review: si la URL de la foto no carga, el navegador mostraba el
+  // texto alternativo en letra gigante. Con onError se cambia por un
+  // recuadro con ícono, igual que cuando el producto no tiene foto.
+  const [fotoRota, setFotoRota] = useState(false)
 
   useEffect(() => {
     if (!agregado) return
@@ -90,7 +95,7 @@ export function Item({ id, nombre, precio, stock, imagen, categoria }) {
                cuando la card se acerca con el scroll; width/height le dicen
                al navegador la proporción antes de que llegue, así la grilla
                no "salta" mientras cargan. */}
-          {imagen && (
+          {imagen && !fotoRota ? (
             <img
               src={imagen}
               alt={nombre}
@@ -99,7 +104,13 @@ export function Item({ id, nombre, precio, stock, imagen, categoria }) {
               decoding="async"
               width="400"
               height="400"
+              onError={() => setFotoRota(true)}
             />
+          ) : (
+            <span className="product-image product-image--sin-foto">
+              <FaTshirt aria-hidden="true" />
+              <span className="visually-hidden">{nombre}, sin foto</span>
+            </span>
           )}
         </Link>
 
