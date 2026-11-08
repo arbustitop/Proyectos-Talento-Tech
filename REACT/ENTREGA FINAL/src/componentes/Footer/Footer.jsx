@@ -76,7 +76,7 @@ function Footer() {
         </div>
 
         <div className="footer-col">
-          <h4>Contacto</h4>
+          <h2>Contacto</h2>
           {/* Clase 13: ícono de cada canal (React Icons) delante del dato. */}
           <ul>
             <li>
@@ -101,7 +101,7 @@ function Footer() {
         </div>
 
         <div className="footer-col">
-          <h4>Legal</h4>
+          <h2>Legal</h2>
           <ul>
             <li>
               <a href="#">Política de Privacidad</a>
@@ -113,7 +113,7 @@ function Footer() {
         </div>
 
         <div className="footer-col footer-newsletter">
-          <h4>Newsletter</h4>
+          <h2>Newsletter</h2>
           <p>Enterate primero de nuevos diseños y promociones.</p>
           <form onSubmit={suscribirse}>
             <input type="email" placeholder="tu@email.com" required />
@@ -123,7 +123,7 @@ function Footer() {
       </div>
 
       <div className="footer-team">
-        <h4>Nuestro Equipo</h4>
+        <h2>Nuestro Equipo</h2>
         {/* El resto del footer se muestra siempre; solo esta sección
              depende de la carga del equipo. */}
         {cargando && <p className="team-estado">Cargando equipo...</p>}
