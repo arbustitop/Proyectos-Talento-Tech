@@ -62,7 +62,9 @@ h2 {
 
 h1 {
   font-size: 56px;
-  letter-spacing: -1.68px;
+  /* Design review: -1.68px fijo en un título de 24px eran -0.07em y las
+     letras se pegaban (detalle del producto). En em escala con el tamaño. */
+  letter-spacing: -0.02em;
   margin: 32px 0;
   @media (max-width: 1024px) {
     font-size: 36px;
