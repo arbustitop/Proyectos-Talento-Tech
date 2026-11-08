@@ -258,7 +258,9 @@ header {
 .btn-hero-cta:hover {
   background: #6d28d9;
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
+  /* Design review: sombra neutra con desplazamiento (profundidad), no un
+     halo violeta brillando sobre el fondo oscuro. */
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.45);
 }
 
 /* Dentro del hero el fondo ya es violeta: un botón violeta se perdía
@@ -570,7 +572,6 @@ header {
 .btn-add-cart:hover {
   background: var(--accent-purple);
   color: #fff;
-  box-shadow: 0 8px 15px rgba(139, 92, 246, 0.3);
 }
 
 /* --- Footer --- */
