@@ -15,16 +15,20 @@ const MENSAJES = {
   'auth/too-many-requests': 'Demasiados intentos. Esperá unos minutos y probá de nuevo.',
   'auth/network-request-failed': 'No hay conexión. Revisá tu internet.',
   'auth/operation-not-allowed': 'El ingreso con correo no está activado en Firebase.',
+  'auth/missing-email': 'Escribí tu correo para recuperar la contraseña.',
 }
 
 function Login() {
-  const { usuario, login } = useAuth()
+  const { usuario, login, recuperarPassword } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
+  // Mensaje positivo (por ejemplo, "te mandamos un correo"): va aparte de
+  // `error` porque se muestra con otro color.
+  const [aviso, setAviso] = useState(null)
   const [enviando, setEnviando] = useState(false)
 
   // Adónde volver: la ruta protegida que nos mandó acá (ProtectedRoute la
@@ -40,6 +44,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError(null)
+    setAviso(null)
     setEnviando(true)
     try {
       await login(email.trim(), password)
@@ -50,6 +55,33 @@ function Login() {
       const codigo = err instanceof FirebaseError ? err.code : ''
       setError(MENSAJES[codigo] ?? 'No se pudo iniciar sesión. Probá de nuevo.')
       console.error('Error al iniciar sesión:', err)
+    } finally {
+      setEnviando(false)
+    }
+  }
+
+  // "Olvidé mi contraseña": usa el correo que ya está escrito arriba, así
+  // no hace falta otra pantalla. Es un botón type="button" para que no
+  // dispare el submit (ni la validación `required` de la contraseña).
+  const handleRecuperar = async () => {
+    setError(null)
+    setAviso(null)
+    const correo = email.trim()
+    if (!correo) {
+      setError(MENSAJES['auth/missing-email'])
+      return
+    }
+    setEnviando(true)
+    try {
+      await recuperarPassword(correo)
+      // Mensaje neutro a propósito: Firebase no avisa si el correo existe
+      // o no (protección contra enumeración de cuentas), así que nosotros
+      // tampoco lo afirmamos.
+      setAviso(`Si ${correo} tiene una cuenta, te llega un correo para crear una contraseña nueva. Revisá también la carpeta de spam.`)
+    } catch (err) {
+      const codigo = err instanceof FirebaseError ? err.code : ''
+      setError(MENSAJES[codigo] ?? 'No se pudo enviar el correo. Probá de nuevo.')
+      console.error('Error al recuperar contraseña:', err)
     } finally {
       setEnviando(false)
     }
@@ -81,10 +113,24 @@ function Login() {
             required
           />
         </label>
+        <button
+          type="button"
+          className="auth-link-boton"
+          onClick={handleRecuperar}
+          disabled={enviando}
+        >
+          ¿Olvidaste tu contraseña?
+        </button>
         {/* role="alert": los lectores de pantalla leen el error apenas aparece. */}
         {error && (
           <p className="auth-error" role="alert">
             {error}
+          </p>
+        )}
+        {/* role="status": se anuncia igual, pero sin interrumpir como un error. */}
+        {aviso && (
+          <p className="auth-aviso" role="status">
+            {aviso}
           </p>
         )}
         <button type="submit" className="btn-admin" disabled={enviando}>

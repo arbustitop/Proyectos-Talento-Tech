@@ -3,6 +3,7 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
   signOut,
 } from 'firebase/auth'
 import { auth, ADMIN_UID } from '../firebase/config'
@@ -39,13 +40,18 @@ export function AuthProvider({ children }) {
   // `usuario` solo, igual que en el login.
   const registro = (email, password) => createUserWithEmailAndPassword(auth, email, password)
 
+  // "Olvidé mi contraseña": Firebase le manda al correo un link para crear
+  // una contraseña nueva. La contraseña vieja nunca se puede ver (Firebase
+  // la guarda cifrada), por eso la única salida es reemplazarla.
+  const recuperarPassword = (email) => sendPasswordResetEmail(auth, email)
+
   // Derivado del usuario: no hace falta otro estado. `Boolean(ADMIN_UID)`
   // evita que, si faltara la variable en .env, un undefined === undefined
   // convierta en admin a cualquiera.
   const esAdmin = Boolean(ADMIN_UID) && usuario?.uid === ADMIN_UID
 
   return (
-    <AuthContext.Provider value={{ usuario, cargando, esAdmin, login, registro, logout }}>
+    <AuthContext.Provider value={{ usuario, cargando, esAdmin, login, registro, logout, recuperarPassword }}>
       {children}
     </AuthContext.Provider>
   )

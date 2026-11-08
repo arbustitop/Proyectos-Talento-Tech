@@ -778,6 +778,36 @@ header {
   color: var(--color-error);
 }
 
+/* "Olvidé mi contraseña": confirmación de que se mandó el correo. */
+.auth-aviso {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-main);
+  overflow-wrap: anywhere;
+}
+
+/* Botón que se ve como link ("¿Olvidaste tu contraseña?"). Es <button> y no
+   <a> porque hace una acción, no navega a otra página. */
+.auth-link-boton {
+  align-self: flex-end;
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: 0.85rem;
+  color: var(--accent-purple);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.auth-link-boton:hover {
+  color: var(--text-main);
+}
+
+.auth-link-boton:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
 /* Entrega Final: "¿No tenés cuenta? Registrate" / "¿Ya tenés cuenta?"
    abajo del formulario de login y de registro. */
 .auth-alternativa {

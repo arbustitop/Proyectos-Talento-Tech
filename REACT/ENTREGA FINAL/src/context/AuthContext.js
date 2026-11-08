@@ -11,6 +11,6 @@ import { createContext } from 'react'
 //             (email, uid...)
 //   cargando  true hasta que Firebase confirma si había una sesión guardada
 //   esAdmin   true si el usuario logueado es el dueño de la tienda
-//   login(email, password), registro(email, password) y logout(), que
-//   devuelven promesas
+//   login(email, password), registro(email, password), logout() y
+//   recuperarPassword(email), que devuelven promesas
 export const AuthContext = createContext(null)

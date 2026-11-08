@@ -30,6 +30,10 @@ export const db = getFirestore(app)
 // Final cualquiera puede registrarse en /registro.
 export const auth = getAuth(app)
 
+// Idioma de los mails que manda Firebase (por ejemplo, el de "Olvidé mi
+// contraseña"). Sin esto llegan en inglés.
+auth.languageCode = 'es'
+
 // UID del dueño de la tienda (Authentication → Usuarios, columna "UID de
 // usuario"). Solo esa cuenta ve el panel de administración. No es un
 // secreto: lo que de verdad protege los datos son las reglas de Firestore,
