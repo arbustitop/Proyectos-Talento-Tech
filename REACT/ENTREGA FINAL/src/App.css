@@ -231,7 +231,9 @@ header {
 .btn-hero-cta {
   display: inline-block;
   margin-top: 2rem;
-  background: var(--accent-purple);
+  /* Design review: blanco sobre #8b5cf6 daba 4.2:1; sobre #7c3aed, 5.7:1
+     (la misma regla que ya usan Boton y el paginador). */
+  background: var(--color-secundario);
   color: #fff;
   text-decoration: none;
   font-weight: 700;
@@ -242,9 +244,21 @@ header {
 }
 
 .btn-hero-cta:hover {
-  background: #7c3aed;
+  background: #6d28d9;
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
+}
+
+/* Dentro del hero el fondo ya es violeta: un botón violeta se perdía
+   (y en hover quedaba igual al degradé). Blanco con texto violeta oscuro
+   es lo que más se ve de la portada. */
+.hero .btn-hero-cta {
+  background: #fff;
+  color: var(--color-primario);
+}
+
+.hero .btn-hero-cta:hover {
+  background: #ede9fe;
 }
 
 /* Títulos de Sección — clase explícita, no el tag <h2> pelado (así no
