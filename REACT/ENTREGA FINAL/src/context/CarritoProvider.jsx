@@ -1,5 +1,20 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { CarritoContext } from './CarritoContext'
+
+// Clave con la que el carrito se guarda en el navegador.
+const CLAVE_STORAGE = 'carrito'
+
+// Lee el carrito guardado. try/catch: si el JSON está roto o el navegador
+// bloquea localStorage (modo privado), la tienda arranca con el carrito
+// vacío en vez de romperse.
+function leerCarritoGuardado() {
+  try {
+    const guardado = JSON.parse(localStorage.getItem(CLAVE_STORAGE))
+    return Array.isArray(guardado) ? guardado : []
+  } catch {
+    return []
+  }
+}
 
 // Entrega Final, Requerimiento 1.1: estado global del carrito con Context
 // API. Envuelve la app (ver App.jsx), así cualquier componente puede
@@ -8,7 +23,21 @@ import { CarritoContext } from './CarritoContext'
 export function CarritoProvider({ children }) {
   // Cada línea guarda los datos que necesita la vista del carrito más la
   // cantidad elegida. Se guarda el stock para no dejar pasar de ahí.
-  const [carrito, setCarrito] = useState([])
+  //
+  // useState(leerCarritoGuardado) recibe la función, no su resultado: React
+  // la llama una sola vez al montar, así no se lee localStorage en cada render.
+  const [carrito, setCarrito] = useState(leerCarritoGuardado)
+
+  // Cada vez que cambia el carrito, se guarda. Así sobrevive a un F5 o a
+  // cerrar la pestaña (antes vivía solo en memoria y se perdía al recargar).
+  useEffect(() => {
+    try {
+      localStorage.setItem(CLAVE_STORAGE, JSON.stringify(carrito))
+    } catch {
+      // Sin acceso a localStorage el carrito sigue andando, solo que no se
+      // guarda entre recargas.
+    }
+  }, [carrito])
 
   // Agregar: si el producto ya está, se le suma la cantidad a esa línea en
   // vez de repetirlo. Nunca pasa del stock disponible.
