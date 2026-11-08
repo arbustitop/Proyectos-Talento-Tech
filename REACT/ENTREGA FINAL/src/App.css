@@ -273,6 +273,28 @@ header {
   background: #ede9fe;
 }
 
+/* Design review, celular: el título de 3.5rem y 5rem de padding llenaban
+   toda la primera pantalla y no se veía ni un producto. Más compacto,
+   asoman los destacados abajo. */
+@media (max-width: 640px) {
+  .hero {
+    margin: 1.25rem auto 0;
+    padding: 2.5rem 1.25rem;
+  }
+
+  .hero h1 {
+    font-size: 2.4rem;
+  }
+
+  .hero p {
+    font-size: 1.05rem;
+  }
+
+  .hero .btn-hero-cta {
+    margin-top: 1.5rem;
+  }
+}
+
 /* Títulos de Sección — clase explícita, no el tag <h2> pelado (así no
    se le pega el tamaño/margen de "título de sección completa" a
    cualquier <h2> que aparezca en una página, como el nombre de
@@ -285,6 +307,13 @@ header {
   text-align: center;
   margin: 4rem 0 2.5rem;
   letter-spacing: -0.01em;
+}
+
+@media (max-width: 640px) {
+  .section-title {
+    font-size: 1.75rem;
+    margin: 2.5rem 0 1.5rem;
+  }
 }
 
 /* 3. Rejilla de productos. Clase 13: la arma la grilla de Bootstrap
