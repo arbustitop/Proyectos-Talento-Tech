@@ -17,10 +17,14 @@ export function CartWidget() {
       aria-label={`Carrito, ${cantidadTotal} ${cantidadTotal === 1 ? 'producto' : 'productos'}`}
     >
       <FaShoppingCart aria-hidden="true" />
-      Carrito
+      {/* En el span para poder ocultarlo en el header de celular (queda
+           solo el ícono); el aria-label del link sigue diciendo "Carrito". */}
+      <span className="cart-texto">Carrito</span>
       {/* Sin productos no se muestra el globito (un "0" es ruido). */}
+      {/* key={cantidadTotal}: cada vez que cambia el número, React crea el
+           globito de nuevo y la animación "pop" vuelve a correr. */}
       {cantidadTotal > 0 && (
-        <span className={styles.contador} aria-hidden="true">
+        <span key={cantidadTotal} className={styles.contador} aria-hidden="true">
           {cantidadTotal}
         </span>
       )}

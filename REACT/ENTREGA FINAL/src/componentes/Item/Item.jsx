@@ -11,6 +11,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { FaStar, FaRegStar, FaMinus, FaPlus, FaShoppingCart, FaCheck } from 'react-icons/fa'
 import { useCarrito } from '../../context/useCarrito'
+import { avisoPocoStock } from '../../utils/stock'
 
 export function Item({ id, nombre, precio, stock, imagen, categoria }) {
   // Los pliegos DTF (insumo para revendedores/diseñadores) se marcan
@@ -129,7 +130,10 @@ export function Item({ id, nombre, precio, stock, imagen, categoria }) {
           <span className="currency">$</span>
           <span className="price-amount">{precio.toLocaleString('es-AR')}</span>
         </div>
-        <span className="stock-tag">Stock disponible: {stock}</span>
+        {/* Solo avisa cuando queda poco (ver utils/stock.js). El <span> va
+             siempre, aunque esté vacío, para que todas las tarjetas tengan
+             el botón a la misma altura. */}
+        <span className="stock-tag stock-tag--poco">{avisoPocoStock(stock)}</span>
 
         <div className="quantity-controls">
           {/* Un botón que solo tiene un ícono necesita aria-label: si no, el

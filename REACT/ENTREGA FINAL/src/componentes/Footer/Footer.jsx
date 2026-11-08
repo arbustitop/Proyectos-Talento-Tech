@@ -3,6 +3,7 @@ import { collection, getDocs } from 'firebase/firestore'
 import { FaEnvelope, FaWhatsapp, FaInstagram, FaLinkedin } from 'react-icons/fa'
 import { db } from '../../firebase/config'
 import logo from '../../assets/bubus_header_logo.png'
+import { linkWhatsApp } from '../../utils/contacto'
 
 // Requerimiento #1 de la pre-entrega: info de empresa (propiedad
 // intelectual, políticas, contacto, newsletter) + al menos 3 tarjetas
@@ -85,7 +86,7 @@ function Footer() {
               </a>
             </li>
             <li>
-              <a href="https://wa.me/5491162767836" target="_blank" rel="noopener noreferrer">
+              <a href={linkWhatsApp()} target="_blank" rel="noopener noreferrer">
                 <FaWhatsapp aria-hidden="true" />
                 +54 11 6276-7836
               </a>

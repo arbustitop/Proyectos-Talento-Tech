@@ -9,7 +9,15 @@ import { db } from '../../firebase/config'
 // `alTerminar` avisa al panel que guardamos o cancelamos, para que vuelva
 // a poner productoAEditar en null.
 
-const VACIO = { nombre: '', precio: '', stock: '', categoria: '', imagen: '' }
+const VACIO = {
+  nombre: '',
+  precio: '',
+  stock: '',
+  categoria: '',
+  imagen: '',
+  descripcion: '',
+  destacado: false,
+}
 
 export function FormProducto({ productoAEditar, alTerminar, categorias }) {
   // Un estado por campo, todos como texto (es lo que manejan los inputs).
@@ -18,6 +26,10 @@ export function FormProducto({ productoAEditar, alTerminar, categorias }) {
   const [stock, setStock] = useState('')
   const [categoria, setCategoria] = useState('')
   const [imagen, setImagen] = useState('')
+  // Entrega Final: texto para el detalle del producto y marca para que
+  // aparezca entre los destacados del Inicio. Los dos son opcionales.
+  const [descripcion, setDescripcion] = useState('')
+  const [destacado, setDestacado] = useState(false)
   const [guardando, setGuardando] = useState(false)
 
   const modoEdicion = productoAEditar !== null
@@ -31,6 +43,9 @@ export function FormProducto({ productoAEditar, alTerminar, categorias }) {
     setStock(String(p.stock))
     setCategoria(p.categoria ?? '')
     setImagen(p.imagen ?? '')
+    // ?? porque los productos cargados antes no tienen estos campos.
+    setDescripcion(p.descripcion ?? '')
+    setDestacado(p.destacado ?? false)
   }
 
   // Requerimiento técnico: useEffect que observa productoAEditar y pasa
@@ -71,6 +86,8 @@ export function FormProducto({ productoAEditar, alTerminar, categorias }) {
       stock: stockNumero,
       categoria: categoria.trim(),
       imagen: imagen.trim(),
+      descripcion: descripcion.trim(),
+      destacado,
     }
 
     setGuardando(true)
@@ -155,6 +172,27 @@ export function FormProducto({ productoAEditar, alTerminar, categorias }) {
           onChange={(e) => setImagen(e.target.value)}
           placeholder="https://i.ibb.co/..."
         />
+      </label>
+
+      <label>
+        Descripción (se ve en el detalle del producto)
+        <textarea
+          rows={3}
+          value={descripcion}
+          onChange={(e) => setDescripcion(e.target.value)}
+          placeholder="Ej: Remera de algodón peinado 24/1 con estampado DTF frente."
+        />
+      </label>
+
+      {/* El checkbox va antes del texto y en la misma fila: así se lee
+           "[x] Destacado en el Inicio" y todo el renglón es clickeable. */}
+      <label className="admin-form-check">
+        <input
+          type="checkbox"
+          checked={destacado}
+          onChange={(e) => setDestacado(e.target.checked)}
+        />
+        Destacado en el Inicio
       </label>
 
       <div className="admin-form-acciones">

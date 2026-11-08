@@ -20,6 +20,8 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  color: inherit;
+  text-decoration: none;
 }
 
 .header-logo {
@@ -43,15 +45,94 @@
   gap: 0.5rem 1.25rem;
 }
 
-@media (max-width: 480px) {
+/* Botón ☰ y carrito "de celular": ocultos en pantallas anchas. */
+.menu-toggle,
+.header-carrito-movil {
+  display: none;
+}
+
+/* Entrega Final, celular: marca + carrito + ☰ en una fila; el menú se
+   despliega abajo, a todo el ancho, al tocar el ☰. */
+@media (max-width: 640px) {
   .main-header {
+    flex-wrap: wrap;
+    padding: 0.75rem 1rem;
+  }
+
+  /* Marca + carrito + ☰ tienen que entrar en un renglón a 375px: el
+     carrito de celular muestra solo ícono y número. */
+  .header-carrito-movil .cart-texto {
+    display: none;
+  }
+
+  .header-carrito-movil a {
+    font-size: 1.2rem;
+  }
+
+  .header-brand {
+    margin-right: auto;
+  }
+
+  .brand-name {
+    font-size: 1.05rem;
+  }
+
+  .header-carrito-movil {
+    display: block;
+  }
+
+  .header-carrito-movil a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--color-blanco, #ffffff);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+    align-items: center;
     justify-content: center;
-    text-align: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    font-size: 1.25rem;
+    color: var(--color-blanco, #ffffff);
+    background: none;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+  }
+
+  .menu-toggle:focus-visible {
+    outline: 2px solid var(--accent-purple);
+    outline-offset: 2px;
+  }
+
+  .header-nav {
+    display: none;
+    flex-basis: 100%;
+  }
+
+  .header-nav.is-open {
+    display: block;
   }
 
   .header-nav ul {
-    justify-content: center;
-    gap: 0.5rem 1rem;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .header-nav li a {
+    display: flex;
+    padding: 0.8rem 0.25rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  /* El carrito ya está afuera del menú (header-carrito-movil). */
+  .nav-carrito {
+    display: none;
   }
 }
 
@@ -212,6 +293,13 @@ header {
   scroll-margin-top: 110px;
 }
 
+/* Botón "Ver todo el catálogo" debajo de los destacados del Inicio. */
+.ver-catalogo {
+  display: flex;
+  justify-content: center;
+  margin-top: 2.5rem;
+}
+
 .catalogo-productos .barra-busqueda {
   margin-bottom: 2rem;
 }
@@ -368,6 +456,15 @@ header {
   font-size: 0.85rem;
   color: var(--text-muted);
   margin: 0.25rem 0 0;
+}
+
+/* "¡Últimas 3 unidades!": en dorado, como el precio, para que se note.
+   min-height reserva la línea aunque no haya aviso, así no se desalinean
+   los botones entre tarjetas. */
+.stock-tag--poco {
+  min-height: 1.3em;
+  font-weight: 700;
+  color: var(--accent-gold);
 }
 
 /* 4. Controles y Botones Refinados */
@@ -737,6 +834,7 @@ header {
 }
 
 .admin-form input,
+.admin-form textarea,
 .auth-card input {
   padding: 0.65rem 0.75rem;
   font: inherit;
@@ -746,10 +844,33 @@ header {
   border-radius: var(--radius-sm);
 }
 
+/* La descripción se puede agrandar solo para abajo (no rompe el ancho). */
+.admin-form textarea {
+  resize: vertical;
+}
+
 .admin-form input:focus,
+.admin-form textarea:focus,
 .auth-card input:focus {
   outline: 2px solid var(--accent-purple);
   outline-offset: 1px;
+}
+
+/* "[x] Destacado en el Inicio": checkbox y texto en la misma fila (el resto
+   de los label del form van en columna). */
+.admin-form .admin-form-check {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--text-main);
+  cursor: pointer;
+}
+
+.admin-form .admin-form-check input {
+  width: 1.1rem;
+  height: 1.1rem;
+  padding: 0;
+  accent-color: var(--accent-purple);
 }
 
 /* Login y perfil: tarjeta angosta centrada. */

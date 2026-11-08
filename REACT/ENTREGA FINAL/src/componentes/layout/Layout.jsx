@@ -2,6 +2,7 @@ import { Suspense } from 'react'
 import { Outlet } from 'react-router-dom'
 import Header from '../Header/Header'
 import Footer from '../Footer/Footer'
+import { AvisoCarrito } from '../AvisoCarrito/AvisoCarrito'
 
 function Layout() {
   return (
@@ -22,6 +23,8 @@ function Layout() {
         </Suspense>
       </main>
       <Footer />
+      {/* Entrega Final: aviso flotante al agregar al carrito. */}
+      <AvisoCarrito />
     </div>
   )
 }

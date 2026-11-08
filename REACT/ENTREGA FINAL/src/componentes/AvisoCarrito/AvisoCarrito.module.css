@@ -1,0 +1,86 @@
+/* Abajo a la derecha, por encima de todo. En celular ocupa el ancho de la
+   pantalla (con margen) para que no tape solo una esquina rara. */
+.region {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 1050;
+  max-width: min(420px, calc(100vw - 2rem));
+}
+
+.aviso {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.9rem 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--accent-purple);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-premium);
+  text-align: left;
+  animation: entrar 0.25s ease-out;
+}
+
+.icono {
+  flex-shrink: 0;
+  font-size: 1.25rem;
+  color: var(--accent-purple);
+}
+
+.texto {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-main);
+}
+
+.link {
+  flex-shrink: 0;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent-purple);
+  white-space: nowrap;
+}
+
+.link:hover {
+  color: var(--text-main);
+}
+
+.cerrar {
+  flex-shrink: 0;
+  padding: 0.25rem;
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.cerrar:hover {
+  color: var(--text-main);
+}
+
+@keyframes entrar {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Quien pidió menos movimiento en su sistema lo ve aparecer sin animación. */
+@media (prefers-reduced-motion: reduce) {
+  .aviso {
+    animation: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .region {
+    right: 1rem;
+    left: 1rem;
+    bottom: 1rem;
+    max-width: none;
+  }
+}

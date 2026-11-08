@@ -1,23 +1,28 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
+import { FaShoppingCart, FaMinus, FaPlus, FaArrowLeft } from 'react-icons/fa'
 import { obtenerCatalogo } from '../../utils/catalogo'
-import { FaShoppingCart } from 'react-icons/fa'
+import { avisoPocoStock } from '../../utils/stock'
 import { Seo } from '../../componentes/Seo/Seo'
 import { Boton } from '../../componentes/ui/Boton/Boton'
+import { ItemList } from '../../componentes/ItemList/ItemList'
 import { useCarrito } from '../../context/useCarrito'
+import styles from './DetalleProducto.module.css'
+
+// Cuántos productos mostrar en "También te puede gustar" (una fila).
+const CANTIDAD_RELACIONADOS = 3
 
 // Vista de detalle de un producto puntual (Clase 07, paso 3). El :id
 // viene de la URL vía useParams; traemos el catálogo completo (desde
 // Firestore, Clase 09, cacheado en utils/catalogo.js) y buscamos el que
 // matchea. El :id coincide con el ID del documento ("1".."20").
+// Entrega Final: el catálogo también sirve para los productos relacionados
+// (misma categoría), sin otra lectura a Firestore.
 function DetalleProducto() {
   const { id } = useParams()
-  const [producto, setProducto] = useState(null)
+  const [catalogo, setCatalogo] = useState([])
   const [cargando, setCargando] = useState(true)
   const [error, setError] = useState(null)
-  // Entrega Final: el detalle también agrega al carrito (de a una unidad;
-  // para elegir cantidad están las tarjetas del catálogo).
-  const { agregarAlCarrito, cantidadEnCarrito } = useCarrito()
 
   useEffect(() => {
     // "ignore" evita que una respuesta vieja (de un :id anterior) pise
@@ -29,11 +34,7 @@ function DetalleProducto() {
 
     obtenerCatalogo()
       .then((data) => {
-        const encontrado = data.find((prod) => prod.id === id)
-        if (!encontrado) {
-          throw new Error('Producto no encontrado')
-        }
-        if (!ignore) setProducto(encontrado)
+        if (!ignore) setCatalogo(data)
       })
       .catch((err) => {
         if (!ignore) setError(err.message)
@@ -47,8 +48,22 @@ function DetalleProducto() {
     }
   }, [id])
 
+  // Al pasar a un producto relacionado la página no se recarga: sin esto
+  // quedarías mirando la parte de abajo del producto nuevo.
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [id])
+
+  // Derivados del catálogo: no son estados aparte.
+  const producto = catalogo.find((prod) => prod.id === id)
+  const relacionados = producto
+    ? catalogo
+        .filter((p) => p.id !== producto.id && p.stock > 0 && p.categoria === producto.categoria)
+        .slice(0, CANTIDAD_RELACIONADOS)
+    : []
+
   if (cargando) {
-    return <p style={{ textAlign: 'center' }}>Cargando producto...</p>
+    return <p className="cargando-pagina">Cargando producto...</p>
   }
 
   if (error || !producto) {
@@ -59,51 +74,120 @@ function DetalleProducto() {
           descripcion="El producto que buscás no existe o ya no está en el catálogo."
           noIndexar
         />
-        <p style={{ color: 'var(--color-error, red)' }}>{error}</p>
+        <p style={{ color: 'var(--color-error, red)' }}>{error ?? 'Producto no encontrado'}</p>
         <Link to="/">Volver al inicio</Link>
       </div>
     )
   }
 
   return (
-    <div style={{ maxWidth: '480px', margin: '0 auto', textAlign: 'center' }}>
+    <>
+      {/* key: al cambiar de producto, React arma la ficha de cero y la
+           cantidad elegida vuelve a 1 (si no, quedaría la del anterior). */}
+      <FichaProducto key={producto.id} producto={producto} />
+
+      {relacionados.length > 0 && (
+        <section className="container catalogo-productos">
+          <h2 className="section-title">También te puede gustar</h2>
+          <div className="row g-4">
+            <ItemList productos={relacionados} />
+          </div>
+        </section>
+      )}
+    </>
+  )
+}
+
+function FichaProducto({ producto }) {
+  const { agregarAlCarrito, cantidadEnCarrito } = useCarrito()
+  const [cantidad, setCantidad] = useState(1)
+
+  const enCarrito = cantidadEnCarrito(producto.id)
+  // Lo que todavía se puede agregar (igual que en las tarjetas).
+  const disponible = producto.stock - enCarrito
+  const pocoStock = avisoPocoStock(producto.stock)
+
+  const handleAgregar = () => {
+    agregarAlCarrito(producto, cantidad)
+    setCantidad(1)
+  }
+
+  let textoBoton = 'Agregar al carrito'
+  if (producto.stock === 0) textoBoton = 'Sin stock'
+  else if (disponible <= 0) textoBoton = 'Ya tenés todo el stock'
+
+  return (
+    <article className={styles.ficha}>
       {/* Clase 13: título y descripción armados con los datos del
            producto, así cada detalle tiene los suyos en Google y al
            compartirlo por WhatsApp. */}
       <Seo
         titulo={producto.nombre}
-        descripcion={`${producto.nombre}${producto.categoria ? ` (${producto.categoria})` : ''} a $${producto.precio.toLocaleString('es-AR')}. Estampado DTF de BuBus Originals, pedidos por WhatsApp.`}
+        descripcion={
+          producto.descripcion ||
+          `${producto.nombre}${producto.categoria ? ` (${producto.categoria})` : ''} a $${producto.precio.toLocaleString('es-AR')}. Estampado DTF de BuBus Originals, pedidos por WhatsApp.`
+        }
       />
 
-      <Link to="/">&larr; Volver</Link>
-      {producto.imagen && (
-        <img
-          src={producto.imagen}
-          alt={producto.nombre}
-          style={{ width: '100%', borderRadius: '8px', margin: '16px 0' }}
-        />
-      )}
-      <h2 className="product-title">{producto.nombre}</h2>
-      {producto.categoria && (
-        <p style={{ color: 'var(--accent-purple)', fontWeight: 'bold' }}>{producto.categoria}</p>
-      )}
-      <p style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
-        ${producto.precio.toLocaleString('es-AR')}
-      </p>
-      <p>Stock disponible: {producto.stock}</p>
+      <Link to="/productos" className={styles.volver}>
+        <FaArrowLeft aria-hidden="true" />
+        Volver al catálogo
+      </Link>
 
-      {/* Se deshabilita si ya están todas las unidades en el carrito. */}
-      <Boton
-        type="button"
-        onClick={() => agregarAlCarrito(producto, 1)}
-        disabled={cantidadEnCarrito(producto.id) >= producto.stock}
-      >
-        <FaShoppingCart aria-hidden="true" />
-        {cantidadEnCarrito(producto.id) > 0
-          ? `Agregar otro (ya tenés ${cantidadEnCarrito(producto.id)})`
-          : 'Agregar al carrito'}
-      </Boton>
-    </div>
+      <div className={styles.grilla}>
+        <div className={styles.foto}>
+          {producto.imagen && <img src={producto.imagen} alt={producto.nombre} />}
+        </div>
+
+        <div className={styles.info}>
+          {producto.categoria && <p className={styles.categoria}>{producto.categoria}</p>}
+          <h1 className={styles.nombre}>{producto.nombre}</h1>
+
+          <div className="price-container">
+            <span className="currency">$</span>
+            <span className="price-amount">{producto.precio.toLocaleString('es-AR')}</span>
+          </div>
+          {pocoStock && <p className="stock-tag stock-tag--poco">{pocoStock}</p>}
+
+          {/* La descripción es opcional: se carga desde el panel. */}
+          {producto.descripcion && <p className={styles.descripcion}>{producto.descripcion}</p>}
+
+          {/* Mismo selector de cantidad que las tarjetas del catálogo. */}
+          <div className={styles.compra}>
+            <div className="quantity-controls">
+              <button
+                type="button"
+                onClick={() => setCantidad(cantidad - 1)}
+                disabled={cantidad <= 1 || disponible <= 0}
+                aria-label="Restar una unidad"
+              >
+                <FaMinus aria-hidden="true" />
+              </button>
+              <span aria-live="polite">{cantidad}</span>
+              <button
+                type="button"
+                onClick={() => setCantidad(cantidad + 1)}
+                disabled={cantidad >= disponible}
+                aria-label="Sumar una unidad"
+              >
+                <FaPlus aria-hidden="true" />
+              </button>
+            </div>
+
+            <Boton type="button" onClick={handleAgregar} disabled={disponible <= 0}>
+              <FaShoppingCart aria-hidden="true" />
+              {textoBoton}
+            </Boton>
+          </div>
+
+          {enCarrito > 0 && (
+            <p className={styles.enCarrito}>
+              Ya tenés {enCarrito} en el carrito. <Link to="/carrito">Ver carrito</Link>
+            </p>
+          )}
+        </div>
+      </div>
+    </article>
   )
 }
 

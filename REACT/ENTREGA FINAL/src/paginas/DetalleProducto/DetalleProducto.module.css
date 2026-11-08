@@ -1,0 +1,115 @@
+/* Entrega Final: detalle en dos columnas (foto | datos) en pantallas
+   anchas; en celular se apilan. */
+.ficha {
+  max-width: 1000px;
+  margin: 2rem auto 0;
+  padding: 0 1rem;
+  /* El sitio centra el texto por defecto; la ficha se lee mejor a la
+     izquierda, como en cualquier tienda. */
+  text-align: left;
+}
+
+.volver {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.volver:hover {
+  color: var(--accent-purple);
+}
+
+.grilla {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.foto {
+  overflow: hidden;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+}
+
+/* Cuadrada, como en las tarjetas: todas las fotos ocupan lo mismo. */
+.foto img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  text-align: left;
+}
+
+/* Categoría como etiqueta chica arriba del nombre. */
+.categoria {
+  align-self: flex-start;
+  margin: 0;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent-purple);
+  border: 1px solid var(--accent-purple);
+  border-radius: 999px;
+}
+
+.nombre {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text-main);
+}
+
+/* El precio reusa .price-container de las tarjetas, que lo centra. En la
+   ficha va alineado con el resto de los datos. :global porque es una clase
+   de App.css, no de este módulo. */
+.info :global(.price-container) {
+  justify-content: flex-start;
+}
+
+.descripcion {
+  margin: 0;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+/* Cantidad y botón en la misma fila; si no entran, el botón baja. */
+.compra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.enCarrito {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+@media (max-width: 768px) {
+  .grilla {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .nombre {
+    font-size: 1.6rem;
+  }
+}

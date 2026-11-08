@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom'
-import { FaTrashAlt, FaMinus, FaPlus } from 'react-icons/fa'
+import { FaTrashAlt, FaMinus, FaPlus, FaWhatsapp } from 'react-icons/fa'
 import { Seo } from '../../componentes/Seo/Seo'
 import { Boton } from '../../componentes/ui/Boton/Boton'
 import { useCarrito } from '../../context/useCarrito'
+import { linkWhatsApp } from '../../utils/contacto'
+import { mensajePedido } from '../../utils/pedido'
 import styles from './Carrito.module.css'
 
 // Entrega Final, Requerimiento 1.1: la vista del carrito. Lee el estado
@@ -110,6 +112,22 @@ function Carrito() {
         <p className={styles.total}>
           Total: <span>${formatear(precioTotal)}</span>
         </p>
+
+        {/* Entrega Final: el cierre de la compra. BuBus vende por WhatsApp
+             (el diseño del estampado se charla), así que el botón abre el
+             chat con el pedido ya escrito. Es un <a>, no un <button>: lleva
+             a otro sitio. El carrito no se vacía, por si el cliente vuelve. */}
+        <Boton
+          como="a"
+          href={linkWhatsApp(mensajePedido(carrito, precioTotal))}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.finalizar}
+        >
+          <FaWhatsapp aria-hidden="true" />
+          Finalizar compra por WhatsApp
+        </Boton>
+
         <div className={styles.botones}>
           <Boton type="button" variante="peligro" onClick={confirmarVaciar}>
             Vaciar carrito

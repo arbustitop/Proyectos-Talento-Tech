@@ -11,7 +11,8 @@
 // una sola vez.
 
 import { useState, useEffect, useMemo, useRef } from 'react'
-import { FaSearch } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
+import { FaSearch, FaArrowRight } from 'react-icons/fa'
 import { ItemList } from '../ItemList/ItemList'
 import { BarraBusqueda } from '../BarraBusqueda/BarraBusqueda'
 import { EstadoCatalogo } from '../ui/EstadoCatalogo/EstadoCatalogo'
@@ -24,7 +25,10 @@ import { normalizar } from '../../utils/normalizar'
 // tres filas en tablet (2 por fila): ninguna página queda con un hueco.
 const PRODUCTOS_POR_PAGINA = 6
 
-export function ItemListContainer({ Mensaje }) {
+// `limite` (opcional): modo "destacados" para el Inicio. Muestra solo esa
+// cantidad de productos, sin buscador ni paginador, y un botón al catálogo
+// completo. Sin `limite` es el catálogo entero de /productos.
+export function ItemListContainer({ Mensaje, limite }) {
   const [products, setProducts] = useState([])
   const [cargando, setCargando] = useState(true)
   const [error, setError] = useState(null)
@@ -120,6 +124,29 @@ export function ItemListContainer({ Mensaje }) {
         <EstadoCatalogo error role="alert">
           <p>Error: {error}</p>
         </EstadoCatalogo>
+      </section>
+    )
+  }
+
+  // Modo destacados: los que el admin marcó con "Destacado" en el panel; si
+  // no marcó ninguno, los primeros del catálogo. Siempre con stock.
+  if (limite) {
+    const conStockLista = products.filter((prod) => prod.stock > 0)
+    const marcados = conStockLista.filter((prod) => prod.destacado)
+    const destacados = (marcados.length > 0 ? marcados : conStockLista).slice(0, limite)
+
+    return (
+      <section className="container catalogo-productos">
+        {titulo}
+        <div className="row g-4">
+          <ItemList productos={destacados} />
+        </div>
+        <div className="ver-catalogo">
+          <Boton como={Link} to="/productos" variante="contorno">
+            Ver todo el catálogo ({conStock} productos)
+            <FaArrowRight aria-hidden="true" />
+          </Boton>
+        </div>
       </section>
     )
   }

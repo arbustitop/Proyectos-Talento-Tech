@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { CarritoContext } from './CarritoContext'
 
 // Clave con la que el carrito se guarda en el navegador.
@@ -39,6 +39,14 @@ export function CarritoProvider({ children }) {
     }
   }, [carrito])
 
+  // Aviso flotante "Agregaste ... al carrito" (lo muestra AvisoCarrito en
+  // el Layout). Guarda qué se agregó y un id que cambia en cada agregado,
+  // así dos agregados seguidos del mismo producto reinician el aviso.
+  const [aviso, setAviso] = useState(null)
+  // useCallback: la misma función en cada render, así AvisoCarrito puede
+  // usarla en su useEffect sin que el timer se reinicie a cada rato.
+  const cerrarAviso = useCallback(() => setAviso(null), [])
+
   // Agregar: si el producto ya está, se le suma la cantidad a esa línea en
   // vez de repetirlo. Nunca pasa del stock disponible.
   //
@@ -64,6 +72,7 @@ export function CarritoProvider({ children }) {
       const { id, nombre, precio, imagen, stock } = producto
       return [...prev, { id, nombre, precio, imagen, stock, cantidad: Math.min(cantidad, stock) }]
     })
+    setAviso({ id: Date.now(), nombre: producto.nombre, cantidad })
   }
 
   // +1 / -1 desde la página del carrito. Mismos topes que en las tarjetas:
@@ -114,6 +123,8 @@ export function CarritoProvider({ children }) {
         cantidadEnCarrito,
         cantidadTotal,
         precioTotal,
+        aviso,
+        cerrarAviso,
       }}
     >
       {children}

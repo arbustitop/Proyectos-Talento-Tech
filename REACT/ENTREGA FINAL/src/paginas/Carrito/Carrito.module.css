@@ -110,6 +110,16 @@
   gap: 12px;
 }
 
+/* "Finalizar compra": la acción principal, en su propia fila y a todo el
+   ancho, abajo del total y de los botones secundarios (order: 3). */
+.finalizar {
+  order: 3;
+  flex-basis: 100%;
+  justify-content: center;
+  padding-block: 0.9rem;
+  font-size: 1.05rem;
+}
+
 /* Celular: la foto se achica y el subtotal pasa abajo de los datos. */
 @media (max-width: 480px) {
   .linea {

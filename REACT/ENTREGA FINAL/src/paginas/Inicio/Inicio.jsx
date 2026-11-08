@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { ItemListContainer } from '../../componentes/ItemListContainer/ItemListContainer'
 import { Seo } from '../../componentes/Seo/Seo'
 
@@ -17,13 +18,15 @@ function Inicio() {
           Estampados DTF con presentación profesional: remeras, buzos, camperas y accesorios
           personalizados a tu gusto.
         </p>
-        <a href="#catalogo" className="btn-hero-cta">
+        <Link to="/productos" className="btn-hero-cta">
           Ver Catálogo
-        </a>
+        </Link>
       </section>
 
+      {/* Entrega Final: el Inicio muestra solo 6 destacados (dos filas); el
+           catálogo completo, con buscador y paginador, está en /productos. */}
       <div id="catalogo">
-        <ItemListContainer Mensaje="Productos Destacados" />
+        <ItemListContainer Mensaje="Productos Destacados" limite={6} />
       </div>
     </div>
   )

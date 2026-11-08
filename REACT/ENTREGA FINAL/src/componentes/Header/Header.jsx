@@ -1,10 +1,28 @@
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import logo from '../../assets/bubus_header_logo.png'
-import { FaUser, FaSignInAlt, FaBoxOpen, FaTicketAlt } from 'react-icons/fa'
+import { FaUser, FaSignInAlt, FaBoxOpen, FaTicketAlt, FaBars, FaTimes } from 'react-icons/fa'
 import { useAuth } from '../../context/useAuth'
 import { CartWidget } from '../CartWidget/CartWidget'
 
 function Header() {
+  // Entrega Final, celular: el menú se esconde detrás de un botón (☰) para
+  // que no ocupe dos renglones. En pantallas anchas este estado no se usa:
+  // el CSS muestra el menú siempre.
+  const [menuAbierto, setMenuAbierto] = useState(false)
+  const cerrarMenu = () => setMenuAbierto(false)
+
+  // Con el menú abierto, Escape lo cierra (lo que se espera de un menú
+  // desplegable con teclado).
+  useEffect(() => {
+    if (!menuAbierto) return
+    const alApretar = (e) => {
+      if (e.key === 'Escape') setMenuAbierto(false)
+    }
+    document.addEventListener('keydown', alApretar)
+    return () => document.removeEventListener('keydown', alApretar)
+  }, [menuAbierto])
+
   // Clase 12: "Mi perfil" solo aparece con sesión abierta; sin sesión,
   // "Ingresar". Entrega Final: Panel y Cupones, solo para el admin.
   // Clase 13: los links con acción (carrito, panel, cuenta) llevan ícono
@@ -14,13 +32,39 @@ function Header() {
 
   return (
     <header className="main-header">
-      <div className="header-brand">
-        <img src={logo} alt="BuBus Originals" className="header-logo" />
+      {/* La marca lleva al Inicio, como en casi cualquier tienda. alt vacío:
+           el nombre ya está escrito al lado. */}
+      <Link to="/" className="header-brand" onClick={cerrarMenu}>
+        <img src={logo} alt="" className="header-logo" />
         <span className="brand-name">BuBus Originals</span>
+      </Link>
+
+      {/* Solo en celular: el carrito queda siempre a mano, afuera del menú.
+           En pantallas anchas este div está oculto (display: none, que
+           también lo saca del lector de pantalla), así no hay dos carritos. */}
+      <div className="header-carrito-movil">
+        <CartWidget />
       </div>
 
-      <nav className="header-nav">
-        <ul>
+      <button
+        type="button"
+        className="menu-toggle"
+        onClick={() => setMenuAbierto(!menuAbierto)}
+        aria-expanded={menuAbierto}
+        aria-controls="menu-principal"
+        aria-label={menuAbierto ? 'Cerrar menú' : 'Abrir menú'}
+      >
+        {menuAbierto ? <FaTimes aria-hidden="true" /> : <FaBars aria-hidden="true" />}
+      </button>
+
+      <nav id="menu-principal" className={`header-nav${menuAbierto ? ' is-open' : ''}`}>
+        {/* Cualquier link que se toque cierra el menú (el clic sube desde el
+             link hasta la lista). Enter con el teclado también genera clic. */}
+        <ul
+          onClick={(e) => {
+            if (e.target.closest('a')) cerrarMenu()
+          }}
+        >
           <li>
             <Link to="/">Inicio</Link>
           </li>
@@ -34,7 +78,8 @@ function Header() {
           </li>
           {/* Entrega Final: el link al carrito con el contador de
                unidades, que lee el CarritoContext. */}
-          <li>
+          {/* En celular este se oculta: está el de header-carrito-movil. */}
+          <li className="nav-carrito">
             <CartWidget />
           </li>
           {/* Mientras Firebase revisa la sesión no mostramos ninguno, así

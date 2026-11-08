@@ -15,4 +15,6 @@ import { createContext } from 'react'
 //   cantidadEnCarrito(id)   cuántas unidades de ese producto ya hay
 //   cantidadTotal           unidades en total (el número del nav)
 //   precioTotal             suma de precio × cantidad
+//   aviso / cerrarAviso()   el último agregado ({ id, nombre, cantidad }),
+//                           para el aviso flotante de AvisoCarrito
 export const CarritoContext = createContext(null)

@@ -1,18 +1,29 @@
 /* El componente pagination de Bootstrap toma sus colores de variables
    --bs-pagination-*. En vez de pisar cada regla, se cambian esas variables
-   dentro del paginador y Bootstrap hace el resto. */
+   y Bootstrap hace el resto.
+
+   Ojo: Bootstrap declara esas variables EN el propio <ul class="pagination">.
+   Si se ponen en el <nav> de afuera, el <ul> las vuelve a definir y gana el
+   azul por defecto. Por eso van sobre .pagination, dentro del paginador.
+   :global() porque "pagination" es una clase de Bootstrap: sin él, el CSS
+   Module le cambiaría el nombre y no encontraría al <ul>. */
 .paginador {
   margin-top: 2rem;
+}
 
+.paginador :global(.pagination) {
   --bs-pagination-color: var(--text-main);
   --bs-pagination-bg: var(--bg-card);
   --bs-pagination-border-color: var(--border-color);
   --bs-pagination-hover-color: var(--text-main);
   --bs-pagination-hover-bg: #1f1f24;
   --bs-pagination-hover-border-color: var(--accent-purple);
+  --bs-pagination-focus-color: var(--text-main);
+  --bs-pagination-focus-bg: #1f1f24;
   --bs-pagination-focus-box-shadow: 0 0 0 0.2rem rgba(139, 92, 246, 0.4);
   /* Página actual: el violeta oscuro de los botones (con texto blanco
      encima, el claro no llega al contraste mínimo). */
+  --bs-pagination-active-color: #fff;
   --bs-pagination-active-bg: #7c3aed;
   --bs-pagination-active-border-color: #7c3aed;
   --bs-pagination-disabled-color: var(--text-muted);
