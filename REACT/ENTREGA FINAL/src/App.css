@@ -557,20 +557,22 @@ header {
   gap: 0.5rem;
   width: 100%;
   background: transparent;
-  color: var(--accent-purple);
+  /* Design review: #8b5cf6 como texto sobre la card daba 4.3:1; #a78bfa
+     da 6.8:1. Sin mayúsculas: mismo "Agregar al carrito" que en el
+     detalle, y seis botones en mayúscula por pantalla gritaban. */
+  color: #a78bfa;
   border: 2px solid var(--accent-purple);
   padding: 0.85rem;
   border-radius: var(--radius-sm);
   font-weight: 700;
-  font-size: 0.95rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  font-size: 1rem;
   cursor: pointer;
   transition: var(--transition-slow);
 }
 
 .btn-add-cart:hover {
-  background: var(--accent-purple);
+  background: var(--color-secundario);
+  border-color: var(--color-secundario);
   color: #fff;
 }
 
