@@ -32,4 +32,33 @@ describe('ScrollArriba', () => {
     expect(screen.getByText('Página de contacto')).toBeTruthy()
     expect(scrollTo).toHaveBeenCalledWith(0, 0)
   })
+
+  // El link "Política de privacidad" del footer va a /legales#privacidad:
+  // tiene que bajar hasta esa sección, no quedarse arriba.
+  it('con un # en la URL baja hasta esa sección en vez de ir arriba', () => {
+    const scrollTo = vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+    // jsdom tampoco implementa scrollIntoView: se agrega un espía al
+    // prototipo de los elementos.
+    const scrollIntoView = vi.fn()
+    Element.prototype.scrollIntoView = scrollIntoView
+
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <ScrollArriba />
+        <Routes>
+          <Route path="/" element={<Link to="/legales#privacidad">Privacidad</Link>} />
+          <Route path="/legales" element={<h2 id="privacidad">Privacidad</h2>} />
+        </Routes>
+      </MemoryRouter>,
+    )
+    scrollTo.mockClear()
+
+    fireEvent.click(screen.getByRole('link', { name: 'Privacidad' }))
+
+    expect(scrollIntoView).toHaveBeenCalledTimes(1)
+    expect(scrollIntoView.mock.contexts[0].id).toBe('privacidad')
+    expect(scrollTo).not.toHaveBeenCalled()
+
+    delete Element.prototype.scrollIntoView
+  })
 })

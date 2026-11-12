@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { FaEnvelope, FaWhatsapp, FaInstagram } from 'react-icons/fa'
 import logo from '../../assets/bubus_header_logo.png'
 import {
@@ -62,12 +63,15 @@ function Footer() {
 
         <div className="footer-col">
           <h2>Legal</h2>
+          {/* Antes los dos iban a "#". Ahora llevan a la página /legales:
+               los términos desde el principio y la privacidad directo a su
+               sección (el salto al #privacidad lo hace ScrollArriba). */}
           <ul>
             <li>
-              <a href="#">Política de Privacidad</a>
+              <Link to="/legales#privacidad">Política de privacidad</Link>
             </li>
             <li>
-              <a href="#">Términos y Condiciones</a>
+              <Link to="/legales">Términos y condiciones</Link>
             </li>
           </ul>
         </div>

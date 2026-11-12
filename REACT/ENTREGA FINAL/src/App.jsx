@@ -10,6 +10,10 @@ import Productos from './paginas/Productos/Productos'
 import DetalleProducto from './paginas/DetalleProducto/DetalleProducto'
 import Carrito from './paginas/Carrito/Carrito'
 import Contacto from './paginas/Contacto/Contacto'
+// Legales se importa normal (no con lazy): el link "Política de privacidad"
+// salta a /legales#privacidad, y con lazy la sección todavía no existiría
+// en el momento en que ScrollArriba la busca.
+import Legales from './paginas/Legales/Legales'
 import NotFound from './paginas/NotFound/NotFound'
 
 // Clase 13, rendimiento: carga diferida (code splitting). Login, registro,
@@ -47,6 +51,7 @@ function App() {
               <Route path="/carrito" element={<Carrito />} />
               <Route path="/contacto" element={<Contacto />} />
               <Route path="/nosotros" element={<Nosotros />} />
+              <Route path="/legales" element={<Legales />} />
               <Route path="/login" element={<Login />} />
               <Route path="/registro" element={<Registro />} />
 

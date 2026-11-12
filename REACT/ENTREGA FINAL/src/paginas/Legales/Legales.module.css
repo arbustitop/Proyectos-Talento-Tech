@@ -1,0 +1,95 @@
+/* Texto legal: columna angosta (unos 70 caracteres por renglón, lo más
+   cómodo para leer texto largo) y alineado a la izquierda, como Contacto y
+   Nosotros. */
+.legales {
+  max-width: 720px;
+  margin: 3rem auto 0;
+  padding: 0 1.25rem;
+  text-align: left;
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+
+.titulo {
+  font-family: var(--font-heading);
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: #fff;
+  margin: 0 0 0.5rem;
+}
+
+.subtitulo {
+  margin: 0 0 2rem;
+  font-size: 1rem;
+}
+
+/* Índice en una caja apenas marcada, para separarlo del texto corrido. */
+.indice {
+  margin-bottom: 2.5rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+}
+
+/* Los títulos ya traen el número ("1. ..."): sin la numeración de la
+   lista, que lo repetiría. */
+.indice ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.indice li + li {
+  margin-top: 0.35rem;
+}
+
+.indice a {
+  color: #c4b5fd;
+  text-decoration: none;
+}
+
+.indice a:hover {
+  text-decoration: underline;
+}
+
+/* Títulos de sección. scroll-margin-top: al saltar desde el índice o desde
+   /legales#privacidad, el header fijo (sticky) taparía el título; así
+   queda un espacio libre arriba. */
+.seccion {
+  scroll-margin-top: 110px;
+  margin: 2.5rem 0 0.75rem;
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: #fff;
+}
+
+/* Los links dentro del texto (mail, punto 8, AAIP) en el lila de la marca,
+   subrayados para que se distingan del texto común. */
+.legales p a,
+.legales li a {
+  color: #c4b5fd;
+}
+
+.legales strong {
+  color: var(--text-main);
+}
+
+.lugar {
+  margin-top: 2rem;
+  font-style: italic;
+}
+
+@media (max-width: 640px) {
+  .legales {
+    margin-top: 2rem;
+  }
+
+  .titulo {
+    font-size: 1.75rem;
+  }
+}

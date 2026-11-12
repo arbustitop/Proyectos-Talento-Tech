@@ -40,5 +40,14 @@ describe('Layout', () => {
     const pie = screen.getByRole('contentinfo')
     expect(within(pie).queryByText('Nuestro equipo')).toBeNull()
     expect(within(pie).getByText(/Estampamos con DTF/)).toBeTruthy()
+
+    // Los links legales ya no van a "#": llevan a /legales (y la privacidad,
+    // directo a su sección).
+    expect(within(pie).getByRole('link', { name: 'Términos y condiciones' }).getAttribute('href')).toBe(
+      '/legales',
+    )
+    expect(within(pie).getByRole('link', { name: 'Política de privacidad' }).getAttribute('href')).toBe(
+      '/legales#privacidad',
+    )
   })
 })
