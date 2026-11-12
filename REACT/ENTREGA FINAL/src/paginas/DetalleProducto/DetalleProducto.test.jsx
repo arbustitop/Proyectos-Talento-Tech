@@ -81,4 +81,39 @@ describe('DetalleProducto', () => {
     )
     expect(obtenerCatalogo).toHaveBeenCalledTimes(2)
   })
+
+  it('pide talle y color antes de agregar una prenda', async () => {
+    obtenerCatalogo.mockResolvedValue([buzo])
+    montarDetalle('4')
+    const agregar = await screen.findByRole('button', { name: /Agregar al carrito/ })
+
+    // Sin elegir: avisa qué falta y no agrega nada.
+    fireEvent.click(agregar)
+    expect(screen.getByRole('alert').textContent).toBe('Elegí talle y color antes de agregarlo.')
+    expect(screen.queryByText(/Ya tenés/)).toBeNull()
+
+    // Los talles son radio buttons: se elige uno por grupo.
+    fireEvent.click(screen.getByRole('radio', { name: 'M' }))
+    expect(screen.getByRole('alert').textContent).toBe('Elegí color antes de agregarlo.')
+    fireEvent.click(screen.getByRole('radio', { name: 'Negro' }))
+    fireEvent.click(agregar)
+
+    expect(screen.queryByRole('alert')).toBeNull()
+    expect(screen.getByText(/Ya tenés 1 en el carrito/)).toBeTruthy()
+  })
+
+  it('con una sola foto no muestra miniaturas; con varias, cambian la foto grande', async () => {
+    obtenerCatalogo.mockResolvedValue([
+      { ...buzo, imagen: 'https://x.test/frente.jpg', fotos: ['https://x.test/espalda.jpg'] },
+    ])
+    montarDetalle('4')
+    await screen.findByRole('heading', { level: 1 })
+
+    const grande = screen.getByAltText('Buzo Canguro Estampado, foto 1 de 2')
+    fireEvent.click(screen.getByRole('button', { name: 'Ver foto 2 de 2' }))
+    expect(grande.getAttribute('src')).toBe('https://x.test/espalda.jpg')
+    expect(screen.getByRole('button', { name: 'Ver foto 2 de 2' }).getAttribute('aria-pressed')).toBe(
+      'true',
+    )
+  })
 })

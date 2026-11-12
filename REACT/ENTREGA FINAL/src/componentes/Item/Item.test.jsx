@@ -25,6 +25,8 @@ function montarCard(producto) {
 }
 
 const buzo = { id: '4', nombre: 'Buzo Canguro', categoria: 'Buzos DTF', precio: 40000, stock: 2, imagen: '' }
+// Una mochila no tiene talle ni color: se agrega directo desde la tarjeta.
+const mochila = { id: '8', nombre: 'Mochila Estampada', categoria: 'Mochilas DTF', precio: 40000, stock: 2, imagen: '' }
 
 describe('Item: tarjeta de producto', () => {
   afterEach(() => {
@@ -41,9 +43,16 @@ describe('Item: tarjeta de producto', () => {
     expect(screen.queryByLabelText(/favoritos/)).toBeNull()
   })
 
-  it('suma de a una unidad y se apaga al llegar al stock', () => {
+  it('una prenda con talle lleva al detalle a elegirlo en vez de agregar', () => {
     montarCard(buzo)
-    const boton = screen.getByRole('button', { name: 'Agregar Buzo Canguro al carrito' })
+    const elegir = screen.getByRole('link', { name: 'Elegir talle y color de Buzo Canguro' })
+    expect(elegir.getAttribute('href')).toBe('/producto/4')
+    expect(screen.queryByRole('button', { name: /Agregar/ })).toBeNull()
+  })
+
+  it('sin talle suma de a una unidad y se apaga al llegar al stock', () => {
+    montarCard(mochila)
+    const boton = screen.getByRole('button', { name: 'Agregar Mochila Estampada al carrito' })
 
     fireEvent.click(boton)
     expect(carrito.cantidadTotal).toBe(1)

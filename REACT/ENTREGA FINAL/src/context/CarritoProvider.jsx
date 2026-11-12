@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { CarritoContext } from './CarritoContext'
+import { claveLinea } from '../utils/variantes'
 
 // Clave con la que el carrito se guarda en el navegador.
 const CLAVE_STORAGE = 'carrito'
@@ -47,8 +48,24 @@ export function CarritoProvider({ children }) {
   // usarla en su useEffect sin que el timer se reinicie a cada rato.
   const cerrarAviso = useCallback(() => setAviso(null), [])
 
-  // Agregar: si el producto ya está, se le suma la cantidad a esa línea en
-  // vez de repetirlo. Nunca pasa del stock disponible.
+  // Cada línea del carrito es un producto en un talle y color (ver
+  // claveLinea en utils/variantes.js): "Remera M negra" y "Remera L blanca"
+  // son dos líneas aunque sean el mismo producto. El stock, en cambio, es
+  // uno solo por producto, así que el tope de una línea descuenta lo que ya
+  // ocupan las otras variantes del mismo producto.
+  //
+  // Las líneas guardadas antes de que existieran los talles no tienen
+  // `clave`: se usa el id, que es justo la clave de un producto sin talle.
+  const claveDe = (linea) => linea.clave ?? linea.id
+
+  // Unidades del producto `id` que ya están en OTRAS líneas (no en `clave`).
+  const ocupadasPorOtras = (lineas, id, clave) =>
+    lineas
+      .filter((linea) => linea.id === id && claveDe(linea) !== clave)
+      .reduce((total, linea) => total + linea.cantidad, 0)
+
+  // Agregar: si esa variante ya está, se le suma la cantidad a su línea en
+  // vez de repetirla. Nunca pasa del stock disponible.
   //
   // setCarrito recibe una función (prev => ...) porque el nuevo carrito
   // depende del anterior: así, si se agregan dos cosas seguidas, la segunda
@@ -57,54 +74,71 @@ export function CarritoProvider({ children }) {
   // Nunca se modifica `prev` (ni con push ni cambiando una línea): se arma
   // un array nuevo. React compara por referencia; si fuera el mismo array,
   // no se daría cuenta de que cambió y no volvería a dibujar.
-  const agregarAlCarrito = (producto, cantidad = 1) => {
+  const agregarAlCarrito = (producto, cantidad = 1, { talle, color } = {}) => {
+    const clave = claveLinea(producto.id, talle, color)
+
     setCarrito((prev) => {
-      const existente = prev.find((linea) => linea.id === producto.id)
+      const tope = producto.stock - ocupadasPorOtras(prev, producto.id, clave)
+      const existente = prev.find((linea) => claveDe(linea) === clave)
 
       if (existente) {
         return prev.map((linea) =>
-          linea.id === producto.id
-            ? { ...linea, cantidad: Math.min(linea.cantidad + cantidad, linea.stock) }
+          claveDe(linea) === clave
+            ? { ...linea, cantidad: Math.min(linea.cantidad + cantidad, tope) }
             : linea,
         )
       }
 
       const { id, nombre, precio, imagen, stock } = producto
-      return [...prev, { id, nombre, precio, imagen, stock, cantidad: Math.min(cantidad, stock) }]
+      const nueva = { clave, id, nombre, precio, imagen, stock, cantidad: Math.min(cantidad, tope) }
+      // talle y color solo se guardan si existen (un pliego no tiene).
+      if (talle) nueva.talle = talle
+      if (color) nueva.color = color
+      return [...prev, nueva]
     })
     setAviso({ id: Date.now(), nombre: producto.nombre, cantidad })
   }
 
-  // +1 / -1 desde la página del carrito. Mismos topes que en las tarjetas:
-  // no pasa del stock ni baja de 1 (para sacar el producto entero está
-  // "Eliminar", así nadie lo borra sin querer apretando "-").
-  const incrementarCantidad = (id) => {
+  // +1 / -1 desde la página del carrito. No pasa del stock (contando las
+  // otras variantes) ni baja de 1 (para sacar la línea entera está
+  // "Eliminar", así nadie la borra sin querer apretando "-").
+  const incrementarCantidad = (clave) => {
+    setCarrito((prev) =>
+      prev.map((linea) => {
+        if (claveDe(linea) !== clave) return linea
+        const tope = linea.stock - ocupadasPorOtras(prev, linea.id, clave)
+        return { ...linea, cantidad: Math.min(linea.cantidad + 1, tope) }
+      }),
+    )
+  }
+
+  const decrementarCantidad = (clave) => {
     setCarrito((prev) =>
       prev.map((linea) =>
-        linea.id === id ? { ...linea, cantidad: Math.min(linea.cantidad + 1, linea.stock) } : linea,
+        claveDe(linea) === clave ? { ...linea, cantidad: Math.max(linea.cantidad - 1, 1) } : linea,
       ),
     )
   }
 
-  const decrementarCantidad = (id) => {
-    setCarrito((prev) =>
-      prev.map((linea) =>
-        linea.id === id ? { ...linea, cantidad: Math.max(linea.cantidad - 1, 1) } : linea,
-      ),
-    )
-  }
-
-  // Eliminar: saca la línea entera de ese producto (todas sus unidades).
-  const eliminarDelCarrito = (id) => {
-    setCarrito((prev) => prev.filter((linea) => linea.id !== id))
+  // Eliminar: saca la línea entera (todas sus unidades).
+  const eliminarDelCarrito = (clave) => {
+    setCarrito((prev) => prev.filter((linea) => claveDe(linea) !== clave))
   }
 
   const vaciarCarrito = () => {
     setCarrito([])
   }
 
-  // Lo usa Item para saber cuántas unidades puede agregar todavía.
-  const cantidadEnCarrito = (id) => carrito.find((linea) => linea.id === id)?.cantidad ?? 0
+  // Unidades de un producto en el carrito, sumando todas sus variantes. Lo
+  // usan Item y el detalle para saber cuánto se puede agregar todavía.
+  const cantidadEnCarrito = (id) =>
+    carrito.filter((linea) => linea.id === id).reduce((total, linea) => total + linea.cantidad, 0)
+
+  // Para el botón "+" del carrito: si esa línea todavía puede sumar una.
+  const puedeSumar = (clave) => {
+    const linea = carrito.find((l) => claveDe(l) === clave)
+    return Boolean(linea) && linea.cantidad < linea.stock - ocupadasPorOtras(carrito, linea.id, clave)
+  }
 
   // Totales derivados: se calculan del carrito en cada render en vez de
   // guardarlos en otro estado, así nunca quedan desfasados.
@@ -121,6 +155,7 @@ export function CarritoProvider({ children }) {
         eliminarDelCarrito,
         vaciarCarrito,
         cantidadEnCarrito,
+        puedeSumar,
         cantidadTotal,
         precioTotal,
         aviso,

@@ -17,6 +17,7 @@ const VACIO = {
   imagen: '',
   descripcion: '',
   destacado: false,
+  fotos: [],
 }
 
 export function FormProducto({ productoAEditar, alTerminar, categorias }) {
@@ -30,6 +31,10 @@ export function FormProducto({ productoAEditar, alTerminar, categorias }) {
   // aparezca entre los destacados del Inicio. Los dos son opcionales.
   const [descripcion, setDescripcion] = useState('')
   const [destacado, setDestacado] = useState(false)
+  // Galería del detalle: fotos además de la principal (espalda, detalle de
+  // la estampa). En el formulario es un texto con una URL por línea; en
+  // Firestore se guarda como lista (array).
+  const [fotosExtra, setFotosExtra] = useState('')
   const [guardando, setGuardando] = useState(false)
 
   const modoEdicion = productoAEditar !== null
@@ -46,6 +51,7 @@ export function FormProducto({ productoAEditar, alTerminar, categorias }) {
     // ?? porque los productos cargados antes no tienen estos campos.
     setDescripcion(p.descripcion ?? '')
     setDestacado(p.destacado ?? false)
+    setFotosExtra((p.fotos ?? []).join('\n'))
   }
 
   // Requerimiento técnico: useEffect que observa productoAEditar y pasa
@@ -88,6 +94,11 @@ export function FormProducto({ productoAEditar, alTerminar, categorias }) {
       imagen: imagen.trim(),
       descripcion: descripcion.trim(),
       destacado,
+      // Una URL por renglón; se descartan los renglones vacíos.
+      fotos: fotosExtra
+        .split('\n')
+        .map((url) => url.trim())
+        .filter(Boolean),
     }
 
     setGuardando(true)
@@ -181,6 +192,16 @@ export function FormProducto({ productoAEditar, alTerminar, categorias }) {
           value={descripcion}
           onChange={(e) => setDescripcion(e.target.value)}
           placeholder="Ej: Remera de algodón peinado 24/1 con estampado DTF frente."
+        />
+      </label>
+
+      <label>
+        Fotos extra para la galería (una URL por renglón)
+        <textarea
+          rows={3}
+          value={fotosExtra}
+          onChange={(e) => setFotosExtra(e.target.value)}
+          placeholder={'https://i.ibb.co/.../espalda.jpg\nhttps://i.ibb.co/.../detalle.jpg'}
         />
       </label>
 

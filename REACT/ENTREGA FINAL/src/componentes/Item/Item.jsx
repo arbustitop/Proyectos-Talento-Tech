@@ -19,8 +19,9 @@ import { FaPlus, FaCheck, FaTshirt } from 'react-icons/fa'
 import { useCarrito } from '../../context/useCarrito'
 import { avisoPocoStock } from '../../utils/stock'
 import { nombreCategoria } from '../../utils/categorias'
+import { tieneVariantes } from '../../utils/variantes'
 
-export function Item({ id, nombre, precio, stock, imagen, categoria }) {
+export function Item({ id, nombre, precio, stock, imagen, categoria, talles, colores }) {
   const { agregarAlCarrito, cantidadEnCarrito } = useCarrito()
 
   // Lo que todavía se puede agregar: el stock menos lo que ya está en el
@@ -59,6 +60,9 @@ export function Item({ id, nombre, precio, stock, imagen, categoria }) {
 
   const etiqueta = nombreCategoria(categoria)
   const pocoStock = avisoPocoStock(stock)
+  // Remeras, buzos y camperas necesitan talle y color: desde la tarjeta no
+  // se pueden agregar, el botón lleva al detalle a elegirlos.
+  const conTalle = tieneVariantes({ categoria, talles, colores })
 
   return (
     <article className="product-card">
@@ -97,6 +101,15 @@ export function Item({ id, nombre, precio, stock, imagen, categoria }) {
 
         <div className="product-pie">
           <p className="product-precio">${precio.toLocaleString('es-AR')}</p>
+          {conTalle && stock > 0 ? (
+            <Link
+              to={`/producto/${id}`}
+              className="btn-add-cart"
+              aria-label={`Elegir talle y color de ${nombre}`}
+            >
+              Elegir talle
+            </Link>
+          ) : (
           <button
             type="button"
             className="btn-add-cart"
@@ -109,6 +122,7 @@ export function Item({ id, nombre, precio, stock, imagen, categoria }) {
             {agregado ? <FaCheck aria-hidden="true" /> : <FaPlus aria-hidden="true" />}
             {textoBoton}
           </button>
+          )}
         </div>
       </div>
     </article>

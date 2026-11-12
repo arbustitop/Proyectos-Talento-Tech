@@ -5,6 +5,7 @@ import { Boton } from '../../componentes/ui/Boton/Boton'
 import { useCarrito } from '../../context/useCarrito'
 import { linkWhatsApp } from '../../utils/contacto'
 import { mensajePedido } from '../../utils/pedido'
+import { describirVariante } from '../../utils/variantes'
 import styles from './Carrito.module.css'
 
 // Entrega Final, Requerimiento 1.1: la vista del carrito. Lee el estado
@@ -19,6 +20,7 @@ function Carrito() {
     eliminarDelCarrito,
     vaciarCarrito,
     precioTotal,
+    puedeSumar,
   } = useCarrito()
 
   // Precio con separador de miles argentino: 12000 → "12.000".
@@ -54,8 +56,15 @@ function Carrito() {
       <h1 className="section-title">Tu carrito</h1>
 
       <ul className={styles.lista}>
-        {carrito.map((linea) => (
-          <li key={linea.id} className={styles.linea}>
+        {carrito.map((linea) => {
+          // Cada línea es un producto en un talle y color: la clave los
+          // distingue (las líneas viejas, sin talle, usan el id).
+          const clave = linea.clave ?? linea.id
+          const variante = describirVariante(linea)
+          // Para los aria-label: "Buzo Canguro (Talle M · Negro)".
+          const nombreCompleto = variante ? `${linea.nombre} (${variante})` : linea.nombre
+          return (
+          <li key={clave} className={styles.linea}>
             {/* alt vacío: la foto repite lo que ya dice el nombre de al lado,
                  el lector de pantalla no necesita oírlo dos veces. */}
             <img src={linea.imagen} alt="" className={styles.foto} />
@@ -64,6 +73,7 @@ function Carrito() {
               <Link to={`/producto/${linea.id}`} className={styles.nombre}>
                 {linea.nombre}
               </Link>
+              {variante && <p className={styles.variante}>{variante}</p>}
               <p className={styles.detalle}>${formatear(linea.precio)} c/u</p>
 
               {/* Mismos controles (y misma clase) que las tarjetas del
@@ -72,9 +82,9 @@ function Carrito() {
               <div className={`quantity-controls ${styles.cantidad}`}>
                 <button
                   type="button"
-                  onClick={() => decrementarCantidad(linea.id)}
+                  onClick={() => decrementarCantidad(clave)}
                   disabled={linea.cantidad <= 1}
-                  aria-label={`Restar una unidad de ${linea.nombre}`}
+                  aria-label={`Restar una unidad de ${nombreCompleto}`}
                 >
                   <FaMinus aria-hidden="true" />
                 </button>
@@ -83,9 +93,9 @@ function Carrito() {
                 <span aria-live="polite">{linea.cantidad}</span>
                 <button
                   type="button"
-                  onClick={() => incrementarCantidad(linea.id)}
-                  disabled={linea.cantidad >= linea.stock}
-                  aria-label={`Sumar una unidad de ${linea.nombre}`}
+                  onClick={() => incrementarCantidad(clave)}
+                  disabled={!puedeSumar(clave)}
+                  aria-label={`Sumar una unidad de ${nombreCompleto}`}
                 >
                   <FaPlus aria-hidden="true" />
                 </button>
@@ -97,15 +107,16 @@ function Carrito() {
               <Boton
                 type="button"
                 variante="peligro"
-                onClick={() => eliminarDelCarrito(linea.id)}
-                aria-label={`Eliminar ${linea.nombre} del carrito`}
+                onClick={() => eliminarDelCarrito(clave)}
+                aria-label={`Eliminar ${nombreCompleto} del carrito`}
               >
                 <FaTrashAlt aria-hidden="true" />
                 Eliminar
               </Boton>
             </div>
           </li>
-        ))}
+          )
+        })}
       </ul>
 
       <div className={styles.resumen}>

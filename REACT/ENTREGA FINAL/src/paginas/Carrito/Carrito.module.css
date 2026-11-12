@@ -138,3 +138,12 @@
     align-items: center;
   }
 }
+
+/* Talle y color de la línea ("Talle M · Negro"), entre el nombre y el
+   precio unitario. */
+.variante {
+  margin: 4px 0 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #c4b5fd;
+}

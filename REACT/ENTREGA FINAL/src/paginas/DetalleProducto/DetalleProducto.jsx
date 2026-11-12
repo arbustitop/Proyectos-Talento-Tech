@@ -4,6 +4,7 @@ import { FaShoppingCart, FaMinus, FaPlus, FaArrowLeft, FaWhatsapp } from 'react-
 import { useCatalogo } from '../../hooks/useCatalogo'
 import { avisoPocoStock } from '../../utils/stock'
 import { nombreCategoria } from '../../utils/categorias'
+import { opcionesDe } from '../../utils/variantes'
 import { linkWhatsApp } from '../../utils/contacto'
 import { Seo } from '../../componentes/Seo/Seo'
 import { Boton } from '../../componentes/ui/Boton/Boton'
@@ -111,19 +112,45 @@ function FichaProducto({ producto }) {
   const { agregarAlCarrito, cantidadEnCarrito } = useCarrito()
   const [cantidad, setCantidad] = useState(1)
 
+  // Talle y color: arrancan sin elegir. Si el producto no los usa (mochila,
+  // pliego) las listas vienen vacías y no se muestra ningún selector.
+  const { talles, colores } = opcionesDe(producto)
+  const [talle, setTalle] = useState('')
+  const [color, setColor] = useState('')
+  // Se muestra el aviso "Elegí talle y color" recién cuando intentan
+  // agregar sin elegir, no apenas entran a la ficha.
+  const [intentoSinElegir, setIntentoSinElegir] = useState(false)
+
+  // Galería: la foto principal más las extra que se cargan desde el panel.
+  // Con una sola foto no hay miniaturas.
+  const fotos = [producto.imagen, ...(producto.fotos ?? [])].filter(Boolean)
+  const [fotoActual, setFotoActual] = useState(0)
+
+  // En el carrito: todas las variantes de este producto (el stock es uno
+  // solo por producto, no por talle).
   const enCarrito = cantidadEnCarrito(producto.id)
-  // Lo que todavía se puede agregar (igual que en las tarjetas).
   const disponible = producto.stock - enCarrito
   const pocoStock = avisoPocoStock(producto.stock)
 
+  const faltaTalle = talles.length > 0 && !talle
+  const faltaColor = colores.length > 0 && !color
+
   const handleAgregar = () => {
-    agregarAlCarrito(producto, cantidad)
+    if (faltaTalle || faltaColor) {
+      setIntentoSinElegir(true)
+      return
+    }
+    agregarAlCarrito(producto, cantidad, { talle, color })
     setCantidad(1)
+    setIntentoSinElegir(false)
   }
 
   let textoBoton = 'Agregar al carrito'
   if (producto.stock === 0) textoBoton = 'Sin stock'
   else if (disponible <= 0) textoBoton = 'Ya tenés todo el stock'
+
+  // Qué falta elegir, para el aviso.
+  const faltan = [faltaTalle && 'talle', faltaColor && 'color'].filter(Boolean).join(' y ')
 
   return (
     <article className={styles.ficha}>
@@ -134,7 +161,7 @@ function FichaProducto({ producto }) {
         titulo={producto.nombre}
         descripcion={
           producto.descripcion ||
-          `${producto.nombre}${producto.categoria ? ` (${producto.categoria})` : ''} a $${producto.precio.toLocaleString('es-AR')}. Estampado DTF de BuBus Originals, pedidos por WhatsApp.`
+          `${producto.nombre}${producto.categoria ? ` (${nombreCategoria(producto.categoria)})` : ''} a $${producto.precio.toLocaleString('es-AR')}. Estampado DTF de BuBus Originals, pedidos por WhatsApp.`
         }
       />
 
@@ -144,8 +171,38 @@ function FichaProducto({ producto }) {
       </Link>
 
       <div className={styles.grilla}>
-        <div className={styles.foto}>
-          {producto.imagen && <img src={producto.imagen} alt={producto.nombre} />}
+        <div>
+          <div className={styles.foto}>
+            {fotos.length > 0 && (
+              <img
+                src={fotos[fotoActual]}
+                alt={
+                  fotos.length > 1
+                    ? `${producto.nombre}, foto ${fotoActual + 1} de ${fotos.length}`
+                    : producto.nombre
+                }
+              />
+            )}
+          </div>
+
+          {/* Miniaturas: cada una es un botón que cambia la foto grande.
+               aria-pressed marca cuál se está viendo. */}
+          {fotos.length > 1 && (
+            <div className={styles.miniaturas}>
+              {fotos.map((url, i) => (
+                <button
+                  key={url}
+                  type="button"
+                  className={styles.miniatura}
+                  aria-pressed={i === fotoActual}
+                  aria-label={`Ver foto ${i + 1} de ${fotos.length}`}
+                  onClick={() => setFotoActual(i)}
+                >
+                  <img src={url} alt="" loading="lazy" />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className={styles.info}>
@@ -154,16 +211,33 @@ function FichaProducto({ producto }) {
           )}
           <h1 className={styles.nombre}>{producto.nombre}</h1>
 
-          <div className="price-container">
-            <span className="currency">$</span>
-            <span className="price-amount">{producto.precio.toLocaleString('es-AR')}</span>
-          </div>
+          <p className={styles.precio}>${producto.precio.toLocaleString('es-AR')}</p>
           {pocoStock && <p className="stock-tag stock-tag--poco">{pocoStock}</p>}
 
           {/* La descripción es opcional: se carga desde el panel. */}
           {producto.descripcion && <p className={styles.descripcion}>{producto.descripcion}</p>}
 
-          {/* Mismo selector de cantidad que las tarjetas del catálogo. */}
+          {talles.length > 0 && (
+            <SelectorOpciones
+              titulo="Talle"
+              nombre={`talle-${producto.id}`}
+              opciones={talles}
+              elegida={talle}
+              alElegir={setTalle}
+              falta={intentoSinElegir && faltaTalle}
+            />
+          )}
+          {colores.length > 0 && (
+            <SelectorOpciones
+              titulo="Color"
+              nombre={`color-${producto.id}`}
+              opciones={colores}
+              elegida={color}
+              alElegir={setColor}
+              falta={intentoSinElegir && faltaColor}
+            />
+          )}
+
           <div className={styles.compra}>
             <div className="quantity-controls">
               <button
@@ -191,6 +265,14 @@ function FichaProducto({ producto }) {
             </Boton>
           </div>
 
+          {/* Aviso si intentaron agregar sin elegir. role="alert": el
+               lector de pantalla lo lee apenas aparece. */}
+          {intentoSinElegir && faltan && (
+            <p className={styles.falta} role="alert">
+              Elegí {faltan} antes de agregarlo.
+            </p>
+          )}
+
           {enCarrito > 0 && (
             <p className={styles.enCarrito}>
               Ya tenés {enCarrito} en el carrito. <Link to="/carrito">Ver carrito</Link>
@@ -199,6 +281,36 @@ function FichaProducto({ producto }) {
         </div>
       </div>
     </article>
+  )
+}
+
+// Grupo de opciones (talles o colores) como botones redondeados.
+// Por dentro son radio buttons de verdad (fieldset + input type="radio"):
+// se elige uno solo, se navega con las flechas del teclado y el lector de
+// pantalla anuncia "Talle, M, 2 de 5". El input queda invisible y se ve la
+// etiqueta con forma de botón.
+function SelectorOpciones({ titulo, nombre, opciones, elegida, alElegir, falta }) {
+  return (
+    <fieldset className={`${styles.selector} ${falta ? styles.selectorFalta : ''}`}>
+      <legend className={styles.selectorTitulo}>
+        {titulo}
+        {elegida && <span className={styles.selectorElegida}>: {elegida}</span>}
+      </legend>
+      <div className={styles.opciones}>
+        {opciones.map((opcion) => (
+          <label key={opcion} className={styles.opcion}>
+            <input
+              type="radio"
+              name={nombre}
+              value={opcion}
+              checked={elegida === opcion}
+              onChange={() => alElegir(opcion)}
+            />
+            <span>{opcion}</span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
   )
 }
 

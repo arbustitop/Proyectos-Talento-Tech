@@ -649,11 +649,14 @@ header {
   font-weight: 600;
   font-size: 0.95rem;
   cursor: pointer;
+  /* También se usa en un <Link> ("Elegir talle"): sin subrayado. */
+  text-decoration: none;
   transition: background 0.15s ease-out;
 }
 
 .btn-add-cart:hover:not(:disabled) {
   background: #6d28d9;
+  color: #fff;
 }
 
 .btn-add-cart:disabled {
