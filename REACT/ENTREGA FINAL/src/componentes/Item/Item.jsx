@@ -1,34 +1,35 @@
 // Item — "El Exhibidor" (Clase 04, Nivel 3 del patrón contenedor/
-// presentacional). Muestra un producto, deja elegir cantidad respetando
-// el stock, agregarlo al carrito y marcarlo como favorito.
-// Clase 07: la imagen y el nombre ahora son un Link al detalle del producto.
-// Clase 13: íconos de React Icons en los botones (favorito, cantidad y
-// carrito) y carga diferida de la foto.
-// Entrega Final, Requerimiento 1.1: "Agregar al Carrito" ya no es un alert,
-// guarda el producto en el CarritoContext.
+// presentacional). Muestra un producto y deja agregarlo al carrito.
+// Clase 07: la imagen y el nombre son un Link al detalle del producto.
+// Clase 13: íconos de React Icons y carga diferida de la foto.
+// Entrega Final, Requerimiento 1.1: "Agregar al carrito" guarda el producto
+// en el CarritoContext.
+//
+// Rediseño de la tarjeta: antes cada una tenía selector de cantidad (− 1 +),
+// estrella de favorito y botón grande. Seis tarjetas por pantalla eran seis
+// selectores iguales, y el favorito no se guardaba en ningún lado (se
+// perdía al cambiar de página). Ahora la tarjeta muestra foto, categoría,
+// nombre y precio, y suma de a una unidad. La cantidad se elige en el
+// detalle del producto o en el carrito, donde sí se está decidiendo la
+// compra.
 
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { FaStar, FaRegStar, FaMinus, FaPlus, FaShoppingCart, FaCheck, FaTshirt } from 'react-icons/fa'
+import { FaPlus, FaCheck, FaTshirt } from 'react-icons/fa'
 import { useCarrito } from '../../context/useCarrito'
 import { avisoPocoStock } from '../../utils/stock'
+import { nombreCategoria } from '../../utils/categorias'
 
 export function Item({ id, nombre, precio, stock, imagen, categoria }) {
-  // Los pliegos DTF (insumo para revendedores/diseñadores) se marcan
-  // distinto de las prendas terminadas para que no se confundan en la
-  // grilla.
-  const esInsumo = categoria === 'Diseños DTF'
   const { agregarAlCarrito, cantidadEnCarrito } = useCarrito()
 
   // Lo que todavía se puede agregar: el stock menos lo que ya está en el
   // carrito. Si ya están todas las unidades adentro, no se puede sumar más.
   const disponible = stock - cantidadEnCarrito(id)
 
-  // "cantidad" arranca en 1 (la compra mínima posible), no en 0.
-  const [cantidad, setCantidad] = useState(1)
-
   // true durante un momento después de agregar: el botón muestra
-  // "¡Agregado!" como confirmación (además del número del nav que sube).
+  // "Agregado" como confirmación (además del aviso flotante y del número
+  // del carrito que sube).
   const [agregado, setAgregado] = useState(false)
 
   // Design review: si la URL de la foto no carga, el navegador mostraba el
@@ -44,133 +45,72 @@ export function Item({ id, nombre, precio, stock, imagen, categoria }) {
     return () => clearTimeout(timer)
   }, [agregado])
 
-  // Estado independiente por instancia: cada Item se acuerda de si ES
-  // favorito sin afectar a los demás productos de la lista.
-  const [esFavorito, setEsFavorito] = useState(false)
-
-  const incrementar = () => {
-    if (cantidad < disponible) {
-      setCantidad(cantidad + 1)
-    }
-  }
-
-  const decrementar = () => {
-    if (cantidad > 1) {
-      setCantidad(cantidad - 1)
-    }
-  }
-
   const handleAgregar = () => {
-    agregarAlCarrito({ id, nombre, precio, stock, imagen }, cantidad)
-    // Vuelve a 1 para la próxima, y así nunca queda una cantidad mayor a
-    // lo que sigue disponible.
-    setCantidad(1)
+    agregarAlCarrito({ id, nombre, precio, stock, imagen }, 1)
     setAgregado(true)
   }
 
-  // Texto del botón según el caso. "¡Agregado!" va antes que "todo el
-  // stock" para que, si se agregaron las últimas unidades, igual se vea la
-  // confirmación.
-  let textoBoton = 'Agregar al carrito'
+  // Texto del botón según el caso. "Agregado" va antes que "todo el stock"
+  // para que, si se agregó la última unidad, igual se vea la confirmación.
+  let textoBoton = 'Agregar'
   if (stock === 0) textoBoton = 'Sin stock'
-  else if (agregado) textoBoton = '¡Agregado!'
-  else if (disponible <= 0) textoBoton = 'Ya tenés todo el stock'
+  else if (agregado) textoBoton = 'Agregado'
+  else if (disponible <= 0) textoBoton = 'Ya está todo en tu carrito'
 
-  // Actualiza el estado en base al valor anterior: forma recomendada
-  // cuando el nuevo valor depende del actual (evita condiciones de carrera
-  // si React agrupa varias actualizaciones).
-  const marcarComoFavorito = () => {
-    setEsFavorito((prev) => !prev)
-  }
+  const etiqueta = nombreCategoria(categoria)
+  const pocoStock = avisoPocoStock(stock)
 
   return (
-    <div className="product-card">
-      {/* El favorito flota sobre la imagen (patrón Mercado Libre) en vez
-           de ir al lado del precio, así el precio queda limpio. Es un
-           hermano del Link, no un hijo, para no anidar un <button>
-           dentro de un elemento clickeable. */}
-      <div className="product-image-container">
-        <Link to={`/producto/${id}`}>
-          {/* Clase 13, rendimiento: loading="lazy" baja la foto recién
-               cuando la card se acerca con el scroll; width/height le dicen
-               al navegador la proporción antes de que llegue, así la grilla
-               no "salta" mientras cargan. */}
-          {imagen && !fotoRota ? (
-            <img
-              src={imagen}
-              alt={nombre}
-              className="product-image"
-              loading="lazy"
-              decoding="async"
-              width="400"
-              height="400"
-              onError={() => setFotoRota(true)}
-            />
-          ) : (
-            <span className="product-image product-image--sin-foto">
-              <FaTshirt aria-hidden="true" />
-              <span className="visually-hidden">{nombre}, sin foto</span>
-            </span>
-          )}
-        </Link>
-
-        {esInsumo && <span className="insumo-badge">Insumo / Pliego</span>}
-
-        <button
-          className={`fav-btn-floating${esFavorito ? ' is-active' : ''}`}
-          onClick={marcarComoFavorito}
-          aria-label={esFavorito ? 'Quitar de favoritos' : 'Agregar a favoritos'}
-        >
-          {/* Clase 13: estrella llena o vacía según el estado (antes era un
-               <svg> escrito a mano). aria-hidden: el aria-label del botón ya
-               dice qué hace. */}
-          {esFavorito ? (
-            <FaStar size={18} aria-hidden="true" />
-          ) : (
-            <FaRegStar size={18} aria-hidden="true" />
-          )}
-        </button>
-      </div>
+    <article className="product-card">
+      <Link to={`/producto/${id}`} className="product-image-container">
+        {/* Clase 13, rendimiento: loading="lazy" baja la foto recién
+             cuando la card se acerca con el scroll; width/height le dicen
+             al navegador la proporción antes de que llegue, así la grilla
+             no "salta" mientras cargan. */}
+        {imagen && !fotoRota ? (
+          <img
+            src={imagen}
+            alt={nombre}
+            className="product-image"
+            loading="lazy"
+            decoding="async"
+            width="400"
+            height="400"
+            onError={() => setFotoRota(true)}
+          />
+        ) : (
+          <span className="product-image product-image--sin-foto">
+            <FaTshirt aria-hidden="true" />
+            <span className="visually-hidden">{nombre}, sin foto</span>
+          </span>
+        )}
+        {/* El aviso de poco stock va sobre la foto: se ve sin agrandar la
+             tarjeta, y las tarjetas sin aviso no dejan un hueco. */}
+        {pocoStock && <span className="stock-badge">{pocoStock}</span>}
+      </Link>
 
       <div className="product-info">
-        <Link to={`/producto/${id}`} style={{ color: 'inherit', textDecoration: 'none' }}>
-          <h3 className="product-title">{nombre}</h3>
-        </Link>
+        {etiqueta && <p className="product-categoria">{etiqueta}</p>}
+        <h3 className="product-title">
+          <Link to={`/producto/${id}`}>{nombre}</Link>
+        </h3>
 
-        <div className="price-container">
-          <span className="currency">$</span>
-          <span className="price-amount">{precio.toLocaleString('es-AR')}</span>
-        </div>
-        {/* Solo avisa cuando queda poco (ver utils/stock.js). El <span> va
-             siempre, aunque esté vacío, para que todas las tarjetas tengan
-             el botón a la misma altura. */}
-        <span className="stock-tag stock-tag--poco">{avisoPocoStock(stock)}</span>
-
-        <div className="quantity-controls">
-          {/* Un botón que solo tiene un ícono necesita aria-label: si no, el
-               lector de pantalla dice solo "botón". */}
+        <div className="product-pie">
+          <p className="product-precio">${precio.toLocaleString('es-AR')}</p>
           <button
-            onClick={decrementar}
-            disabled={cantidad <= 1 || disponible <= 0}
-            aria-label="Restar una unidad"
+            type="button"
+            className="btn-add-cart"
+            onClick={handleAgregar}
+            disabled={disponible <= 0}
+            // El texto visible es corto ("Agregar"); para el lector de
+            // pantalla se aclara qué se agrega.
+            aria-label={disponible > 0 && !agregado ? `Agregar ${nombre} al carrito` : undefined}
           >
-            <FaMinus aria-hidden="true" />
-          </button>
-          <span>{cantidad}</span>
-          <button
-            onClick={incrementar}
-            disabled={cantidad >= disponible}
-            aria-label="Sumar una unidad"
-          >
-            <FaPlus aria-hidden="true" />
+            {agregado ? <FaCheck aria-hidden="true" /> : <FaPlus aria-hidden="true" />}
+            {textoBoton}
           </button>
         </div>
-
-        <button className="btn-add-cart" onClick={handleAgregar} disabled={disponible <= 0}>
-          {agregado ? <FaCheck aria-hidden="true" /> : <FaShoppingCart aria-hidden="true" />}
-          {textoBoton}
-        </button>
       </div>
-    </div>
+    </article>
   )
 }

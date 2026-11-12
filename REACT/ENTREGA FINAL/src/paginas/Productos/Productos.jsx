@@ -13,7 +13,7 @@ function Productos() {
       />
 
       <div id="catalogo">
-        <ItemListContainer Mensaje="Catálogo completo" />
+        <ItemListContainer Mensaje="Catálogo" />
       </div>
     </div>
   )

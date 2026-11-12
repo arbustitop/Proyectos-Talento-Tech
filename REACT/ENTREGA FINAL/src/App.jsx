@@ -9,6 +9,7 @@ import Inicio from './paginas/Inicio/Inicio'
 import Productos from './paginas/Productos/Productos'
 import DetalleProducto from './paginas/DetalleProducto/DetalleProducto'
 import Carrito from './paginas/Carrito/Carrito'
+import Contacto from './paginas/Contacto/Contacto'
 import NotFound from './paginas/NotFound/NotFound'
 
 // Clase 13, rendimiento: carga diferida (code splitting). Login, registro,
@@ -41,6 +42,7 @@ function App() {
               <Route path="/productos" element={<Productos />} />
               <Route path="/producto/:id" element={<DetalleProducto />} />
               <Route path="/carrito" element={<Carrito />} />
+              <Route path="/contacto" element={<Contacto />} />
               <Route path="/login" element={<Login />} />
               <Route path="/registro" element={<Registro />} />
 

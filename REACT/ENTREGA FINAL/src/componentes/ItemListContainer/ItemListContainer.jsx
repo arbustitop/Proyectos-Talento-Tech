@@ -18,8 +18,10 @@ import { BarraBusqueda } from '../BarraBusqueda/BarraBusqueda'
 import { EstadoCatalogo } from '../ui/EstadoCatalogo/EstadoCatalogo'
 import { Boton } from '../ui/Boton/Boton'
 import { Paginador } from '../Paginador/Paginador'
+import { FiltroCategorias } from '../FiltroCategorias/FiltroCategorias'
 import { obtenerCatalogo } from '../../utils/catalogo'
 import { normalizar } from '../../utils/normalizar'
+import { categoriasDe, nombreCategoria } from '../../utils/categorias'
 
 // 6 = dos filas completas de la grilla en pantalla grande (3 por fila) y
 // tres filas en tablet (2 por fila): ninguna página queda con un hueco.
@@ -34,6 +36,8 @@ export function ItemListContainer({ Mensaje, limite }) {
   const [error, setError] = useState(null)
   // Clase 13, paso 1: el estado del input controlado de búsqueda.
   const [busqueda, setBusqueda] = useState('')
+  // Categoría elegida en los filtros. '' = todas.
+  const [categoria, setCategoria] = useState('')
   // Entrega Final: la página del catálogo que se está viendo (arranca en 1).
   const [pagina, setPagina] = useState(1)
   // Referencia a la <section>, para subir hasta el principio del catálogo
@@ -69,15 +73,24 @@ export function ItemListContainer({ Mensaje, limite }) {
   // sincronizada a mano. useMemo guarda el resultado y solo vuelve a
   // filtrar cuando cambia la lista o el término; la búsqueda no vuelve a
   // pedir nada a Firestore, filtra lo que ya está en memoria.
+  // Rediseño: también por categoría. Los tres filtros (stock, categoría y
+  // búsqueda) se aplican juntos: "buzo" dentro de "Buzos" funciona igual.
   const termino = normalizar(busqueda)
   const visibles = useMemo(
     () =>
       products.filter(
-        (prod) => prod.stock > 0 && (termino === '' || normalizar(prod.nombre).includes(termino)),
+        (prod) =>
+          prod.stock > 0 &&
+          (categoria === '' || prod.categoria === categoria) &&
+          (termino === '' || normalizar(prod.nombre).includes(termino)),
       ),
-    [products, termino],
+    [products, categoria, termino],
   )
-  const conStock = useMemo(() => products.filter((prod) => prod.stock > 0).length, [products])
+  const conStockLista = useMemo(() => products.filter((prod) => prod.stock > 0), [products])
+  const conStock = conStockLista.length
+  // Solo las categorías que tienen algo en stock: un filtro nunca lleva a
+  // una grilla vacía.
+  const categorias = useMemo(() => categoriasDe(conStockLista), [conStockLista])
 
   // Paginación: también se calcula, no se guarda. Se pagina sobre
   // `visibles` (lo ya filtrado), así la búsqueda y el paginador funcionan
@@ -92,6 +105,19 @@ export function ItemListContainer({ Mensaje, limite }) {
   // es un solo render en vez de dos.
   const cambiarBusqueda = (texto) => {
     setBusqueda(texto)
+    setPagina(1)
+  }
+
+  // Lo mismo al cambiar de categoría.
+  const cambiarCategoria = (nueva) => {
+    setCategoria(nueva)
+    setPagina(1)
+  }
+
+  // "Ver todos" del estado vacío: saca los dos filtros a la vez.
+  const limpiarFiltros = () => {
+    setBusqueda('')
+    setCategoria('')
     setPagina(1)
   }
 
@@ -131,7 +157,6 @@ export function ItemListContainer({ Mensaje, limite }) {
   // Modo destacados: los que el admin marcó con "Destacado" en el panel; si
   // no marcó ninguno, los primeros del catálogo. Siempre con stock.
   if (limite) {
-    const conStockLista = products.filter((prod) => prod.stock > 0)
     const marcados = conStockLista.filter((prod) => prod.destacado)
     const destacados = (marcados.length > 0 ? marcados : conStockLista).slice(0, limite)
 
@@ -143,7 +168,7 @@ export function ItemListContainer({ Mensaje, limite }) {
         </div>
         <div className="ver-catalogo">
           <Boton como={Link} to="/productos" variante="contorno">
-            Ver todo el catálogo ({conStock} productos)
+            Ver los {conStock} productos
             <FaArrowRight aria-hidden="true" />
           </Boton>
         </div>
@@ -162,14 +187,24 @@ export function ItemListContainer({ Mensaje, limite }) {
         encontrados={visibles.length}
       />
 
+      <FiltroCategorias
+        categorias={categorias}
+        activa={categoria}
+        alCambiar={cambiarCategoria}
+      />
+
       {/* Clase 13, paso 3: mostrar solo los que coinciden. Si no queda
            ninguno, un mensaje con salida (ver todos) en vez de una grilla
            vacía. */}
       {visibles.length === 0 ? (
         <EstadoCatalogo>
           <FaSearch aria-hidden="true" />
-          <p>No encontramos productos para &quot;{busqueda.trim()}&quot;.</p>
-          <Boton type="button" variante="contorno" onClick={() => cambiarBusqueda('')}>
+          <p>
+            No encontramos &quot;{busqueda.trim()}&quot;
+            {categoria && ` en ${nombreCategoria(categoria)}`}. Probá con otra palabra o escribinos:
+            si no está en el catálogo, capaz lo podemos hacer igual.
+          </p>
+          <Boton type="button" variante="contorno" onClick={limpiarFiltros}>
             Ver todos los productos
           </Boton>
         </EstadoCatalogo>

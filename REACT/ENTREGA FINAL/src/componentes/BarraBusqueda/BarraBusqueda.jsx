@@ -46,9 +46,11 @@ export function BarraBusqueda({ valor, alCambiar, total, encontrados }) {
         )}
       </div>
       {/* aria-live="polite": el lector de pantalla anuncia cuántos quedan
-           cada vez que cambia el número, sin interrumpir. */}
+           cada vez que cambia el número, sin interrumpir. Se compara con el
+           total (y no con si hay texto escrito) porque ahora también filtra
+           la categoría: "Buzos" sin búsqueda también deja menos. */}
       <p className="form-text mt-2 mb-0" aria-live="polite">
-        {valor.trim() ? `${encontrados} de ${total} productos` : `${total} productos`}
+        {encontrados < total ? `${encontrados} de ${total} productos` : `${total} productos`}
       </p>
     </div>
   )

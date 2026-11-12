@@ -3,10 +3,13 @@ import { Outlet } from 'react-router-dom'
 import Header from '../Header/Header'
 import Footer from '../Footer/Footer'
 import { AvisoCarrito } from '../AvisoCarrito/AvisoCarrito'
+import { ScrollArriba } from '../ScrollArriba/ScrollArriba'
 
 function Layout() {
   return (
     <div className="layout-container">
+      {/* Cada página nueva arranca desde arriba (ver ScrollArriba). */}
+      <ScrollArriba />
       <Header />
       <main className="main-content">
         {/* Clase 13: las páginas con lazy() (ver App.jsx) tardan un instante

@@ -3,7 +3,13 @@ import { collection, getDocs } from 'firebase/firestore'
 import { FaEnvelope, FaWhatsapp, FaInstagram, FaLinkedin } from 'react-icons/fa'
 import { db } from '../../firebase/config'
 import logo from '../../assets/bubus_header_logo.png'
-import { linkWhatsApp } from '../../utils/contacto'
+import {
+  linkWhatsApp,
+  WHATSAPP_VISIBLE,
+  EMAIL,
+  INSTAGRAM_URL,
+  INSTAGRAM_USUARIO,
+} from '../../utils/contacto'
 
 // Requerimiento #1 de la pre-entrega: info de empresa (propiedad
 // intelectual, políticas, contacto, newsletter) + al menos 3 tarjetas
@@ -69,9 +75,11 @@ function Footer() {
       <div className="footer-grid">
         <div className="footer-brand">
           <img src={logo} alt="BuBus Originals" className="footer-logo" />
+          {/* Rediseño: antes repetía la frase del hero ("presentación
+               profesional"). Acá va lo que hacemos y por dónde se pide. */}
           <p>
-            Estampados DTF con presentación profesional: remeras, buzos, camperas y accesorios
-            personalizados a tu gusto.
+            Estampamos con DTF remeras, buzos, camperas y mochilas con tu diseño. Pedidos y
+            consultas por WhatsApp.
           </p>
         </div>
 
@@ -80,21 +88,20 @@ function Footer() {
           {/* Clase 13: ícono de cada canal (React Icons) delante del dato. */}
           <ul>
             <li>
-              <a href="mailto:bubusogventas@gmail.com">
+              <a href={`mailto:${EMAIL}`}>
                 <FaEnvelope aria-hidden="true" />
-                bubusogventas@gmail.com
+                {EMAIL}
               </a>
             </li>
             <li>
               <a href={linkWhatsApp()} target="_blank" rel="noopener noreferrer">
                 <FaWhatsapp aria-hidden="true" />
-                +54 11 6276-7836
+                {WHATSAPP_VISIBLE}
               </a>
             </li>
             <li>
-              <a href="https://instagram.com/BubusOG.AR" target="_blank" rel="noopener noreferrer">
-                <FaInstagram aria-hidden="true" />
-                @BubusOG.AR
+              <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
+                <FaInstagram aria-hidden="true" />@{INSTAGRAM_USUARIO}
               </a>
             </li>
           </ul>

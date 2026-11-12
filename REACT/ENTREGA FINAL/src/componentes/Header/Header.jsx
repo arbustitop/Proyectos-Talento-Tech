@@ -71,10 +71,11 @@ function Header() {
           <li>
             <Link to="/productos">Productos</Link>
           </li>
-          {/* Contacto no es una ruta propia (no la pide la consigna):
-               ancla a la sección de contacto del Footer. */}
+          {/* Contacto es una página propia. Antes era un ancla (#contacto)
+               que tiraba al pie de la página en la que estuvieras y dejaba
+               la URL como /producto/4#contacto. */}
           <li>
-            <a href="#contacto">Contacto</a>
+            <Link to="/contacto">Contacto</Link>
           </li>
           {/* Entrega Final: el link al carrito con el contador de
                unidades, que lee el CarritoContext. */}
