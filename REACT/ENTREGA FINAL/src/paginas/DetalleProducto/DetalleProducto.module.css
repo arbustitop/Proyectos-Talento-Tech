@@ -103,6 +103,59 @@
   color: var(--text-muted);
 }
 
+/* Pantallas de error y "no existe": centradas, con el ancho del texto. */
+.estado {
+  max-width: 640px;
+  margin: 3rem auto 0;
+  padding: 0 1rem;
+}
+
+.estadoTitulo {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.estadoAcciones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+/* Bloques grises del skeleton de carga, con un brillo que pasa de
+   izquierda a derecha. */
+.esqueleto {
+  border-radius: var(--radius-sm);
+  background: linear-gradient(90deg, #18181b 25%, #27272a 50%, #18181b 75%);
+  background-size: 200% 100%;
+  animation: brillo 1.4s ease-in-out infinite;
+}
+
+.esqueletoFoto {
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-lg);
+}
+
+@keyframes brillo {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+/* Sin animación para quien pidió reducir movimiento: quedan los bloques
+   quietos. */
+@media (prefers-reduced-motion: reduce) {
+  .esqueleto {
+    animation: none;
+  }
+}
+
 @media (max-width: 768px) {
   .grilla {
     grid-template-columns: 1fr;

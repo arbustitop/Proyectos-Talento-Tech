@@ -71,6 +71,9 @@ function Header() {
           <li>
             <Link to="/productos">Productos</Link>
           </li>
+          <li>
+            <Link to="/nosotros">Nosotros</Link>
+          </li>
           {/* Contacto es una página propia. Antes era un ancla (#contacto)
                que tiraba al pie de la página en la que estuvieras y dejaba
                la URL como /producto/4#contacto. */}

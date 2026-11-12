@@ -10,7 +10,7 @@
 // PRODUCTOS_POR_PAGINA para no cargar todas las tarjetas (y sus fotos) de
 // una sola vez.
 
-import { useState, useEffect, useMemo, useRef } from 'react'
+import { useState, useMemo, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { FaSearch, FaArrowRight } from 'react-icons/fa'
 import { ItemList } from '../ItemList/ItemList'
@@ -19,7 +19,7 @@ import { EstadoCatalogo } from '../ui/EstadoCatalogo/EstadoCatalogo'
 import { Boton } from '../ui/Boton/Boton'
 import { Paginador } from '../Paginador/Paginador'
 import { FiltroCategorias } from '../FiltroCategorias/FiltroCategorias'
-import { obtenerCatalogo } from '../../utils/catalogo'
+import { useCatalogo } from '../../hooks/useCatalogo'
 import { normalizar } from '../../utils/normalizar'
 import { categoriasDe, nombreCategoria } from '../../utils/categorias'
 
@@ -31,9 +31,9 @@ const PRODUCTOS_POR_PAGINA = 6
 // cantidad de productos, sin buscador ni paginador, y un botón al catálogo
 // completo. Sin `limite` es el catálogo entero de /productos.
 export function ItemListContainer({ Mensaje, limite }) {
-  const [products, setProducts] = useState([])
-  const [cargando, setCargando] = useState(true)
-  const [error, setError] = useState(null)
+  // La carga del catálogo (Firestore) vive en el hook useCatalogo, que
+  // también usa DetalleProducto.
+  const { productos: products, cargando, error, reintentar } = useCatalogo()
   // Clase 13, paso 1: el estado del input controlado de búsqueda.
   const [busqueda, setBusqueda] = useState('')
   // Categoría elegida en los filtros. '' = todas.
@@ -43,27 +43,6 @@ export function ItemListContainer({ Mensaje, limite }) {
   // Referencia a la <section>, para subir hasta el principio del catálogo
   // al cambiar de página (si no, quedás mirando el pie de la página nueva).
   const seccionRef = useRef(null)
-
-  useEffect(() => {
-    // "ignore" evita setState si el componente se desmontó antes de que
-    // resuelva el fetch (ej. el usuario navega a otra página).
-    let ignore = false
-
-    obtenerCatalogo()
-      .then((data) => {
-        if (!ignore) setProducts(data)
-      })
-      .catch((err) => {
-        if (!ignore) setError(err.message)
-      })
-      .finally(() => {
-        if (!ignore) setCargando(false)
-      })
-
-    return () => {
-      ignore = true
-    }
-  }, [])
 
   // Solo se muestran los productos que tienen stock disponible.
   // Clase 13, paso 2: además, los que coinciden con la búsqueda.
@@ -147,8 +126,14 @@ export function ItemListContainer({ Mensaje, limite }) {
     return (
       <section className="container catalogo-productos">
         {titulo}
+        {/* Error con salida: en vez de dejar al cliente con un mensaje
+             técnico, se le ofrece reintentar (lo más común es que se haya
+             cortado la conexión). */}
         <EstadoCatalogo error role="alert">
-          <p>Error: {error}</p>
+          <p>No pudimos cargar los productos. Revisá tu conexión y probá de nuevo.</p>
+          <Boton type="button" variante="contorno" onClick={reintentar}>
+            Reintentar
+          </Boton>
         </EstadoCatalogo>
       </section>
     )

@@ -1,0 +1,96 @@
+/* Misma columna que Contacto: texto alineado a la izquierda, como una
+   nota, no un banner centrado. */
+.nosotros {
+  max-width: 760px;
+  margin: 3rem auto 0;
+  padding: 0 1.25rem;
+  text-align: left;
+}
+
+.titulo {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin: 0 0 0.75rem;
+}
+
+.bajada {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin: 0 0 2.5rem;
+}
+
+.subtitulo {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 1rem;
+}
+
+.estado {
+  color: var(--text-muted);
+}
+
+/* Lista de personas: foto redonda a la izquierda y datos al lado (en vez
+   de tarjetas centradas con avatar arriba, el formato de plantilla). */
+.equipo {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.persona {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.foto {
+  flex-shrink: 0;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.nombre {
+  margin: 0;
+  font-weight: 600;
+  color: #fff;
+}
+
+.rol {
+  margin: 0.15rem 0 0.35rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.linkedin {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: #c4b5fd;
+  text-decoration: none;
+}
+
+.linkedin:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .nosotros {
+    margin-top: 2rem;
+  }
+
+  .titulo {
+    font-size: 2rem;
+  }
+}

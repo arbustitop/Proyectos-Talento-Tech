@@ -1,10 +1,13 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { FaShoppingCart, FaMinus, FaPlus, FaArrowLeft } from 'react-icons/fa'
-import { obtenerCatalogo } from '../../utils/catalogo'
+import { FaShoppingCart, FaMinus, FaPlus, FaArrowLeft, FaWhatsapp } from 'react-icons/fa'
+import { useCatalogo } from '../../hooks/useCatalogo'
 import { avisoPocoStock } from '../../utils/stock'
+import { nombreCategoria } from '../../utils/categorias'
+import { linkWhatsApp } from '../../utils/contacto'
 import { Seo } from '../../componentes/Seo/Seo'
 import { Boton } from '../../componentes/ui/Boton/Boton'
+import { EstadoCatalogo } from '../../componentes/ui/EstadoCatalogo/EstadoCatalogo'
 import { ItemList } from '../../componentes/ItemList/ItemList'
 import { useCarrito } from '../../context/useCarrito'
 import styles from './DetalleProducto.module.css'
@@ -18,41 +21,13 @@ const CANTIDAD_RELACIONADOS = 3
 // matchea. El :id coincide con el ID del documento ("1".."20").
 // Entrega Final: el catálogo también sirve para los productos relacionados
 // (misma categoría), sin otra lectura a Firestore.
+// Rediseño: la carga vive en el hook useCatalogo (la comparte con el
+// catálogo) y los tres estados que no son "producto encontrado" tienen su
+// propia pantalla: cargando, error y producto que no existe.
+// (Volver arriba al pasar a un relacionado lo hace ScrollArriba, en Layout.)
 function DetalleProducto() {
   const { id } = useParams()
-  const [catalogo, setCatalogo] = useState([])
-  const [cargando, setCargando] = useState(true)
-  const [error, setError] = useState(null)
-
-  useEffect(() => {
-    // "ignore" evita que una respuesta vieja (de un :id anterior) pise
-    // el producto que corresponde al :id actual si llega fuera de orden.
-    let ignore = false
-
-    setCargando(true)
-    setError(null)
-
-    obtenerCatalogo()
-      .then((data) => {
-        if (!ignore) setCatalogo(data)
-      })
-      .catch((err) => {
-        if (!ignore) setError(err.message)
-      })
-      .finally(() => {
-        if (!ignore) setCargando(false)
-      })
-
-    return () => {
-      ignore = true
-    }
-  }, [id])
-
-  // Al pasar a un producto relacionado la página no se recarga: sin esto
-  // quedarías mirando la parte de abajo del producto nuevo.
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [id])
+  const { productos: catalogo, cargando, error, reintentar } = useCatalogo()
 
   // Derivados del catálogo: no son estados aparte.
   const producto = catalogo.find((prod) => prod.id === id)
@@ -63,19 +38,53 @@ function DetalleProducto() {
     : []
 
   if (cargando) {
-    return <p className="cargando-pagina">Cargando producto...</p>
+    return <FichaCargando />
   }
 
-  if (error || !producto) {
+  // Falló la lectura (sin conexión, Firestore caído): se puede reintentar.
+  if (error) {
     return (
-      <div style={{ textAlign: 'center' }}>
+      <div className={styles.estado}>
+        <Seo titulo="Producto" descripcion="No pudimos cargar este producto." noIndexar />
+        <EstadoCatalogo error role="alert">
+          <p>No pudimos cargar este producto. Revisá tu conexión y probá de nuevo.</p>
+          <Boton type="button" variante="contorno" onClick={reintentar}>
+            Reintentar
+          </Boton>
+        </EstadoCatalogo>
+      </div>
+    )
+  }
+
+  // El catálogo cargó pero ese :id no está (link viejo o producto borrado
+  // desde el panel). Dos salidas: el catálogo o preguntar por WhatsApp.
+  if (!producto) {
+    return (
+      <div className={styles.estado}>
         <Seo
           titulo="Producto no encontrado"
           descripcion="El producto que buscás no existe o ya no está en el catálogo."
           noIndexar
         />
-        <p style={{ color: 'var(--color-error, red)' }}>{error ?? 'Producto no encontrado'}</p>
-        <Link to="/">Volver al inicio</Link>
+        <EstadoCatalogo>
+          <h1 className={styles.estadoTitulo}>Este producto ya no está</h1>
+          <p>Puede que lo hayamos sacado del catálogo. Fijate si hay algo parecido o preguntanos.</p>
+          <div className={styles.estadoAcciones}>
+            <Boton como={Link} to="/productos">
+              Ver el catálogo
+            </Boton>
+            <Boton
+              como="a"
+              variante="contorno"
+              href={linkWhatsApp('Hola BuBus! Buscaba un producto que ya no está en la web.')}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaWhatsapp aria-hidden="true" />
+              Preguntar por WhatsApp
+            </Boton>
+          </div>
+        </EstadoCatalogo>
       </div>
     )
   }
@@ -140,7 +149,9 @@ function FichaProducto({ producto }) {
         </div>
 
         <div className={styles.info}>
-          {producto.categoria && <p className={styles.categoria}>{producto.categoria}</p>}
+          {producto.categoria && (
+            <p className={styles.categoria}>{nombreCategoria(producto.categoria)}</p>
+          )}
           <h1 className={styles.nombre}>{producto.nombre}</h1>
 
           <div className="price-container">
@@ -188,6 +199,27 @@ function FichaProducto({ producto }) {
         </div>
       </div>
     </article>
+  )
+}
+
+// Mientras carga: la misma grilla de la ficha con bloques grises donde van
+// a ir la foto, el nombre, el precio y el botón ("skeleton"). La página no
+// salta cuando llegan los datos, y se nota que algo está por aparecer en
+// vez de un "Cargando..." suelto.
+function FichaCargando() {
+  return (
+    <div className={styles.ficha} role="status">
+      <span className="visually-hidden">Cargando producto</span>
+      <div className={styles.grilla} aria-hidden="true">
+        <div className={`${styles.esqueleto} ${styles.esqueletoFoto}`} />
+        <div className={styles.info}>
+          <div className={styles.esqueleto} style={{ width: '25%', height: '1.5rem' }} />
+          <div className={styles.esqueleto} style={{ width: '80%', height: '2.4rem' }} />
+          <div className={styles.esqueleto} style={{ width: '35%', height: '2rem' }} />
+          <div className={styles.esqueleto} style={{ width: '60%', height: '3rem' }} />
+        </div>
+      </div>
+    </div>
   )
 }
 

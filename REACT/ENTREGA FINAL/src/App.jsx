@@ -21,6 +21,9 @@ import NotFound from './paginas/NotFound/NotFound'
 const Login = lazy(() => import('./paginas/Login/Login'))
 const Registro = lazy(() => import('./paginas/Registro/Registro'))
 const Perfil = lazy(() => import('./paginas/Perfil/Perfil'))
+// Nosotros también va aparte: la mira poca gente y es la única página
+// pública que lee la colección `equipo` de Firestore.
+const Nosotros = lazy(() => import('./paginas/Nosotros/Nosotros'))
 const GestionProductos = lazy(() => import('./paginas/admin/GestionProductos/GestionProductos'))
 const GestionCupones = lazy(() => import('./paginas/admin/GestionCupones/GestionCupones'))
 
@@ -43,6 +46,7 @@ function App() {
               <Route path="/producto/:id" element={<DetalleProducto />} />
               <Route path="/carrito" element={<Carrito />} />
               <Route path="/contacto" element={<Contacto />} />
+              <Route path="/nosotros" element={<Nosotros />} />
               <Route path="/login" element={<Login />} />
               <Route path="/registro" element={<Registro />} />
 
