@@ -6,6 +6,9 @@ import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/re
 import { addDoc } from 'firebase/firestore'
 import { FormProducto } from './FormProducto'
 
+// Firestore de mentira: addDoc y updateDoc son espías que responden "ok".
+// Así el test ve exactamente qué datos se mandarían a guardar, sin tocar la
+// base real.
 vi.mock('../../firebase/config', () => ({ db: {} }))
 vi.mock('firebase/firestore', () => ({
   collection: vi.fn(),
@@ -14,6 +17,8 @@ vi.mock('firebase/firestore', () => ({
   updateDoc: vi.fn(() => Promise.resolve()),
 }))
 
+// Busca un campo por el texto de su <label>. exact: false porque las
+// etiquetas tienen aclaraciones ("Precio ($)", "Fotos extra para...").
 const campo = (texto) => screen.getByLabelText(texto, { exact: false })
 
 describe('FormProducto: fotos de la galería', () => {

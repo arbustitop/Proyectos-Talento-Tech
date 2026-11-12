@@ -1,5 +1,6 @@
-// Tarjeta rediseñada: un solo botón que suma de a una unidad, sin selector
-// de cantidad ni favorito, y con la categoría arriba del nombre.
+// Tarjeta rediseñada: categoría arriba del nombre, sin selector de cantidad
+// ni favorito. Si el producto no tiene talle (mochila, pliego) el botón suma
+// de a una unidad; si es una prenda, lleva al detalle a elegir talle y color.
 import { afterEach, describe, expect, it } from 'vitest'
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
@@ -7,12 +8,17 @@ import { CarritoProvider } from '../../context/CarritoProvider'
 import { useCarrito } from '../../context/useCarrito'
 import { Item } from './Item'
 
+// "Espía": componente que no dibuja nada y guarda el valor del contexto en
+// una variable, así el test puede leer el carrito sin depender de la
+// página /carrito.
 let carrito
 function Espia() {
   carrito = useCarrito()
   return null
 }
 
+// La tarjeta usa <Link> (necesita un Router) y el carrito (necesita el
+// Provider): se monta con los dos, igual que en la app.
 function montarCard(producto) {
   return render(
     <MemoryRouter>

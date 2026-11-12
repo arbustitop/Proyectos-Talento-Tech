@@ -16,22 +16,30 @@
   margin: 0 0 0.75rem;
 }
 
+/* Bajada en gris: explica cómo se cierra un pedido sin competir con el
+   título ni con el botón de WhatsApp. */
 .bajada {
   font-size: 1.1rem;
   color: var(--text-muted);
   margin: 0 0 2rem;
 }
 
+/* El botón de WhatsApp, un poco más grande que los demás botones del
+   sitio: es la acción principal de la página. */
 .cta {
   font-size: 1.05rem;
 }
 
+/* El número escrito debajo, para quien prefiera agendarlo o llamar. */
 .numero {
   margin: 0.6rem 0 0;
   font-size: 0.9rem;
   color: var(--text-muted);
 }
 
+/* Mail e Instagram: canales secundarios, en una franja entre dos líneas.
+   auto-fit + minmax: dos columnas en pantallas anchas, una en celular,
+   sin media query. */
 .canales {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -42,6 +50,8 @@
   border-bottom: 1px solid var(--border-color);
 }
 
+/* El nombre del canal (dt) chico y gris, con su ícono; el dato (dd) en
+   blanco, que es lo que se busca con la vista. */
 .canales dt {
   display: flex;
   align-items: center;
@@ -61,6 +71,7 @@
   overflow-wrap: anywhere;
 }
 
+/* "¿Qué nos mandás?": subtítulo y lista de lo que hace falta para cotizar. */
 .subtitulo {
   font-family: var(--font-heading);
   font-size: 1.25rem;
@@ -78,6 +89,8 @@
   margin-top: 0.4rem;
 }
 
+/* Celular: menos aire arriba y título más chico para que el botón de
+   WhatsApp entre en la primera pantalla. */
 @media (max-width: 640px) {
   .contacto {
     margin-top: 2rem;

@@ -7,6 +7,8 @@ import { HelmetProvider } from 'react-helmet-async'
 import { CarritoProvider } from '../../context/CarritoProvider'
 import Inicio from './Inicio'
 
+// Los destacados salen de Firestore: en el test, un catálogo fijo de un
+// producto (y Firebase ni se carga).
 vi.mock('../../utils/catalogo', () => ({
   obtenerCatalogo: () =>
     Promise.resolve([
@@ -18,6 +20,7 @@ describe('Inicio', () => {
   afterEach(cleanup)
 
   it('muestra el hero con sus dos acciones, los pasos y los destacados', async () => {
+    // HelmetProvider: lo pide el componente Seo (título de la pestaña).
     render(
       <HelmetProvider>
         <MemoryRouter>

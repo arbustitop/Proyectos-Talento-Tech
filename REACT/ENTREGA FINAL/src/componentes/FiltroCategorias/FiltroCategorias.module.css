@@ -8,6 +8,8 @@
   margin: 0 0 2rem;
 }
 
+/* Cada filtro: forma de píldora (border-radius bien alto) y texto en una
+   sola línea (nowrap), así "Pliegos DTF" no se parte en dos. */
 .chip {
   min-height: 40px;
   padding: 0 1rem;

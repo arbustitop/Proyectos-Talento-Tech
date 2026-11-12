@@ -39,6 +39,7 @@ describe('claveLinea y describirVariante', () => {
 })
 
 describe('Carrito con talles', () => {
+  // Espía: guarda el valor del CarritoContext para leerlo en el test.
   let carrito
   function Espia() {
     carrito = useCarrito()
@@ -50,6 +51,7 @@ describe('Carrito con talles', () => {
     localStorage.clear()
   })
 
+  // Stock 3: chico a propósito, para llegar al tope con pocos clics.
   const buzo = { id: '4', nombre: 'Buzo Canguro', precio: 40000, imagen: '', stock: 3 }
 
   it('separa el mismo producto en otro talle o color, y suma si es el mismo', () => {

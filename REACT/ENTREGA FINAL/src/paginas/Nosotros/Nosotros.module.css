@@ -7,6 +7,8 @@
   text-align: left;
 }
 
+/* Título y bajada con los mismos tamaños que Contacto: las dos páginas de
+   texto del sitio se ven como parte de lo mismo. */
 .titulo {
   font-family: var(--font-heading);
   font-size: 2.5rem;
@@ -16,6 +18,7 @@
   margin: 0 0 0.75rem;
 }
 
+/* line-height más alto que el resto: es el único párrafo largo del sitio. */
 .bajada {
   font-size: 1.1rem;
   line-height: 1.6;
@@ -31,6 +34,7 @@
   margin: 0 0 1rem;
 }
 
+/* "Cargando equipo..." o el error: texto gris común, sin caja. */
 .estado {
   color: var(--text-muted);
 }
@@ -42,6 +46,8 @@
   margin: 0;
   padding: 0;
   display: grid;
+  /* Tres personas por fila en pantallas anchas, una en celular, sin media
+     query: entran tantas columnas de 220px como quepan. */
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1.5rem;
 }
@@ -52,6 +58,8 @@
   gap: 1rem;
 }
 
+/* flex-shrink: 0 → un rol largo no aplasta la foto; object-fit: cover →
+   una foto rectangular se recorta al círculo sin deformarse. */
 .foto {
   flex-shrink: 0;
   width: 72px;
@@ -72,6 +80,8 @@
   color: var(--text-muted);
 }
 
+/* LinkedIn como link chico en lila (el violeta claro de la marca da buen
+   contraste sobre el fondo oscuro), no como botón: es un dato extra. */
 .linkedin {
   display: inline-flex;
   align-items: center;
@@ -85,6 +95,7 @@
   text-decoration: underline;
 }
 
+/* Celular: los mismos ajustes que Contacto. */
 @media (max-width: 640px) {
   .nosotros {
     margin-top: 2rem;
