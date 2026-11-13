@@ -21,6 +21,20 @@ function avatarUrl(nombre) {
   return `https://ui-avatars.com/api/?name=${iniciales}&background=7c3aed&color=fff&bold=true&size=160`
 }
 
+// Los compromisos de "Cómo trabajamos", con las palabras de la marca.
+// Constante fuera del componente: no cambia entre renders.
+const COMPROMISOS = [
+  { titulo: 'Precisión', texto: 'hacemos lo que acordamos, como lo acordamos.' },
+  {
+    titulo: 'Velocidad',
+    texto: 'cumplimos los tiempos pactados y te avisamos que está listo antes de que preguntes.',
+  },
+  {
+    titulo: 'Seguimiento',
+    texto: 'después de la entrega te seguimos acompañando, para que vuelvas y nos sigas eligiendo.',
+  },
+]
+
 function Nosotros() {
   const [equipo, setEquipo] = useState([])
   const [cargando, setCargando] = useState(true)
@@ -61,11 +75,13 @@ function Nosotros() {
       />
 
       <h1 className={styles.titulo}>Quiénes somos</h1>
-      {/* Presentación corta. Pendiente: sumar la historia de la marca
-           (cómo y cuándo arrancó), que es lo que más la diferencia. */}
+      {/* La historia de la marca, con sus palabras: de dónde salió y qué la
+           distingue. Es lo que una plantilla no puede inventar. */}
       <p className={styles.bajada}>
-        En BuBus Originals estampamos con DTF remeras, buzos, camperas y mochilas. Diseñamos,
-        estampamos y cada pedido lo charlamos por WhatsApp con quien lo va a usar.
+        Nacimos en un primer piso de Villa Crespo. Desde ahí fuimos creciendo y aprendiendo,
+        probando técnicas y máquinas nuevas para darle forma a las ideas textiles de cientos de
+        argentinos. Crecimos de boca en boca, con una reputación que cuidamos en cada pedido: nunca
+        dejar a nadie tirado con un sueño.
       </p>
 
       {/* Misión y visión, con las palabras de la marca. Van como lista de
@@ -80,6 +96,18 @@ function Nosotros() {
           <dd>Ser la pyme líder del país en personalizaciones de calidad y duraderas.</dd>
         </div>
       </dl>
+
+      {/* Cómo trabajamos: tres compromisos concretos con el cliente. Están
+           en un array y se dibujan con map, así sumar o cambiar uno es tocar
+           un solo lugar. */}
+      <h2 className={styles.subtitulo}>Cómo trabajamos</h2>
+      <ul className={styles.compromisos}>
+        {COMPROMISOS.map((c) => (
+          <li key={c.titulo}>
+            <strong>{c.titulo}:</strong> {c.texto}
+          </li>
+        ))}
+      </ul>
 
       <h2 className={styles.subtitulo}>El equipo</h2>
       {cargando && (

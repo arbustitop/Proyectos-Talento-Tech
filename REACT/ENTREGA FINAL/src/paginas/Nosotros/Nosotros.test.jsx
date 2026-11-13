@@ -49,6 +49,10 @@ describe('Nosotros', () => {
     // Misión y visión de la marca, siempre visibles (no dependen de Firestore).
     expect(screen.getByText('Misión')).toBeTruthy()
     expect(screen.getByText(/pyme líder del país/)).toBeTruthy()
+    // La historia y los tres compromisos de "Cómo trabajamos".
+    expect(screen.getByText(/primer piso de Villa Crespo/)).toBeTruthy()
+    const compromisos = screen.getByRole('heading', { name: 'Cómo trabajamos' }).nextElementSibling
+    expect(compromisos.querySelectorAll('li')).toHaveLength(3)
 
     const nombres = await screen.findAllByText(/Augusto Vila|Facundo Luna/)
     expect(nombres.map((n) => n.textContent)).toEqual(['Augusto Vila', 'Facundo Luna'])
