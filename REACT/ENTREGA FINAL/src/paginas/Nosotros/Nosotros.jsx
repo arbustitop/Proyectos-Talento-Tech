@@ -61,12 +61,25 @@ function Nosotros() {
       />
 
       <h1 className={styles.titulo}>Quiénes somos</h1>
-      {/* Texto provisorio: lo ideal es que lo reescriban ustedes con su
-           historia (cómo arrancó la marca, desde dónde estampan). */}
+      {/* Presentación corta. Pendiente: sumar la historia de la marca
+           (cómo y cuándo arrancó), que es lo que más la diferencia. */}
       <p className={styles.bajada}>
         En BuBus Originals estampamos con DTF remeras, buzos, camperas y mochilas. Diseñamos,
         estampamos y cada pedido lo charlamos por WhatsApp con quien lo va a usar.
       </p>
+
+      {/* Misión y visión, con las palabras de la marca. Van como lista de
+           definiciones (dl): cada término (dt) con su texto (dd). */}
+      <dl className={styles.proposito}>
+        <div>
+          <dt>Misión</dt>
+          <dd>Llevar una visión personalizada del mundo textil hasta tu puerta.</dd>
+        </div>
+        <div>
+          <dt>Visión</dt>
+          <dd>Ser la pyme líder del país en personalizaciones de calidad y duraderas.</dd>
+        </div>
+      </dl>
 
       <h2 className={styles.subtitulo}>El equipo</h2>
       {cargando && (

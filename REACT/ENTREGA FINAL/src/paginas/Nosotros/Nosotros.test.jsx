@@ -46,6 +46,9 @@ describe('Nosotros', () => {
     montar()
 
     expect(screen.getByRole('heading', { level: 1 }).textContent).toBe('Quiénes somos')
+    // Misión y visión de la marca, siempre visibles (no dependen de Firestore).
+    expect(screen.getByText('Misión')).toBeTruthy()
+    expect(screen.getByText(/pyme líder del país/)).toBeTruthy()
 
     const nombres = await screen.findAllByText(/Augusto Vila|Facundo Luna/)
     expect(nombres.map((n) => n.textContent)).toEqual(['Augusto Vila', 'Facundo Luna'])

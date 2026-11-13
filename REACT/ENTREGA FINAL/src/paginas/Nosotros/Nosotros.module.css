@@ -34,6 +34,38 @@
   margin: 0 0 1rem;
 }
 
+/* Misión y visión: dos columnas en pantallas anchas, una en celular
+   (auto-fit + minmax, sin media query). La raya violeta a la izquierda las
+   marca como frases de la marca, sin cajas ni íconos de plantilla. */
+.proposito {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin: 0 0 3rem;
+}
+
+.proposito div {
+  padding-left: 1rem;
+  border-left: 3px solid var(--color-secundario);
+}
+
+/* El término ("Misión") chico y en lila; la frase, grande y en blanco: es
+   lo que se tiene que leer. */
+.proposito dt {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #c4b5fd;
+}
+
+.proposito dd {
+  margin: 0.35rem 0 0;
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #fff;
+}
+
 /* "Cargando equipo..." o el error: texto gris común, sin caja. */
 .estado {
   color: var(--text-muted);
